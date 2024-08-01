@@ -1,0 +1,172 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-25 14:52:00.244272",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "length",
+  "hight",
+  "ho",
+  "column_break_chmd",
+  "item_name",
+  "width",
+  "fb",
+  "hb",
+  "area_section",
+  "a1",
+  "a3",
+  "column_break_anuy",
+  "a2",
+  "total_area",
+  "volume_and_mass_section",
+  "volume",
+  "mass",
+  "cost_section",
+  "ms_cost",
+  "fabrication_cost",
+  "column_break_dyxk",
+  "frp_cost",
+  "epoxy_cost",
+  "total_cost_of_tank"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "label": "Item Code",
+   "options": "Item"
+  },
+  {
+   "fieldname": "length",
+   "fieldtype": "Float",
+   "label": "Length"
+  },
+  {
+   "fieldname": "hight",
+   "fieldtype": "Float",
+   "label": "Hight"
+  },
+  {
+   "fieldname": "ho",
+   "fieldtype": "Float",
+   "label": "H(O)"
+  },
+  {
+   "fieldname": "column_break_chmd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name "
+  },
+  {
+   "fieldname": "width",
+   "fieldtype": "Float",
+   "label": "Width"
+  },
+  {
+   "fieldname": "fb",
+   "fieldtype": "Float",
+   "label": "FB"
+  },
+  {
+   "fieldname": "hb",
+   "fieldtype": "Float",
+   "label": "HB"
+  },
+  {
+   "fieldname": "area_section",
+   "fieldtype": "Section Break",
+   "label": "Area"
+  },
+  {
+   "fieldname": "a1",
+   "fieldtype": "Float",
+   "label": "A1"
+  },
+  {
+   "fieldname": "a3",
+   "fieldtype": "Float",
+   "label": "A3"
+  },
+  {
+   "fieldname": "column_break_anuy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "a2",
+   "fieldtype": "Float",
+   "label": "A2"
+  },
+  {
+   "fieldname": "total_area",
+   "fieldtype": "Float",
+   "label": "Total Area "
+  },
+  {
+   "fieldname": "volume_and_mass_section",
+   "fieldtype": "Section Break",
+   "label": "Volume and Mass"
+  },
+  {
+   "fieldname": "volume",
+   "fieldtype": "Float",
+   "label": "Volume "
+  },
+  {
+   "fieldname": "mass",
+   "fieldtype": "Float",
+   "label": "Mass"
+  },
+  {
+   "fieldname": "cost_section",
+   "fieldtype": "Section Break",
+   "label": "Cost "
+  },
+  {
+   "fieldname": "ms_cost",
+   "fieldtype": "Float",
+   "label": "MS Cost "
+  },
+  {
+   "fieldname": "fabrication_cost",
+   "fieldtype": "Float",
+   "label": "Fabrication Cost"
+  },
+  {
+   "fieldname": "column_break_dyxk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "frp_cost",
+   "fieldtype": "Float",
+   "label": "FRP Cost "
+  },
+  {
+   "fieldname": "epoxy_cost",
+   "fieldtype": "Float",
+   "label": "Epoxy Cost  "
+  },
+  {
+   "fieldname": "total_cost_of_tank",
+   "fieldtype": "Float",
+   "label": "Total Cost of Tank"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-08-01 11:57:19.869988",
+ "modified_by": "Administrator",
+ "module": "Envision CRM",
+ "name": "MS Cost",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

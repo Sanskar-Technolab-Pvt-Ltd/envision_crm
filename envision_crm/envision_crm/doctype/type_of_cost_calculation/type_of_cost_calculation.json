@@ -1,0 +1,31 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-30 15:46:19.097732",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "type_of_cost"
+ ],
+ "fields": [
+  {
+   "fieldname": "type_of_cost",
+   "fieldtype": "Link",
+   "label": "Type Of Cost",
+   "options": "Type Of Cost"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-08-01 11:55:03.457238",
+ "modified_by": "Administrator",
+ "module": "Envision CRM",
+ "name": "Type of Cost Calculation",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
