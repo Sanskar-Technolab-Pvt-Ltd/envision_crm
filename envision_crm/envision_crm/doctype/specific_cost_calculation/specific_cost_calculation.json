@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:QTN-SCC-{###}",
+ "creation": "2024-07-25 13:17:56.990933",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "quotation",
+  "department",
+  "column_break_amqd",
+  "type_of_cost",
+  "electrical_consuption_section",
+  "electrical_consumption",
+  "ms_estimate_section",
+  "ms_estimation"
+ ],
+ "fields": [
+  {
+   "fieldname": "quotation",
+   "fieldtype": "Link",
+   "label": "Quotation",
+   "options": "Quotation"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "column_break_amqd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "type_of_cost",
+   "fieldtype": "Table MultiSelect",
+   "label": "Type of Cost",
+   "options": "Type of Cost Calculation"
+  },
+  {
+   "fieldname": "electrical_consuption_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "electrical_consumption",
+   "fieldtype": "Table",
+   "label": "Electrical Consumption",
+   "options": "Electrical Cost"
+  },
+  {
+   "fieldname": "ms_estimate_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "ms_estimation",
+   "fieldtype": "Table",
+   "label": "MS Estimation",
+   "options": "MS Cost"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-08-01 11:53:57.980096",
+ "modified_by": "Administrator",
+ "module": "Envision CRM",
+ "name": "Specific Cost Calculation",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
