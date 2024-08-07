@@ -1,0 +1,199 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-08-06 16:07:07.358869",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "parent_type",
+  "column_break_jbgy",
+  "skills_level",
+  "section_break_pogd",
+  "minimum_wagesday",
+  "nos",
+  "column_break_lqpm",
+  "monthly_salary",
+  "working_days",
+  "section_break_fgym",
+  "total_minimum_wage",
+  "epf",
+  "column_break_qure",
+  "allowance",
+  "bonus",
+  "section_break_lkmm",
+  "leave",
+  "ot_and_public_holiday",
+  "gratuity",
+  "column_break_abpz",
+  "safety_item",
+  "wc_policy",
+  "section_break_kuei",
+  "bare_cost",
+  "section_break_belv",
+  "over_headmandays",
+  "service_chargesmargin"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "options": "Item"
+  },
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name"
+  },
+  {
+   "fieldname": "parent_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Parent Type",
+   "options": "Item Type"
+  },
+  {
+   "fieldname": "column_break_jbgy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "skills_level",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Skilled Level",
+   "options": "\nSkilled\nSemi Skilled\nUnskilled"
+  },
+  {
+   "fieldname": "section_break_pogd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "minimum_wagesday",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Minimum Wages/Day"
+  },
+  {
+   "fieldname": "nos",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Nos"
+  },
+  {
+   "fieldname": "column_break_lqpm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "monthly_salary",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Monthly Salary"
+  },
+  {
+   "fieldname": "working_days",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Working Days"
+  },
+  {
+   "fieldname": "section_break_fgym",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_minimum_wage",
+   "fieldtype": "Float",
+   "label": "Total Minimum Wage"
+  },
+  {
+   "fieldname": "epf",
+   "fieldtype": "Float",
+   "label": "EPF"
+  },
+  {
+   "fieldname": "column_break_qure",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "allowance",
+   "fieldtype": "Float",
+   "label": "Allowance"
+  },
+  {
+   "fieldname": "bonus",
+   "fieldtype": "Float",
+   "label": "Bonus"
+  },
+  {
+   "fieldname": "section_break_lkmm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "leave",
+   "fieldtype": "Float",
+   "label": "Leave"
+  },
+  {
+   "fieldname": "ot_and_public_holiday",
+   "fieldtype": "Float",
+   "label": "OT and Public Holiday"
+  },
+  {
+   "fieldname": "gratuity",
+   "fieldtype": "Float",
+   "label": "Gratuity"
+  },
+  {
+   "fieldname": "column_break_abpz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "safety_item",
+   "fieldtype": "Float",
+   "label": "Safety Item"
+  },
+  {
+   "fieldname": "wc_policy",
+   "fieldtype": "Float",
+   "label": "WC Policy"
+  },
+  {
+   "fieldname": "section_break_kuei",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_belv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "over_headmandays",
+   "fieldtype": "Float",
+   "label": "Over Head/Mandays"
+  },
+  {
+   "fieldname": "service_chargesmargin",
+   "fieldtype": "Float",
+   "label": "Service Charges/Margin"
+  },
+  {
+   "fieldname": "bare_cost",
+   "fieldtype": "Float",
+   "label": "Bare Cost"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-08-07 10:36:40.693456",
+ "modified_by": "Administrator",
+ "module": "Envision CRM",
+ "name": "Operational Department Cost Estimation",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

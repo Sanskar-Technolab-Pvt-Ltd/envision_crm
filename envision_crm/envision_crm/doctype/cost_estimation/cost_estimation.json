@@ -1,0 +1,169 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:QTN-SCC-{###}",
+ "creation": "2024-07-25 13:17:56.990933",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_kdzg",
+  "department",
+  "section_break_lewm",
+  "quotation_items",
+  "section_break_yoys",
+  "items",
+  "section_break_zqms",
+  "total_amount",
+  "total_supply_amount",
+  "column_break_krsu",
+  "total_erection_amount",
+  "eia_department_cost_estimation_section",
+  "eia_department_cost_estimation",
+  "eia_department_total_cost_section",
+  "total_technical_cost",
+  "total_travelling_cost",
+  "column_break_tyfz",
+  "total_amount_eia",
+  "section_break_payf",
+  "operational_department_cost_estimation",
+  "operational_department_total_cost_section",
+  "total_bare_cost"
+ ],
+ "fields": [
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "options": "Project Department Cost Estimation"
+  },
+  {
+   "fieldname": "section_break_zqms",
+   "fieldtype": "Section Break",
+   "label": "Projects Department Total Cost"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Float",
+   "label": "Total Amount"
+  },
+  {
+   "fieldname": "total_supply_amount",
+   "fieldtype": "Float",
+   "label": "Total Supply Amount "
+  },
+  {
+   "fieldname": "column_break_krsu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_erection_amount",
+   "fieldtype": "Float",
+   "label": "Total Erection Amount "
+  },
+  {
+   "fieldname": "section_break_kdzg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_yoys",
+   "fieldtype": "Section Break",
+   "label": "Projects Department Cost Estimation"
+  },
+  {
+   "fieldname": "section_break_lewm",
+   "fieldtype": "Section Break",
+   "label": "Selling Items"
+  },
+  {
+   "fieldname": "quotation_items",
+   "fieldtype": "Table",
+   "label": "Quotation Items",
+   "options": "Quotation Selling Items"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "eia_department_cost_estimation_section",
+   "fieldtype": "Section Break",
+   "label": "EIA Department Cost Estimation"
+  },
+  {
+   "fieldname": "eia_department_cost_estimation",
+   "fieldtype": "Table",
+   "label": "EIA Department Cost Estimation",
+   "options": "EIA Department Cost Estimation"
+  },
+  {
+   "fieldname": "eia_department_total_cost_section",
+   "fieldtype": "Section Break",
+   "label": "EIA Department Total Cost"
+  },
+  {
+   "fieldname": "total_technical_cost",
+   "fieldtype": "Float",
+   "label": "Total Technical Cost "
+  },
+  {
+   "fieldname": "total_travelling_cost",
+   "fieldtype": "Float",
+   "label": "Total Travelling Cost"
+  },
+  {
+   "fieldname": "column_break_tyfz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_amount_eia",
+   "fieldtype": "Float",
+   "label": "Total Amount"
+  },
+  {
+   "fieldname": "section_break_payf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "operational_department_cost_estimation",
+   "fieldtype": "Table",
+   "label": "Operational Department Cost Estimation",
+   "options": "Operational Department Cost Estimation"
+  },
+  {
+   "fieldname": "operational_department_total_cost_section",
+   "fieldtype": "Section Break",
+   "label": "Operational Department Total Cost "
+  },
+  {
+   "fieldname": "total_bare_cost",
+   "fieldtype": "Float",
+   "label": "Total Bare Cost"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-08-06 16:27:14.893310",
+ "modified_by": "Administrator",
+ "module": "Envision CRM",
+ "name": "Cost Estimation",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

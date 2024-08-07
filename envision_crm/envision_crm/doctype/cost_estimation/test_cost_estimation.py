@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestSpecificCostCalculation(FrappeTestCase):
+class TestCostEstimation(FrappeTestCase):
 	pass
