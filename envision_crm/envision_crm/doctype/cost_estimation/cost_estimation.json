@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "format:QTN-SCC-{###}",
  "creation": "2024-07-25 13:17:56.990933",
@@ -143,7 +144,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-06 16:27:14.893310",
+ "modified": "2024-08-12 13:07:05.702865",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",

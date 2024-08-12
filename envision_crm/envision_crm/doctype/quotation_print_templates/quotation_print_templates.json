@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "format:QPT-{##}",
  "creation": "2024-07-10 18:23:20.787934",
@@ -43,7 +44,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-01 11:51:44.252701",
+ "modified": "2024-08-12 13:00:06.870346",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Quotation Print Templates",
