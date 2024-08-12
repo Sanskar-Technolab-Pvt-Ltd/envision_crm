@@ -1,0 +1,25 @@
+[
+ {
+  "align": "Left",
+  "content": "<div style=\"display: flex; justify-content: flex-end; align-items: center;\">\n    \n    <div style=\"width: 200px;\">\n        <img style=\"width: 70%;\" src=\"/files/Envision_logo.png\" alt=\"Envision Logo\">\n    </div>\n</div>\n",
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Letter Head",
+  "footer": "<div style=\"color:white; background-color:;\">\n    <p style=\"color:white; background-color:#e46d0e;\">en-vision tech House, 4th Floor, Opp. Bharthana Primary School, New City Light Road, Surat-395 007. Gujarat, India</p>\n    <p style=\"color:white; background-color: #76923c;\"> Phone : +91 261 2264003, 2264004 | e-mail : info@en-vision.in | visit us at : www.en-vision.in</p>\n</div>",
+  "footer_align": "Left",
+  "footer_image": null,
+  "footer_image_height": 0.0,
+  "footer_image_width": 0.0,
+  "footer_script": null,
+  "footer_source": "HTML",
+  "header_script": null,
+  "image": null,
+  "image_height": 0.0,
+  "image_width": 0.0,
+  "is_default": 1,
+  "letter_head_name": "Offer Print",
+  "modified": "2024-08-07 17:01:39.138949",
+  "name": "Offer Print",
+  "source": "HTML"
+ }
+]

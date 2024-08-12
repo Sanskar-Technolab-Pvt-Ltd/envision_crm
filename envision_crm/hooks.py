@@ -11,7 +11,7 @@ app_license = "mit"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/envision_crm/css/envision_crm.css"
-# app_include_js = "/assets/envision_crm/js/envision_crm.js"
+app_include_js = "/assets/envision_crm/js/quotation.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/envision_crm/css/envision_crm.css"
@@ -227,3 +227,51 @@ app_license = "mit"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
+
+# fixtures = [
+#     {
+#         "doctype": "Property Setter",
+#         "filters": [
+#             ["doc_type", "in", ["Lead", "Opportunity"]],
+#             ["property", "=", "naming_series"],
+#         ],
+#     },
+#     {
+#         "doctype": "Print Format",
+#         "filters": ["name", "in", ["Print Offer"]],
+#     },
+#     {
+#         "doctype": "Letter Head",
+#         "filters": ["name", "in", ["Offer Print"]],
+#     },
+# ]
+
+# fixtures = [
+#     # {
+#     #     "dt": "Property Setter",
+#     #     "filters": [
+#     #         ["doc_type", "in", ["Lead", "Opportunity"]],
+#     #         ["property", "=", "naming_series"],
+#     #     ],
+#     # },
+#     {
+#         "dt": "Print Format",
+#         "filters": ["name", "in", ["Print Offer"]],
+#     },
+#     {
+#         "dt": "Letter Head",
+#         "filters": ["name", "in", ["Offer Print"]],
+#     },
+# ]
+
+fixtures = [
+    {
+        "dt": "Property Setter",
+        "filters": [
+            ["doc_type", "in", ["Lead", "Opportunity"]],
+            ["property", "=", "naming_series"],
+        ],
+    },
+    {"dt": "Print Format", "filters": [["name", "in", ["Print Offer"]]]},
+    {"dt": "Letter Head", "filters": [["name", "in", ["Offer Print"]]]},
+]
