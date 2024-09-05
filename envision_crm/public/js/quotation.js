@@ -1,7 +1,7 @@
 frappe.ui.form.on("Print Offer", {
   template: function (frm, cdt, cdn) {
     let current_row = locals[cdt][cdn];
-    console.log(current_row);
+    console.log("Hii", current_row);
 
     frappe.call({
       method:
@@ -11,7 +11,6 @@ frappe.ui.form.on("Print Offer", {
       },
       callback: function (r) {
         if (!r.exc) {
-
           frappe.model.set_value(
             cdt,
             cdn,
@@ -25,7 +24,6 @@ frappe.ui.form.on("Print Offer", {
             "template_details",
             r.message.template_description
           );
-
         }
       },
     });

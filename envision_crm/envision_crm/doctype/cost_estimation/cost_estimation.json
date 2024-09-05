@@ -7,12 +7,14 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "expense_tab",
   "section_break_kdzg",
+  "opportunity",
   "department",
   "section_break_lewm",
   "quotation_items",
   "section_break_yoys",
-  "items",
+  "projects_department_cost_estimation",
   "section_break_zqms",
   "total_amount",
   "total_supply_amount",
@@ -28,15 +30,24 @@
   "section_break_payf",
   "operational_department_cost_estimation",
   "operational_department_total_cost_section",
-  "total_bare_cost"
+  "total_bare_cost",
+  "overhead_tab",
+  "project_template",
+  "section_break_sepy",
+  "man_days_cost",
+  "section_break_piye",
+  "total_cost_man_days",
+  "section_break_fsbn",
+  "travel_expense",
+  "profit_tab",
+  "profit_",
+  "profit_amount",
+  "column_break_strq",
+  "total_project_cost"
  ],
  "fields": [
   {
-   "fieldname": "items",
-   "fieldtype": "Table",
-   "options": "Project Department Cost Estimation"
-  },
-  {
+   "depends_on": "eval:doc.department == 'Project - EETPL'",
    "fieldname": "section_break_zqms",
    "fieldtype": "Section Break",
    "label": "Projects Department Total Cost"
@@ -65,6 +76,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "depends_on": "eval:doc.department == 'Project - EETPL'",
    "fieldname": "section_break_yoys",
    "fieldtype": "Section Break",
    "label": "Projects Department Cost Estimation"
@@ -81,12 +93,14 @@
    "options": "Quotation Selling Items"
   },
   {
+   "fetch_from": "opportunity.custom_department",
    "fieldname": "department",
    "fieldtype": "Link",
    "label": "Department",
    "options": "Department"
   },
   {
+   "depends_on": "eval:doc.department == 'EIA - EETPL'",
    "fieldname": "eia_department_cost_estimation_section",
    "fieldtype": "Section Break",
    "label": "EIA Department Cost Estimation"
@@ -98,6 +112,7 @@
    "options": "EIA Department Cost Estimation"
   },
   {
+   "depends_on": "eval:doc.department == 'EIA - EETPL'",
    "fieldname": "eia_department_total_cost_section",
    "fieldtype": "Section Break",
    "label": "EIA Department Total Cost"
@@ -122,16 +137,20 @@
    "label": "Total Amount"
   },
   {
+   "depends_on": "eval:doc.department == 'Operations - EETPL'",
    "fieldname": "section_break_payf",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Operational Department Cost Estimation"
   },
   {
+   "depends_on": "eval:doc.department == 'Operations - EETPL'",
    "fieldname": "operational_department_cost_estimation",
    "fieldtype": "Table",
    "label": "Operational Department Cost Estimation",
    "options": "Operational Department Cost Estimation"
   },
   {
+   "depends_on": "eval:doc.department == 'Operations - EETPL'",
    "fieldname": "operational_department_total_cost_section",
    "fieldtype": "Section Break",
    "label": "Operational Department Total Cost "
@@ -140,11 +159,95 @@
    "fieldname": "total_bare_cost",
    "fieldtype": "Float",
    "label": "Total Bare Cost"
+  },
+  {
+   "fieldname": "overhead_tab",
+   "fieldtype": "Tab Break",
+   "label": "Man Days"
+  },
+  {
+   "fieldname": "expense_tab",
+   "fieldtype": "Tab Break",
+   "label": "Expense"
+  },
+  {
+   "fieldname": "profit_tab",
+   "fieldtype": "Tab Break",
+   "label": "Profit"
+  },
+  {
+   "fieldname": "profit_",
+   "fieldtype": "Float",
+   "label": "Profit %"
+  },
+  {
+   "fieldname": "opportunity",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Opportunity",
+   "options": "Opportunity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "profit_amount",
+   "fieldtype": "Float",
+   "label": "Profit Amount"
+  },
+  {
+   "fieldname": "column_break_strq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_project_cost",
+   "fieldtype": "Float",
+   "label": "Total Project Cost"
+  },
+  {
+   "fieldname": "project_template",
+   "fieldtype": "Link",
+   "label": "Project Template",
+   "options": "Project Template"
+  },
+  {
+   "fieldname": "section_break_sepy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "man_days_cost",
+   "fieldtype": "Table",
+   "label": "Man Days Cost",
+   "options": "Man Days"
+  },
+  {
+   "fieldname": "section_break_piye",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_cost_man_days",
+   "fieldtype": "Float",
+   "label": "Total Cost (Man Days)"
+  },
+  {
+   "fieldname": "section_break_fsbn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "travel_expense",
+   "fieldtype": "Table",
+   "label": "Travel Expense",
+   "options": "Travel Expense"
+  },
+  {
+   "depends_on": "eval:doc.department == 'Project - EETPL'",
+   "fieldname": "projects_department_cost_estimation",
+   "fieldtype": "Table",
+   "label": "Projects Department Cost Estimation",
+   "options": "Project Department Cost Estimation"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-12 13:07:05.702865",
+ "modified": "2024-09-02 11:04:39.836155",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",

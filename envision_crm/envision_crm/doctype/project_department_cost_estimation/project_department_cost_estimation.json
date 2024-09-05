@@ -6,10 +6,11 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "type",
+  "selling_item",
   "item_code",
   "column_break_wiqm",
   "item_name",
+  "unit",
   "section_break_gycp",
   "item_description",
   "section_break_rnzo",
@@ -18,21 +19,23 @@
   "make",
   "column_break_bhya",
   "moc",
-  "nos",
+  "quantity",
   "section_break_kmdk",
   "rate",
   "column_break_chmp",
   "amount",
   "section_break_nzsy",
-  "unloading",
-  "transportation",
+  "unloading_percentage",
+  "transportation_percentage",
   "column_break_fxmc",
-  "erection",
+  "erection_percentage",
+  "profit_percentage",
   "section_break_zklv",
   "unloading_amount",
   "transportation_amount",
   "column_break_lwbn",
   "supply_amount",
+  "profit_amount",
   "section_break_iisg",
   "erection_amount",
   "total_amount_with_erection"
@@ -88,12 +91,6 @@
    "label": "MOC"
   },
   {
-   "fieldname": "nos",
-   "fieldtype": "Float",
-   "in_list_view": 1,
-   "label": "NOS"
-  },
-  {
    "fieldname": "section_break_kmdk",
    "fieldtype": "Section Break"
   },
@@ -118,23 +115,8 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "unloading",
-   "fieldtype": "Percent",
-   "label": "Unloading(%)"
-  },
-  {
-   "fieldname": "transportation",
-   "fieldtype": "Percent",
-   "label": "Transportation(%)"
-  },
-  {
    "fieldname": "column_break_fxmc",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "erection",
-   "fieldtype": "Percent",
-   "label": "Erection(%)"
   },
   {
    "fieldname": "section_break_zklv",
@@ -180,17 +162,54 @@
    "label": "Model"
   },
   {
-   "fieldname": "type",
+   "fieldname": "selling_item",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Parent Item",
-   "options": "Item Type"
+   "label": "Selling Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "unit",
+   "fieldtype": "Link",
+   "label": "Unit",
+   "options": "UOM"
+  },
+  {
+   "fieldname": "profit_amount",
+   "fieldtype": "Float",
+   "label": "Profit Amount"
+  },
+  {
+   "fieldname": "quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity"
+  },
+  {
+   "fieldname": "unloading_percentage",
+   "fieldtype": "Percent",
+   "label": "Unloading(%)"
+  },
+  {
+   "fieldname": "transportation_percentage",
+   "fieldtype": "Percent",
+   "label": "Transportation(%)"
+  },
+  {
+   "fieldname": "erection_percentage",
+   "fieldtype": "Percent",
+   "label": "Erection(%)"
+  },
+  {
+   "fieldname": "profit_percentage",
+   "fieldtype": "Percent",
+   "label": "Profit(%)"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-07 10:37:34.483314",
+ "modified": "2024-09-02 15:32:12.368552",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Project Department Cost Estimation",
