@@ -23,10 +23,11 @@
   "eia_department_cost_estimation_section",
   "eia_department_cost_estimation",
   "eia_department_total_cost_section",
-  "total_technical_cost",
+  "total_technical_amount",
   "total_travelling_cost",
   "column_break_tyfz",
-  "total_amount_eia",
+  "total_amount_of_eia",
+  "total_expense",
   "section_break_payf",
   "operational_department_cost_estimation",
   "operational_department_total_cost_section",
@@ -34,7 +35,7 @@
   "overhead_tab",
   "project_template",
   "section_break_sepy",
-  "man_days_cost",
+  "man_days_amount",
   "section_break_piye",
   "total_cost_man_days",
   "section_break_fsbn",
@@ -54,12 +55,13 @@
   },
   {
    "fieldname": "total_amount",
-   "fieldtype": "Float",
-   "label": "Total Amount"
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "precision": "2"
   },
   {
    "fieldname": "total_supply_amount",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "label": "Total Supply Amount "
   },
   {
@@ -68,8 +70,8 @@
   },
   {
    "fieldname": "total_erection_amount",
-   "fieldtype": "Float",
-   "label": "Total Erection Amount "
+   "fieldtype": "Currency",
+   "label": "Total (Supply Amount + Erection Amount  ) "
   },
   {
    "fieldname": "section_break_kdzg",
@@ -118,23 +120,13 @@
    "label": "EIA Department Total Cost"
   },
   {
-   "fieldname": "total_technical_cost",
-   "fieldtype": "Float",
-   "label": "Total Technical Cost "
-  },
-  {
    "fieldname": "total_travelling_cost",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "label": "Total Travelling Cost"
   },
   {
    "fieldname": "column_break_tyfz",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "total_amount_eia",
-   "fieldtype": "Float",
-   "label": "Total Amount"
   },
   {
    "depends_on": "eval:doc.department == 'Operations - EETPL'",
@@ -157,7 +149,7 @@
   },
   {
    "fieldname": "total_bare_cost",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "label": "Total Bare Cost"
   },
   {
@@ -213,12 +205,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "man_days_cost",
-   "fieldtype": "Table",
-   "label": "Man Days Cost",
-   "options": "Man Days"
-  },
-  {
    "fieldname": "section_break_piye",
    "fieldtype": "Section Break"
   },
@@ -243,11 +229,32 @@
    "fieldtype": "Table",
    "label": "Projects Department Cost Estimation",
    "options": "Project Department Cost Estimation"
+  },
+  {
+   "fieldname": "total_technical_amount",
+   "fieldtype": "Currency",
+   "label": "Total Technical Amount "
+  },
+  {
+   "fieldname": "total_amount_of_eia",
+   "fieldtype": "Currency",
+   "label": "Total Amount"
+  },
+  {
+   "fieldname": "total_expense",
+   "fieldtype": "Currency",
+   "label": "Total Expense"
+  },
+  {
+   "fieldname": "man_days_amount",
+   "fieldtype": "Table",
+   "label": "Man Days Amount",
+   "options": "Man Days"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-02 11:04:39.836155",
+ "modified": "2024-09-06 18:32:44.427858",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",

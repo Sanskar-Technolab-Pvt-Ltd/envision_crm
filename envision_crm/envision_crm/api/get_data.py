@@ -47,3 +47,74 @@ def get_quotation_selling_items_details(cost_estimation_id, item_name):
     else:
         print("\n\n Selling ", quotation_selling_items_details_list)
         return quotation_selling_items_details_list
+
+
+@frappe.whitelist()
+def get_project_template_task_list(Project_template_id):
+    task_list = frappe.get_all(
+        "Project Template Task",
+        filters={"parent": Project_template_id},
+        fields=["parent", "parenttype", "task", "subject"],
+    )
+    organized_tasks = categorize_tasks(task_list)
+    return organized_tasks
+    print(organized_tasks)
+
+
+# def categorize_tasks(task_list):
+#     task_mapping = {}
+
+#     for task in task_list:
+#         # Fetch the task document to check 'is_group' and 'parent_task'
+#         task_doc = frappe.get_doc("Task", task["task"])
+
+#         # If the task is a parent (is_group = 1)
+#         if task_doc.is_group:
+#             # Ensure the parent is in the task_mapping dictionary
+#             if task_doc.name not in task_mapping:
+#                 task_mapping[task_doc.name] = {
+#                     "parent": task_doc.subject,
+#                     "children": [],
+#                 }
+#         else:
+#             # If the task is a child (is_group = 0), find its parent_task
+#             if task_doc.parent_task:
+#                 # Ensure the parent is in the task_mapping dictionary
+#                 if task_doc.parent_task not in task_mapping:
+#                     parent_task_doc = frappe.get_doc("Task", task_doc.parent_task)
+#                     task_mapping[task_doc.parent_task] = {
+#                         "parent": parent_task_doc.subject,
+#                         "children": [],
+#                     }
+
+#                 # Append the child task to its parent's children list
+#                 task_mapping[task_doc.parent_task]["children"].append(task_doc.name)
+
+#     return task_mapping
+
+
+def categorize_tasks(task_list):
+    task_mapping = {}
+
+    for task in task_list:
+        # Fetch the task document
+        task_doc = frappe.get_doc("Task", task["task"])
+
+        # If the task is a parent (is_group = 1)
+        if task_doc.is_group:
+            # Initialize the parent task with an empty list for children
+            if task_doc.name not in task_mapping:
+                task_mapping[task_doc.name] = []
+        else:
+            # If the task is a child (is_group = 0)
+            if task_doc.parent_task:
+                # Initialize the parent task if it doesn't exist
+                if task_doc.parent_task not in task_mapping:
+                    task_mapping[task_doc.parent_task] = []
+
+                # Append the child task as a tuple (name, subject)
+                task_mapping[task_doc.parent_task].append(
+                    (task_doc.name, task_doc.subject)
+                )
+
+    return task_mapping
