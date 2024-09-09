@@ -35,9 +35,9 @@
   "overhead_tab",
   "project_template",
   "section_break_sepy",
-  "man_days_amount",
+  "man_days",
   "section_break_piye",
-  "total_cost_man_days",
+  "total_man_days_amount",
   "section_break_fsbn",
   "travel_expense",
   "profit_tab",
@@ -209,11 +209,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "total_cost_man_days",
-   "fieldtype": "Float",
-   "label": "Total Cost (Man Days)"
-  },
-  {
    "fieldname": "section_break_fsbn",
    "fieldtype": "Section Break"
   },
@@ -246,15 +241,20 @@
    "label": "Total Expense"
   },
   {
-   "fieldname": "man_days_amount",
+   "fieldname": "man_days",
    "fieldtype": "Table",
-   "label": "Man Days Amount",
+   "label": "Man Days",
    "options": "Man Days"
+  },
+  {
+   "fieldname": "total_man_days_amount",
+   "fieldtype": "Float",
+   "label": "Total Man Days Amount"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-06 18:32:44.427858",
+ "modified": "2024-09-09 10:27:07.506427",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",

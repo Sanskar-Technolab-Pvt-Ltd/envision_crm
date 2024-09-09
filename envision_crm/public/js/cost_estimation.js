@@ -9,48 +9,64 @@ frappe.ui.form.on("Cost Estimation", {
       callback: function (r) {
         if (!r.exc) {
           console.log(r.message);
-          
 
-          // let row = frm.add_child("man_days_amount", {
+          // let row = frm.add_child("man_days", {
           //   activities: "Admin",
           // });
 
-             let task_mapping = r.message;
+          let task_mapping = r.message;
 
-             // Iterate over the parent tasks
-             for (let parent_task in task_mapping) {
-               // Iterate over each child task for the current parent task
-               task_mapping[parent_task].forEach((child_task) => {
-                 // Add a new row for each child task
-                 let row = frm.add_child("man_days_amount");
+          // Iterate over the parent tasks
+          for (let parent_task in task_mapping) {
+            // Check if there are child tasks for the current parent task
+            if (task_mapping[parent_task].length === 0) {
+              // No child tasks, so add a row with the parent task in both fields
+              let row = frm.add_child("man_days");
 
-                 // Set the parent task's subject in the "stages_of_project" field
-                 frappe.model.set_value(
-                   row.doctype,
-                   row.name,
-                   "stages_of_project",
-                   parent_task
-                 );
+              // Set the parent task's subject in both "stages_of_project" and "activities"
+              frappe.model.set_value(
+                row.doctype,
+                row.name,
+                "stages_of_project",
+                parent_task
+              );
+              frappe.model.set_value(
+                row.doctype,
+                row.name,
+                "activities",
+                parent_task
+              ); // Same as the parent task since no child
+            } else {
+              // Iterate over each child task for the current parent task
+              task_mapping[parent_task].forEach((child_task) => {
+                // Add a new row for each child task
+                let row = frm.add_child("man_days");
 
-                 // Set the child task's subject in the "activities" field
-                 frappe.model.set_value(
-                   row.doctype,
-                   row.name,
-                   "activities",
-                   child_task[1]
-                 ); // Assuming child_task[1] is the subject
-               });
-             }
+                // Set the parent task's subject in the "stages_of_project" field
+                frappe.model.set_value(
+                  row.doctype,
+                  row.name,
+                  "stages_of_project",
+                  parent_task
+                );
 
-             // Refresh the child table after adding rows
-             frm.refresh_field("man_days_amount");
-          
+                // Set the child task's subject in the "activities" field
+                frappe.model.set_value(
+                  row.doctype,
+                  row.name,
+                  "activities",
+                  child_task[1]
+                ); // Assuming child_task[1] is the subject
+              });
+            }
+          }
 
+          // Refresh the child table after adding rows
+          frm.refresh_field("man_days");
 
         }
       },
     });
-
   },
 });
 

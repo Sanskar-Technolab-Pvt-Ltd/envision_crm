@@ -56,9 +56,11 @@ def get_project_template_task_list(Project_template_id):
         filters={"parent": Project_template_id},
         fields=["parent", "parenttype", "task", "subject"],
     )
+    print("\n\n\n",task_list)
     organized_tasks = categorize_tasks(task_list)
+    print("\n\n\n organized_tasks", organized_tasks)
+
     return organized_tasks
-    print(organized_tasks)
 
 
 # def categorize_tasks(task_list):
