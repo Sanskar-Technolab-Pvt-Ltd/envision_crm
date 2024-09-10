@@ -1,7 +1,20 @@
 frappe.ui.form.on("Cost Estimation", {
   refresh: function (frm) {
     frm.add_custom_button("Create Quotation", () => {
-      frappe.msgprint("You Clicked Me");
+      frappe.call({
+        method:
+          "envision_crm.envision_crm.api.create_quotation.create_quotation",
+        args: {
+          cost_estimation_id: frm.doc.name,
+          opportunity: frm.doc.opportunity,
+          //  item_name: current_row.selling_item,
+        },
+        callback: function (r) {
+          if (!r.exc) {
+            console.log(r.message)
+          }
+        },
+      });
     });
   },
 
@@ -110,6 +123,7 @@ frappe.ui.form.on("Cost Estimation", {
   },
 });
 
+// Project Department Cost Estimation
 frappe.ui.form.on("Project Department Cost Estimation", {
   projects_department_cost_estimation_add: function (frm, cdt, cdn) {
     if (frm.doc.quotation_items.length === 1) {
@@ -118,9 +132,12 @@ frappe.ui.form.on("Project Department Cost Estimation", {
     }
   },
 
+  projects_department_cost_estimation_remove: function (frm) {
+    update_totals(frm);
+  },
+
   selling_item: function (frm, cdt, cdn) {
     let current_row = locals[cdt][cdn];
-
     frappe.call({
       method:
         "envision_crm.envision_crm.api.get_data.get_quotation_selling_items_details",
@@ -145,109 +162,96 @@ frappe.ui.form.on("Project Department Cost Estimation", {
   },
 
   unloading_percentage: function (frm, cdt, cdn) {
-    set_unloading_amount(cdt, cdn);
-    update_supply_amount(frm, cdt, cdn);
-    update_total_amount_with_erection(cdt, cdn);
-    update_totals(frm);
+    handle_percentage_changes(frm, cdt, cdn);
   },
 
   transportation_percentage: function (frm, cdt, cdn) {
-    set_transportation_amount(cdt, cdn);
-    update_supply_amount(frm, cdt, cdn);
-    update_total_amount_with_erection(cdt, cdn);
-    update_totals(frm);
+    handle_percentage_changes(frm, cdt, cdn);
   },
 
   erection_percentage: function (frm, cdt, cdn) {
-    set_erection_amount(cdt, cdn);
-    update_total_amount_with_erection(cdt, cdn);
-    update_totals(frm);
+    handle_percentage_changes(frm, cdt, cdn);
   },
 });
 
-// Function to set selling item values
+// Helper function for setting selling item values
 function set_selling_item_values(cdt, cdn, data) {
-  frappe.model.set_value(cdt, cdn, "selling_item", data.item_code);
-  frappe.model.set_value(
-    cdt,
-    cdn,
-    "unloading_percentage",
-    data.unloading_percentage
-  );
-  frappe.model.set_value(
-    cdt,
-    cdn,
-    "transportation_percentage",
-    data.transportation_percentage
-  );
-  frappe.model.set_value(
-    cdt,
-    cdn,
-    "erection_percentage",
-    data.erection_percentage
-  );
-  frappe.model.set_value(cdt, cdn, "profit_percentage", data.profit_percentage);
+  frappe.model.set_value(cdt, cdn, {
+    selling_item: data.item_code || "",
+    unloading_percentage: data.unloading_percentage || 0,
+    transportation_percentage: data.transportation_percentage || 0,
+    erection_percentage: data.erection_percentage || 0,
+    profit_percentage: data.profit_percentage || 0,
+  });
 }
 
-// Function to calculate total cost
+// Helper function to calculate total cost
 function calculate_total_cost(frm, cdt, cdn) {
   let current_row = locals[cdt][cdn];
-  let amount_value = current_row.quantity * current_row.rate;
+  let amount_value = (current_row.quantity || 0) * (current_row.rate || 0);
+
   frappe.model.set_value(cdt, cdn, "amount", amount_value);
 
-  set_unloading_amount(cdt, cdn);
-  set_transportation_amount(cdt, cdn);
-  set_erection_amount(cdt, cdn);
+  handle_percentage_changes(frm, cdt, cdn); // Recalculate percentages and totals
+}
 
-  update_supply_amount(frm, cdt, cdn);
-  update_total_amount_with_erection(cdt, cdn);
+// Function to handle changes in percentages (unloading, transportation, erection)
+function handle_percentage_changes(frm, cdt, cdn) {
+  let current_row = locals[cdt][cdn];
+
+  let unloading_amount = calculate_percentage_amount(
+    current_row.amount,
+    current_row.unloading_percentage
+  );
+  let transportation_amount = calculate_percentage_amount(
+    current_row.amount,
+    current_row.transportation_percentage
+  );
+  let erection_amount = calculate_percentage_amount(
+    current_row.amount,
+    current_row.erection_percentage
+  );
+
+  frappe.model.set_value(cdt, cdn, {
+    unloading_amount: unloading_amount,
+    transportation_amount: transportation_amount,
+    erection_amount: erection_amount,
+  });
+
+  update_supply_amount(
+    cdt,
+    cdn,
+    unloading_amount,
+    transportation_amount,
+    current_row.amount
+  );
+  update_total_amount_with_erection(cdt, cdn, erection_amount);
   update_totals(frm);
 }
 
-// Function to set unloading amount
-function set_unloading_amount(cdt, cdn) {
-  let current_row = locals[cdt][cdn];
-  let unloading_amount =
-    (current_row.amount * current_row.unloading_percentage) / 100;
-  frappe.model.set_value(cdt, cdn, "unloading_amount", unloading_amount);
-}
-
-// Function to set transportation amount
-function set_transportation_amount(cdt, cdn) {
-  let current_row = locals[cdt][cdn];
-  let transportation_amount =
-    (current_row.amount * current_row.transportation_percentage) / 100;
-  frappe.model.set_value(
-    cdt,
-    cdn,
-    "transportation_amount",
-    transportation_amount
-  );
-}
-
-// Function to set erection amount
-function set_erection_amount(cdt, cdn) {
-  let current_row = locals[cdt][cdn];
-  let erection_amount =
-    (current_row.amount * current_row.erection_percentage) / 100;
-  frappe.model.set_value(cdt, cdn, "erection_amount", erection_amount);
+// Helper function to calculate a percentage-based amount
+function calculate_percentage_amount(amount, percentage) {
+  return ((amount || 0) * (percentage || 0)) / 100;
 }
 
 // Function to update supply amount
-function update_supply_amount(frm, cdt, cdn) {
-  let current_row = locals[cdt][cdn];
+function update_supply_amount(
+  cdt,
+  cdn,
+  unloading_amount,
+  transportation_amount,
+  amount
+) {
   let supply_amount =
-    current_row.unloading_amount +
-    current_row.transportation_amount +
-    current_row.amount;
+    (unloading_amount || 0) + (transportation_amount || 0) + (amount || 0);
   frappe.model.set_value(cdt, cdn, "supply_amount", supply_amount);
 }
 
 // Function to update total amount with erection
-function update_total_amount_with_erection(cdt, cdn) {
+function update_total_amount_with_erection(cdt, cdn, erection_amount) {
   let current_row = locals[cdt][cdn];
   let total_amount_with_erection =
-    current_row.supply_amount + current_row.erection_amount;
+    (current_row.supply_amount || 0) + (erection_amount || 0);
   frappe.model.set_value(
     cdt,
     cdn,
@@ -256,28 +260,29 @@ function update_total_amount_with_erection(cdt, cdn) {
   );
 }
 
-// Function to update totals (total_amount and total_supply_amount)
+// Function to update the overall totals
 function update_totals(frm) {
-  let total_amount = 0;
-  let total_supply_amount = 0;
-  let total_erection_amount = 0;
+  let total_amount = 0,
+    total_supply_amount = 0,
+    total_erection_amount = 0;
 
-  // Iterate over all rows in the child table
   frm.doc.projects_department_cost_estimation.forEach((row) => {
     total_amount += row.amount || 0;
     total_supply_amount += row.supply_amount || 0;
     total_erection_amount += row.total_amount_with_erection || 0;
   });
 
-  // Set the total amounts in the parent form
-  frm.set_value("total_amount", total_amount);
-  frm.set_value("total_supply_amount", total_supply_amount);
-  frm.set_value("total_erection_amount", total_erection_amount);
+  frm.set_value({
+    total_amount: total_amount,
+    total_supply_amount: total_supply_amount,
+    total_erection_amount: total_erection_amount,
+  });
 
-  // Refresh the fields to reflect the changes
-  frm.refresh_field("total_amount");
-  frm.refresh_field("total_supply_amount");
-  frm.refresh_field("total_erection_amount");
+  frm.refresh_fields([
+    "total_amount",
+    "total_supply_amount",
+    "total_erection_amount",
+  ]);
 }
 
 // Cost EStimation For EIA Departrment
@@ -317,14 +322,25 @@ frappe.ui.form.on("EIA Department Cost Estimation", {
   travelling_amount: function (frm, cdt, cdn) {
     update_totals_amount(frm);
     let total_expense =
-      frm.doc.total_technical_amount + frm.doc.total_travelling_cost;
-    console.log("Total travvimng ", frm.doc.total_travelling_cost);
+      frm.doc.total_technical_amount + frm.doc.total_travelling_amount;
+    console.log("Total travvimng ", frm.doc.total_travelling_amount);
     frm.set_value("total_expense", total_expense);
   },
 
   expense: function (frm, cdt, cdn) {
     update_totals_amount(frm);
   },
+
+  // total_technical_amount: function (frm,cdt,cdn) {
+  //    let total_technical_plus_travelling_amount =
+  //      frm.doc.total_technical_amount + frm.doc.total_travelling_amount;
+  //    console.log("Total travvimng ", frm.doc.total_travelling_amount);
+  //    frm.set_value(
+  //      "total_technical_plus_travelling_amount",
+  //      total_technical_plus_travelling_amount
+  //    );
+
+  // },
 });
 
 function update_travelling_amount(frm, cdt, cdn) {
@@ -345,27 +361,27 @@ function update_expense(frm, cdt, cdn) {
 function update_totals_amount(frm) {
   let total_amount_of_eia = 0;
   let total_technical_amount = 0;
-  let total_travelling_cost = 0;
+  let total_travelling_amount = 0;
   let total_expense = 0;
 
   // Iterate over all rows in the child table
   frm.doc.eia_department_cost_estimation.forEach((row) => {
     total_amount_of_eia += row.amount || 0;
     total_technical_amount += row.technical_amount || 0;
-    total_travelling_cost += row.travelling_amount || 0;
+    total_travelling_amount += row.travelling_amount || 0;
     total_expense += row.expense || 0;
   });
 
   // Set the total amounts in the parent form
   frm.set_value("total_amount_of_eia", total_amount_of_eia);
   frm.set_value("total_technical_amount", total_technical_amount);
-  frm.set_value("total_travelling_cost", total_travelling_cost);
+  frm.set_value("total_travelling_amount", total_travelling_amount);
   frm.set_value("total_expense", total_expense);
 
   // Refresh the fields to reflect the changes
   frm.refresh_field("total_amount_of_eia");
   frm.refresh_field("total_technical_amount");
-  frm.refresh_field("total_travelling_cost");
+  frm.refresh_field("total_travelling_amount");
   frm.refresh_field("total_expense");
 }
 
@@ -449,7 +465,12 @@ function calculate_total_minimum_wage(frm, cdt, cdn) {
   let working_days = current_row.working_days || 0;
   let total_minimum_wage = minimum_wages * working_days;
 
-  frappe.model.set_value(cdt, cdn, "total_minimum_wage", Math.round(total_minimum_wage));
+  frappe.model.set_value(
+    cdt,
+    cdn,
+    "total_minimum_wage",
+    Math.round(total_minimum_wage)
+  );
 
   calculate_epf_amount(frm, cdt, cdn);
   calculate_allowance_amount(frm, cdt, cdn);
@@ -474,7 +495,12 @@ function calculate_allowance_amount(frm, cdt, cdn) {
   let epf_amount = current_row.epf_amount || 0;
 
   let allowance_amount = monthly_salary - total_minimum_wage - epf_amount;
-  frappe.model.set_value(cdt, cdn, "allowance_amount", Math.round(allowance_amount));
+  frappe.model.set_value(
+    cdt,
+    cdn,
+    "allowance_amount",
+    Math.round(allowance_amount)
+  );
 }
 
 function calculate_bonus_amount(frm, cdt, cdn) {
@@ -546,7 +572,12 @@ function calculate_grand_total_amount(frm, cdt, cdn) {
 
   let grand_total_amount = total_amount * quantity;
 
-  frappe.model.set_value(cdt, cdn, "grand_total_amount", Math.round(grand_total_amount));
+  frappe.model.set_value(
+    cdt,
+    cdn,
+    "grand_total_amount",
+    Math.round(grand_total_amount)
+  );
 }
 
 function total_amounts_of_operational_department(frm) {
@@ -563,7 +594,10 @@ function total_amounts_of_operational_department(frm) {
 
   // Set the total amounts in the parent form
   frm.set_value("total_bare_amount", total_bare_amount);
-  frm.set_value("total_amount_with_over_head_and_service_charges", total_amount_with_over_head_and_service_charges);
+  frm.set_value(
+    "total_amount_with_over_head_and_service_charges",
+    total_amount_with_over_head_and_service_charges
+  );
   frm.set_value("total_grand_amount", total_grand_amount);
 
   // Refresh the fields to reflect the changes
@@ -571,8 +605,6 @@ function total_amounts_of_operational_department(frm) {
   frm.refresh_field("total_amount_with_over_head_and_service_charges");
   frm.refresh_field("total_grand_amount");
 }
-
-
 
 // Man Days Calculation
 

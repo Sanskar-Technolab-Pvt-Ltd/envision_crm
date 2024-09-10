@@ -24,7 +24,7 @@
   "eia_department_cost_estimation",
   "eia_department_total_cost_section",
   "total_technical_amount",
-  "total_travelling_cost",
+  "total_travelling_amount",
   "column_break_tyfz",
   "total_amount_of_eia",
   "total_expense",
@@ -121,11 +121,6 @@
    "fieldname": "eia_department_total_cost_section",
    "fieldtype": "Section Break",
    "label": "EIA Department Total Cost"
-  },
-  {
-   "fieldname": "total_travelling_cost",
-   "fieldtype": "Currency",
-   "label": "Total Travelling Cost"
   },
   {
    "fieldname": "column_break_tyfz",
@@ -267,11 +262,16 @@
    "fieldname": "total_grand_amount",
    "fieldtype": "Currency",
    "label": "Total Grand Amount"
+  },
+  {
+   "fieldname": "total_travelling_amount",
+   "fieldtype": "Currency",
+   "label": "Total Travelling Amount"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-10 12:23:48.850101",
+ "modified": "2024-09-10 16:45:40.010849",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",
