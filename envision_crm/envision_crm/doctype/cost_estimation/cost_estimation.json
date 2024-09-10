@@ -31,7 +31,10 @@
   "section_break_payf",
   "operational_department_cost_estimation",
   "operational_department_total_cost_section",
-  "total_bare_cost",
+  "total_bare_amount",
+  "total_amount_with_over_head_and_service_charges",
+  "column_break_hyrf",
+  "total_grand_amount",
   "overhead_tab",
   "project_template",
   "section_break_sepy",
@@ -148,11 +151,6 @@
    "label": "Operational Department Total Cost "
   },
   {
-   "fieldname": "total_bare_cost",
-   "fieldtype": "Currency",
-   "label": "Total Bare Cost"
-  },
-  {
    "fieldname": "overhead_tab",
    "fieldtype": "Tab Break",
    "label": "Man Days"
@@ -250,11 +248,30 @@
    "fieldname": "total_man_days_amount",
    "fieldtype": "Float",
    "label": "Total Man Days Amount"
+  },
+  {
+   "fieldname": "total_bare_amount",
+   "fieldtype": "Currency",
+   "label": "Total Bare Amount"
+  },
+  {
+   "fieldname": "total_amount_with_over_head_and_service_charges",
+   "fieldtype": "Currency",
+   "label": "Total Amount With OH and SC"
+  },
+  {
+   "fieldname": "column_break_hyrf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_grand_amount",
+   "fieldtype": "Currency",
+   "label": "Total Grand Amount"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-09 10:27:07.506427",
+ "modified": "2024-09-10 12:23:48.850101",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",

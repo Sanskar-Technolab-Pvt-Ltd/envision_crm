@@ -1,0 +1,71 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-09 16:42:41.783625",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "from_date",
+  "per_day_hours",
+  "column_break_wmcd",
+  "to_date",
+  "section_break_mhch",
+  "level_wise_prices"
+ ],
+ "fields": [
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "From Date"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "To Date"
+  },
+  {
+   "fieldname": "column_break_wmcd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "per_day_hours",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": " Per Day Hours",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_mhch",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "level_wise_prices",
+   "fieldtype": "Table",
+   "label": "Level Wise Prices",
+   "options": "Man Days Level Wise Cost"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-09-10 10:26:50.065271",
+ "modified_by": "Administrator",
+ "module": "Envision CRM",
+ "name": "Define Man Days Price",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
