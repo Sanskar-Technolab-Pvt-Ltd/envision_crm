@@ -272,13 +272,13 @@ doctype_js = {
 # ]
 
 fixtures = [
-    {
-        "dt": "Property Setter",
-        "filters": [
-            ["doc_type", "in", ["Lead", "Opportunity"]],
-            ["property", "=", "naming_series"],
-        ],
-    },
+    # {
+    #     "dt": "Property Setter",
+    #     "filters": [
+    #         ["doc_type", "in", ["Lead", "Opportunity"]],
+    #         ["property", "=", "naming_series"],
+    #     ],
+    # },
     {"dt": "Print Format", "filters": [["name", "in", ["Print Offer"]]]},
     {"dt": "Letter Head", "filters": [["name", "in", ["Offer Print"]]]},
 ]
