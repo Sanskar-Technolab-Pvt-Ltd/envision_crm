@@ -25,9 +25,12 @@
   "eia_department_total_cost_section",
   "total_technical_amount",
   "total_travelling_amount",
+  "total_over_head",
   "column_break_tyfz",
   "total_amount_of_eia",
   "total_expense",
+  "column_break_vspy",
+  "total_cost_of_eia",
   "section_break_payf",
   "operational_department_cost_estimation",
   "operational_department_total_cost_section",
@@ -44,7 +47,7 @@
   "section_break_fsbn",
   "travel_expense",
   "profit_tab",
-  "profit_",
+  "profit_percentage",
   "profit_amount",
   "column_break_strq",
   "total_project_cost"
@@ -60,12 +63,14 @@
    "fieldname": "total_amount",
    "fieldtype": "Currency",
    "label": "Total Amount",
-   "precision": "2"
+   "precision": "2",
+   "read_only": 1
   },
   {
    "fieldname": "total_supply_amount",
    "fieldtype": "Currency",
-   "label": "Total Supply Amount "
+   "label": "Total Supply Amount ",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_krsu",
@@ -74,7 +79,8 @@
   {
    "fieldname": "total_erection_amount",
    "fieldtype": "Currency",
-   "label": "Total (Supply Amount + Erection Amount  ) "
+   "label": "Total (Supply Amount + Erection Amount  ) ",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_kdzg",
@@ -161,11 +167,6 @@
    "label": "Profit"
   },
   {
-   "fieldname": "profit_",
-   "fieldtype": "Float",
-   "label": "Profit %"
-  },
-  {
    "fieldname": "opportunity",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -175,7 +176,7 @@
   },
   {
    "fieldname": "profit_amount",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "label": "Profit Amount"
   },
   {
@@ -184,7 +185,7 @@
   },
   {
    "fieldname": "total_project_cost",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "label": "Total Project Cost"
   },
   {
@@ -221,17 +222,20 @@
   {
    "fieldname": "total_technical_amount",
    "fieldtype": "Currency",
-   "label": "Total Technical Amount "
+   "label": "Total Technical Amount ",
+   "read_only": 1
   },
   {
    "fieldname": "total_amount_of_eia",
    "fieldtype": "Currency",
-   "label": "Total Amount"
+   "label": "Total Amount",
+   "read_only": 1
   },
   {
    "fieldname": "total_expense",
    "fieldtype": "Currency",
-   "label": "Total Expense"
+   "label": "Total Expense",
+   "read_only": 1
   },
   {
    "fieldname": "man_days",
@@ -241,18 +245,21 @@
   },
   {
    "fieldname": "total_man_days_amount",
-   "fieldtype": "Float",
-   "label": "Total Man Days Amount"
+   "fieldtype": "Currency",
+   "label": "Total Man Days Amount",
+   "read_only": 1
   },
   {
    "fieldname": "total_bare_amount",
    "fieldtype": "Currency",
-   "label": "Total Bare Amount"
+   "label": "Total Bare Amount",
+   "read_only": 1
   },
   {
    "fieldname": "total_amount_with_over_head_and_service_charges",
    "fieldtype": "Currency",
-   "label": "Total Amount With OH and SC"
+   "label": "Total Amount With OH and SC",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_hyrf",
@@ -261,17 +268,40 @@
   {
    "fieldname": "total_grand_amount",
    "fieldtype": "Currency",
-   "label": "Total Grand Amount"
+   "label": "Total Grand Amount",
+   "read_only": 1
   },
   {
    "fieldname": "total_travelling_amount",
    "fieldtype": "Currency",
-   "label": "Total Travelling Amount"
+   "label": "Total Travelling Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_over_head",
+   "fieldtype": "Currency",
+   "label": "Total Over Head",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_vspy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_cost_of_eia",
+   "fieldtype": "Currency",
+   "label": "Total Cost ",
+   "read_only": 1
+  },
+  {
+   "fieldname": "profit_percentage",
+   "fieldtype": "Percent",
+   "label": "Profit %"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-10 16:45:40.010849",
+ "modified": "2024-09-19 17:43:29.239918",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",

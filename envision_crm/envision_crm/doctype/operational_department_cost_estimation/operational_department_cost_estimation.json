@@ -19,6 +19,7 @@
   "monthly_salary",
   "working_days",
   "bonus_percentage",
+  "profit_percentage",
   "section_break_fgym",
   "total_minimum_wage",
   "epf_amount",
@@ -140,7 +141,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Selling Item",
-   "options": "Item Type"
+   "options": "Item"
   },
   {
    "fieldname": "quantity",
@@ -220,12 +221,18 @@
    "fieldname": "grand_total_amount",
    "fieldtype": "Currency",
    "label": "Grand Total Amount"
+  },
+  {
+   "fieldname": "profit_percentage",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Profit(%) "
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-09-06 15:55:54.025773",
+ "modified": "2024-09-12 12:51:04.113389",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Operational Department Cost Estimation",

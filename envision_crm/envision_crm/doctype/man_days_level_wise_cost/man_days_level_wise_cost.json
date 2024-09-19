@@ -22,14 +22,14 @@
    "fieldname": "amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Amount",
+   "label": "Per Hour Amount",
    "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-09-09 16:58:07.628424",
+ "modified": "2024-09-11 16:41:49.263813",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Man Days Level Wise Cost",

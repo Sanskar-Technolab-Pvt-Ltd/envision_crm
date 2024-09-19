@@ -5,7 +5,10 @@ def create_quotation(cost_estimation_id, opportunity):
     try:
         # Fetch Opportunity details (opportunity_from and party_name)
         opportunity_details = frappe.get_value(
-            "Opportunity", opportunity, ["opportunity_from", "party_name"], as_dict=True
+            "Opportunity",
+            opportunity,
+            ["opportunity_from", "party_name", "custom_department","custom_project_type"],
+            as_dict=True,
         )
 
         if not opportunity_details:
@@ -32,6 +35,8 @@ def create_quotation(cost_estimation_id, opportunity):
             {
                 "quotation_to": opportunity_details.opportunity_from,
                 "party_name": opportunity_details.party_name,
+                "custom_department": opportunity_details.custom_department,
+                "custom_project_type":opportunity_details.custom_project_type,
                 "custom_cost_estimation": cost_estimation_id,
             }
         )
@@ -58,11 +63,3 @@ def create_quotation(cost_estimation_id, opportunity):
     except frappe.DoesNotExistError as e:
         frappe.log_error(f"Document not found: {str(e)}", "create_quotation")
         return {"status": "error", "message": f"Document not found: {str(e)}"}
-
-    except frappe.ValidationError as e:
-        frappe.log_error(f"Validation error: {str(e)}", "create_quotation")
-        return {"status": "error", "message": f"Validation error: {str(e)}"}
-
-    except Exception as e:
-        frappe.log_error(f"Unexpected error: {str(e)}", "create_quotation")
-        return {"status": "error", "message": f"An unexpected error occurred: {str(e)}"}

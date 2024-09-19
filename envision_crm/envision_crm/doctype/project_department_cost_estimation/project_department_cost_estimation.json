@@ -46,8 +46,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Item Code ",
-   "options": "Item",
-   "reqd": 1
+   "options": "Item"
   },
   {
    "fieldname": "column_break_wiqm",
@@ -220,7 +219,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-09-05 15:25:09.433278",
+ "modified": "2024-09-11 11:56:53.073364",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Project Department Cost Estimation",

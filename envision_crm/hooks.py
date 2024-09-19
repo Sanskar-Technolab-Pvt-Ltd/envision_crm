@@ -13,6 +13,7 @@ app_license = "mit"
 # app_include_css = "/assets/envision_crm/css/envision_crm.css"
 app_include_js = [
     "/assets/envision_crm/js/quotation.js",
+    # "/assets/envision_crm/js/opportunity.js",
     # "/assets/envision_crm/js/cost_estimation.js",
 ]
 
@@ -31,7 +32,10 @@ app_include_js = [
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Cost Estimation": "public/js/cost_estimation.js"}
+doctype_js = {
+    "Cost Estimation": "public/js/cost_estimation.js",
+    "Opportunity": "public/js/opportunity.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
