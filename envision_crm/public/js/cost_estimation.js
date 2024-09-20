@@ -248,6 +248,7 @@ frappe.ui.form.on("Project Department Cost Estimation", {
   total_amount_with_erection: function (frm, cdt, cdn) {
     parent_item_wise_total_amount(
       frm,
+      "projects_department_cost_estimation",
       "total_amount_with_erection",
       "quantity"
     );
@@ -403,13 +404,18 @@ function update_totals(frm) {
 //   frm.refresh_field("quotation_items");
 // }
 
-function parent_item_wise_total_amount(frm, total_amount_field, qty_field) {
+function parent_item_wise_total_amount(
+  frm,
+  child_table,
+  total_amount_field,
+  qty_field
+) {
   // Initialize objects to store the sum of total_amount and total_qty for each selling_item
   let selling_item_totals = {};
   let selling_item_quantities = {};
 
   // Iterate over each row in the child table (projects_department_cost_estimation)
-  frm.doc.projects_department_cost_estimation.forEach((row) => {
+  frm.doc[child_table].forEach((row) => {
     let selling_item = row.selling_item;
 
     // If the selling_item doesn't exist in the objects, initialize them
@@ -441,7 +447,7 @@ function parent_item_wise_total_amount(frm, total_amount_field, qty_field) {
       let total_qty = selling_item_quantities[item_code];
 
       // Set the quantity and calculate the amount (rate * total quantity)
-      let amount = rate * total_qty;
+      let amount = rate * row.quantity;
 
       // Set the rate, quantity, and amount for the current item row
       frappe.model.set_value(row.doctype, row.name, "rate", Math.round(rate));
@@ -488,9 +494,22 @@ frappe.ui.form.on("EIA Department Cost Estimation", {
     update_total_values(frm);
   },
 
+  item_type: function (frm, cdt, cdn) {
+    update_total_values(frm);
+    update_costs_and_totals(frm, cdt, cdn);
+
+  },
+
   expense: function (frm, cdt, cdn) {
     update_total_values(frm);
+    parent_item_wise_total_amount(
+      frm,
+      "eia_department_cost_estimation",
+      "expense",
+      "no_of_persons"
+    );
   },
+  
 });
 
 // Set the selling item in the first row of the quotation items
@@ -652,7 +671,22 @@ frappe.ui.form.on("Operational Department Cost Estimation", {
 
   grand_total_amount: function (frm, cdt, cdn) {
     total_amounts_of_operational_department(frm);
+    parent_item_wise_total_amount(
+      frm,
+      "operational_department_cost_estimation",
+      "grand_total_amount",
+      "quantity"
+    );
   },
+
+  // grand_total_amount: function (frm, cdt, cdn) {
+  //   parent_item_wise_total_amount(
+  //     frm,
+  //     "operational_department_cost_estimation",
+  //     "grand_total_amount",
+  //     "quantity"
+  //   );
+  // },
 });
 
 // Function to handle total cost calculations
