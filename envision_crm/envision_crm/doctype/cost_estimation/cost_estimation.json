@@ -45,7 +45,9 @@
   "section_break_piye",
   "total_man_days_amount",
   "section_break_fsbn",
-  "travel_expense",
+  "other_expense",
+  "section_break_mqxn",
+  "total_other_expense",
   "profit_tab",
   "profit_percentage",
   "profit_amount",
@@ -100,7 +102,7 @@
   {
    "fieldname": "quotation_items",
    "fieldtype": "Table",
-   "label": "Quotation Items",
+   "label": "Selling Items",
    "options": "Quotation Selling Items"
   },
   {
@@ -177,7 +179,8 @@
   {
    "fieldname": "profit_amount",
    "fieldtype": "Currency",
-   "label": "Profit Amount"
+   "label": "Profit Amount",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_strq",
@@ -186,7 +189,8 @@
   {
    "fieldname": "total_project_cost",
    "fieldtype": "Currency",
-   "label": "Total Project Cost"
+   "label": "Total Project Cost",
+   "read_only": 1
   },
   {
    "fieldname": "project_template",
@@ -205,12 +209,6 @@
   {
    "fieldname": "section_break_fsbn",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "travel_expense",
-   "fieldtype": "Table",
-   "label": "Travel Expense",
-   "options": "Travel Expense"
   },
   {
    "depends_on": "eval:doc.department == 'Project - EETPL'",
@@ -297,11 +295,27 @@
    "fieldname": "profit_percentage",
    "fieldtype": "Percent",
    "label": "Profit %"
+  },
+  {
+   "fieldname": "other_expense",
+   "fieldtype": "Table",
+   "label": "Other Expense",
+   "options": "Other Expense"
+  },
+  {
+   "fieldname": "section_break_mqxn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_other_expense",
+   "fieldtype": "Currency",
+   "label": "Total Other Expense",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-19 17:43:29.239918",
+ "modified": "2024-09-20 15:08:52.906507",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",

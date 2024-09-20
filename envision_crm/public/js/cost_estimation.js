@@ -150,6 +150,8 @@ frappe.ui.form.on("Cost Estimation", {
     });
   },
 
+  // if ( "operation " in frm.doc.department )
+
   // Projects department Profit calculate
   total_erection_amount: function (frm, cdt, cdn) {
     calculate_profit_amount(frm, frm.doc.total_erection_amount);
@@ -158,6 +160,11 @@ frappe.ui.form.on("Cost Estimation", {
   // EIA department Profit calculate
   total_cost_of_eia: function (frm, cdt, cdn) {
     calculate_profit_amount(frm, frm.doc.total_cost_of_eia);
+  },
+
+  // Operational department Profit calculate
+  total_grand_amount: function (frm, cdt, cdn) {
+    calculate_profit_amount(frm, frm.doc.total_grand_amount);
   },
 });
 
@@ -201,6 +208,12 @@ frappe.ui.form.on("Project Department Cost Estimation", {
 
   projects_department_cost_estimation_remove: function (frm) {
     update_totals(frm);
+    parent_item_wise_total_amount(
+      frm,
+      "projects_department_cost_estimation",
+      "total_amount_with_erection",
+      "quantity"
+    );
   },
 
   selling_item: function (frm, cdt, cdn) {
@@ -471,6 +484,16 @@ frappe.ui.form.on("EIA Department Cost Estimation", {
   eia_department_cost_estimation_add: function (frm, cdt, cdn) {
     set_first_selling_item(frm, cdt, cdn);
   },
+  eia_department_cost_estimation_remove: function (frm, cdt, cdn) {
+    // update_costs_and_totals(frm, cdt, cdn);
+    update_total_values(frm);
+    parent_item_wise_total_amount(
+      frm,
+      "eia_department_cost_estimation",
+      "expense",
+      "no_of_persons"
+    );
+  },
 
   // when amount, no_of_persons, no_of_visit, or technical_amount fields change
   amount: function (frm, cdt, cdn) {
@@ -497,7 +520,6 @@ frappe.ui.form.on("EIA Department Cost Estimation", {
   item_type: function (frm, cdt, cdn) {
     update_total_values(frm);
     update_costs_and_totals(frm, cdt, cdn);
-
   },
 
   expense: function (frm, cdt, cdn) {
@@ -509,7 +531,15 @@ frappe.ui.form.on("EIA Department Cost Estimation", {
       "no_of_persons"
     );
   },
-  
+
+  // total_cost_of_eia:function(frm){
+  //    parent_item_wise_total_amount(
+  //      frm,
+  //      "eia_department_cost_estimation",
+  //      "expense",
+  //      "no_of_persons"
+  //    );
+  // },
 });
 
 // Set the selling item in the first row of the quotation items
@@ -542,7 +572,8 @@ function calculate_travelling_amount(frm, cdt, cdn) {
   let travelling_amount = no_of_persons * no_of_visit * amount;
   frappe.model.set_value(cdt, cdn, "travelling_amount", travelling_amount);
 
-  calculate_expense_and_overhead(frm, cdt, cdn); // Calculate expense and overhead
+  // Calculate expense and overhead
+  calculate_expense_and_overhead(frm, cdt, cdn);
 }
 
 // Calculate the expense and overhead based on the item type
@@ -617,6 +648,12 @@ frappe.ui.form.on("Operational Department Cost Estimation", {
 
   operational_department_cost_estimation_remove: function (frm, cdt, cdn) {
     total_amounts_of_operational_department(frm);
+    parent_item_wise_total_amount(
+      frm,
+      "operational_department_cost_estimation",
+      "grand_total_amount",
+      "quantity"
+    );
   },
 
   minimum_wages: function (frm, cdt, cdn) {
@@ -1092,4 +1129,64 @@ function update_total_man_days_amount(frm) {
 
   // Refresh the fields to reflect the changes
   frm.refresh_field("total_man_days_amount");
+}
+
+// Travle Expense Calculate
+frappe.ui.form.on("Other Expense", {
+  other_expense_remove:function(frm){
+    calculate_total_other_expense(frm);
+
+  },
+  rate: function (frm, cdt, cdn) {
+    calculate_other_expense_amount(frm, cdt, cdn);
+    calculate_total_other_expense(frm);
+  },
+  quantity: function (frm, cdt, cdn) {
+    calculate_other_expense_amount(frm, cdt, cdn);
+    calculate_total_other_expense(frm);
+  },
+  days: function (frm, cdt, cdn) {
+    calculate_other_expense_amount(frm, cdt, cdn);
+    calculate_total_other_expense(frm);
+  },
+
+  expense_type: function (frm, cdt, cdn) {
+    calculate_other_expense_amount(frm, cdt, cdn);
+    calculate_total_other_expense(frm);
+  },
+});
+
+function calculate_other_expense_amount(frm, cdt, cdn) {
+  let current_row = locals[cdt][cdn];
+  let amount = 0;
+  let rate = current_row.rate || 0;
+  let days = current_row.days || 0;
+  let quantity = current_row.quantity || 0;
+
+  if (current_row.expense_type === "Travel") {
+    amount = rate * quantity;
+  } else if (current_row.expense_type === "Food") {
+    amount = rate * quantity * days;
+  } else {
+    amount = rate;
+  }
+
+  // Set the calculated amount for the current row
+  frappe.model.set_value(cdt, cdn, "amount", Math.round(amount));
+}
+
+
+function calculate_total_other_expense(frm) {
+  let total_other_expense = 0;
+
+  // Iterate over each row in the "Other Expense" child table
+  frm.doc.other_expense.forEach((row) => {
+    total_other_expense += row.amount || 0; // Sum up the amounts of all rows
+  });
+
+  // Set the calculated total into the total_other_expense field
+  frm.set_value("total_other_expense", Math.round(total_other_expense));
+
+  // Refresh the field to reflect the change
+  frm.refresh_field("total_other_expense");
 }
