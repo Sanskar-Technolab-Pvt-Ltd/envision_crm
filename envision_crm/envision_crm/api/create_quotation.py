@@ -28,7 +28,8 @@ def create_quotation(cost_estimation_id, opportunity):
                     cost_estimation_id
                 )
             )
-
+        print("\n\n\n data ",[opportunity_details, sorted_quotation_selling_items])
+        # return [opportunity_details, sorted_quotation_selling_items]
         # Create and populate Quotation
         new_quotation = frappe.new_doc("Quotation")
         new_quotation.update(
@@ -58,7 +59,11 @@ def create_quotation(cost_estimation_id, opportunity):
         frappe.db.commit()
         frappe.msgprint("Quotation created successfully")
 
-        return {"status": "success", "message":("Quotation created successfully")}
+        return {
+            "quotation_name": new_quotation.name,
+            "opportunity_details": opportunity_details,
+            "sorted_quotation_selling_items": sorted_quotation_selling_items,
+        }
 
     except frappe.DoesNotExistError as e:
         frappe.log_error(f"Document not found: {str(e)}", "create_quotation")

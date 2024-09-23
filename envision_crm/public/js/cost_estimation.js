@@ -1,22 +1,30 @@
 frappe.ui.form.on("Cost Estimation", {
   refresh: function (frm) {
     frm.add_custom_button("Create Quotation", () => {
-      frappe.call({
-        method:
-          "envision_crm.envision_crm.api.create_quotation.create_quotation",
-        args: {
-          cost_estimation_id: frm.doc.name,
-          opportunity: frm.doc.opportunity,
-          //  item_name: current_row.selling_item,
-        },
-        callback: function (r) {
-          if (!r.exc) {
-            //  console.log(r.message);
-          }
-        },
-      });
-    });
-  },
+      // Asking confirmation message
+      frappe.confirm(
+        "Are you sure you want to create a Quotation?",
+        function () {
+          // Frappe call for crewating quotation with common data
+          frappe.call({
+            method:
+              "envision_crm.envision_crm.api.create_quotation.create_quotation",
+            args: {
+              cost_estimation_id: frm.doc.name,
+              opportunity: frm.doc.opportunity,
+              //  item_name: current_row.selling_item,
+            },
+            callback: function (r) {
+              if (!r.exc) {
+                // Set the set_route to quotation form
+                frappe.set_route("Form", "Quotation", r.message.quotation_name);
+              }
+            },
+          }); // End frappe call
+        }
+      ); // End Conformation message
+    }); // End click button function
+  }, // End refresh event 
 
   // if Opportunity change then all fields are reset.
   opportunity: function (frm) {
@@ -1133,9 +1141,8 @@ function update_total_man_days_amount(frm) {
 
 // Travle Expense Calculate
 frappe.ui.form.on("Other Expense", {
-  other_expense_remove:function(frm){
+  other_expense_remove: function (frm) {
     calculate_total_other_expense(frm);
-
   },
   rate: function (frm, cdt, cdn) {
     calculate_other_expense_amount(frm, cdt, cdn);
@@ -1174,7 +1181,6 @@ function calculate_other_expense_amount(frm, cdt, cdn) {
   // Set the calculated amount for the current row
   frappe.model.set_value(cdt, cdn, "amount", Math.round(amount));
 }
-
 
 function calculate_total_other_expense(frm) {
   let total_other_expense = 0;
