@@ -35,6 +35,7 @@ app_include_js = [
 doctype_js = {
     "Cost Estimation": "public/js/cost_estimation.js",
     "Opportunity": "public/js/opportunity.js",
+    "Lead": "public/js/lead.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -129,13 +130,20 @@ doctype_js = {
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+    # "Lead": {
+    #     "before_save": "envision_crm.envision_crm.api.lead.naming_series",
+    # },
+    # "Opportunity": {
+    #     "before_save": "envision_crm.envision_crm.api.opportunity.naming_series",
+    # },
+    # "Quotation": {
+    #     "before_save": "envision_crm.envision_crm.api.quotation.naming_series",
+    # },
+    # "Cost Estimation": {
+    #     "before_save": "envision_crm.envision_crm.api.cost_estimation.naming_series",
+    # },
+}
 
 # Scheduled Tasks
 # ---------------

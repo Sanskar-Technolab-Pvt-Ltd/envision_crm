@@ -1,5 +1,5 @@
 frappe.ui.form.on("Cost Estimation", {
-  refresh: function (frm) {
+  on_submit: function (frm) {
     frm.add_custom_button("Create Quotation", () => {
       // Asking confirmation message
       frappe.confirm(
@@ -24,7 +24,7 @@ frappe.ui.form.on("Cost Estimation", {
         }
       ); // End Conformation message
     }); // End click button function
-  }, // End refresh event 
+  }, // End refresh event
 
   // if Opportunity change then all fields are reset.
   opportunity: function (frm) {

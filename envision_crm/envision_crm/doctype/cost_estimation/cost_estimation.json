@@ -2,7 +2,7 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "format:QTN-SCC-{###}",
+ "autoname": "format:CC{company_code}{YY}{####}",
  "creation": "2024-07-25 13:17:56.990933",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -11,6 +11,10 @@
   "section_break_kdzg",
   "opportunity",
   "department",
+  "column_break_afuw",
+  "company",
+  "company_code",
+  "amended_from",
   "section_break_lewm",
   "quotation_items",
   "section_break_yoys",
@@ -311,11 +315,39 @@
    "fieldtype": "Currency",
    "label": "Total Other Expense",
    "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Cost Estimation",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_afuw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fetch_from": "company.custom_company_code",
+   "fieldname": "company_code",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Company Code"
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2024-09-20 15:08:52.906507",
+ "modified": "2024-09-24 13:23:35.659380",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",
@@ -337,5 +369,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }
