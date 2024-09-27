@@ -11,7 +11,11 @@ app_license = "mit"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/envision_crm/css/envision_crm.css"
-app_include_js = "/assets/envision_crm/js/quotation.js"
+app_include_js = [
+    "/assets/envision_crm/js/quotation.js",
+    # "/assets/envision_crm/js/opportunity.js",
+    # "/assets/envision_crm/js/cost_estimation.js",
+]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/envision_crm/css/envision_crm.css"
@@ -28,7 +32,11 @@ app_include_js = "/assets/envision_crm/js/quotation.js"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+    "Cost Estimation": "public/js/cost_estimation.js",
+    "Opportunity": "public/js/opportunity.js",
+    "Lead": "public/js/lead.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -122,13 +130,20 @@ app_include_js = "/assets/envision_crm/js/quotation.js"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+    # "Lead": {
+    #     "before_save": "envision_crm.envision_crm.api.lead.naming_series",
+    # },
+    # "Opportunity": {
+    #     "before_save": "envision_crm.envision_crm.api.opportunity.naming_series",
+    # },
+    # "Quotation": {
+    #     "before_save": "envision_crm.envision_crm.api.quotation.naming_series",
+    # },
+    # "Cost Estimation": {
+    #     "before_save": "envision_crm.envision_crm.api.cost_estimation.naming_series",
+    # },
+}
 
 # Scheduled Tasks
 # ---------------
@@ -265,13 +280,16 @@ app_include_js = "/assets/envision_crm/js/quotation.js"
 # ]
 
 fixtures = [
-    {
-        "dt": "Property Setter",
-        "filters": [
-            ["doc_type", "in", ["Lead", "Opportunity"]],
-            ["property", "=", "naming_series"],
-        ],
-    },
+    # {
+    #     "dt": "Property Setter",
+    #     "filters": [
+    #         ["doc_type", "in", ["Lead", "Opportunity"]],
+    #         ["property", "=", "naming_series"],
+    #     ],
+    # },
     {"dt": "Print Format", "filters": [["name", "in", ["Print Offer"]]]},
-    {"dt": "Letter Head", "filters": [["name", "in", ["Offer Print"]]]},
+    {
+        "dt": "Letter Head",
+        "filters": [["name", "in", ["Offer Print", "Continuous Head"]]],
+    },
 ]

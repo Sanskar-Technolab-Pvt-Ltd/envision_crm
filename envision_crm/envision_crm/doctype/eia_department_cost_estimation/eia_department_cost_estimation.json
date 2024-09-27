@@ -6,16 +6,22 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "parent_item",
+  "selling_item",
   "item_code",
-  "item_name",
+  "column_break_ywwd",
+  "item_type",
+  "unit",
   "section_break_awxd",
-  "technical_cost",
-  "travelling_cost",
+  "technical_amount",
+  "amount",
   "column_break_fqwx",
   "no_of_persons",
   "no_of_visit",
-  "amount"
+  "section_break_ywfo",
+  "travelling_amount",
+  "column_break_oeim",
+  "expense",
+  "over_head"
  ],
  "fields": [
   {
@@ -26,25 +32,8 @@
    "options": "Item"
   },
   {
-   "fieldname": "item_name",
-   "fieldtype": "Data",
-   "label": "Item Name"
-  },
-  {
    "fieldname": "section_break_awxd",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "technical_cost",
-   "fieldtype": "Float",
-   "in_list_view": 1,
-   "label": "Technical Cost"
-  },
-  {
-   "fieldname": "travelling_cost",
-   "fieldtype": "Float",
-   "in_list_view": 1,
-   "label": "Travelling Cost"
   },
   {
    "fieldname": "column_break_fqwx",
@@ -64,22 +53,69 @@
   },
   {
    "fieldname": "amount",
-   "fieldtype": "Float",
+   "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Amount"
   },
   {
-   "fieldname": "parent_item",
+   "fieldname": "selling_item",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Parent Item ",
-   "options": "Item Type"
+   "label": "Selling Item",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ywwd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "unit",
+   "fieldtype": "Link",
+   "label": "Unit",
+   "options": "UOM"
+  },
+  {
+   "fieldname": "section_break_ywfo",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_oeim",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expense",
+   "fieldtype": "Currency",
+   "label": "Expense"
+  },
+  {
+   "fieldname": "travelling_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Travelling Amount"
+  },
+  {
+   "fieldname": "technical_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Technical Amount"
+  },
+  {
+   "fieldname": "item_type",
+   "fieldtype": "Select",
+   "label": "Item Type",
+   "options": "Expense\nNon Expense"
+  },
+  {
+   "fieldname": "over_head",
+   "fieldtype": "Currency",
+   "label": "Over Head"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-07 10:38:03.085894",
+ "modified": "2024-09-12 11:03:49.824454",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "EIA Department Cost Estimation",

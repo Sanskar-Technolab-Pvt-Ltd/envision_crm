@@ -1,14 +1,9 @@
 # Copyright (c) 2024, Envision and contributors
 # For license information, please see license.txt
 
-import frappe
+# import frappe
 from frappe.model.document import Document
 
 
-class CostEstimation(Document):
-    pass
-
-
-@frappe.whitelist()
-def test():
-    pass
+class DefineManDaysPrice(Document):
+	pass

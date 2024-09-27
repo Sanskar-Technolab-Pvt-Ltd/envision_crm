@@ -2,17 +2,23 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "format:QTN-SCC-{###}",
+ "autoname": "format:CC{company_code}{YY}{####}",
  "creation": "2024-07-25 13:17:56.990933",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "expense_tab",
   "section_break_kdzg",
+  "opportunity",
   "department",
+  "column_break_afuw",
+  "company",
+  "company_code",
+  "amended_from",
   "section_break_lewm",
   "quotation_items",
   "section_break_yoys",
-  "items",
+  "projects_department_cost_estimation",
   "section_break_zqms",
   "total_amount",
   "total_supply_amount",
@@ -21,35 +27,56 @@
   "eia_department_cost_estimation_section",
   "eia_department_cost_estimation",
   "eia_department_total_cost_section",
-  "total_technical_cost",
-  "total_travelling_cost",
+  "total_technical_amount",
+  "total_travelling_amount",
+  "total_over_head",
   "column_break_tyfz",
-  "total_amount_eia",
+  "total_amount_of_eia",
+  "total_expense",
+  "column_break_vspy",
+  "total_cost_of_eia",
   "section_break_payf",
   "operational_department_cost_estimation",
   "operational_department_total_cost_section",
-  "total_bare_cost"
+  "total_bare_amount",
+  "total_amount_with_over_head_and_service_charges",
+  "column_break_hyrf",
+  "total_grand_amount",
+  "overhead_tab",
+  "project_template",
+  "section_break_sepy",
+  "man_days",
+  "section_break_piye",
+  "total_man_days_amount",
+  "section_break_fsbn",
+  "other_expense",
+  "section_break_mqxn",
+  "total_other_expense",
+  "profit_tab",
+  "profit_percentage",
+  "profit_amount",
+  "column_break_strq",
+  "total_project_cost"
  ],
  "fields": [
   {
-   "fieldname": "items",
-   "fieldtype": "Table",
-   "options": "Project Department Cost Estimation"
-  },
-  {
+   "depends_on": "eval:doc.department == 'Project - EETPL'",
    "fieldname": "section_break_zqms",
    "fieldtype": "Section Break",
    "label": "Projects Department Total Cost"
   },
   {
    "fieldname": "total_amount",
-   "fieldtype": "Float",
-   "label": "Total Amount"
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "precision": "2",
+   "read_only": 1
   },
   {
    "fieldname": "total_supply_amount",
-   "fieldtype": "Float",
-   "label": "Total Supply Amount "
+   "fieldtype": "Currency",
+   "label": "Total Supply Amount ",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_krsu",
@@ -57,14 +84,16 @@
   },
   {
    "fieldname": "total_erection_amount",
-   "fieldtype": "Float",
-   "label": "Total Erection Amount "
+   "fieldtype": "Currency",
+   "label": "Total (Supply Amount + Erection Amount  ) ",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_kdzg",
    "fieldtype": "Section Break"
   },
   {
+   "depends_on": "eval:doc.department == 'Project - EETPL'",
    "fieldname": "section_break_yoys",
    "fieldtype": "Section Break",
    "label": "Projects Department Cost Estimation"
@@ -77,16 +106,18 @@
   {
    "fieldname": "quotation_items",
    "fieldtype": "Table",
-   "label": "Quotation Items",
+   "label": "Selling Items",
    "options": "Quotation Selling Items"
   },
   {
+   "fetch_from": "opportunity.custom_department",
    "fieldname": "department",
    "fieldtype": "Link",
    "label": "Department",
    "options": "Department"
   },
   {
+   "depends_on": "eval:doc.department == 'EIA - EETPL'",
    "fieldname": "eia_department_cost_estimation_section",
    "fieldtype": "Section Break",
    "label": "EIA Department Cost Estimation"
@@ -98,53 +129,225 @@
    "options": "EIA Department Cost Estimation"
   },
   {
+   "depends_on": "eval:doc.department == 'EIA - EETPL'",
    "fieldname": "eia_department_total_cost_section",
    "fieldtype": "Section Break",
    "label": "EIA Department Total Cost"
-  },
-  {
-   "fieldname": "total_technical_cost",
-   "fieldtype": "Float",
-   "label": "Total Technical Cost "
-  },
-  {
-   "fieldname": "total_travelling_cost",
-   "fieldtype": "Float",
-   "label": "Total Travelling Cost"
   },
   {
    "fieldname": "column_break_tyfz",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "total_amount_eia",
-   "fieldtype": "Float",
-   "label": "Total Amount"
-  },
-  {
+   "depends_on": "eval:doc.department == 'Operations - EETPL'",
    "fieldname": "section_break_payf",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Operational Department Cost Estimation"
   },
   {
+   "depends_on": "eval:doc.department == 'Operations - EETPL'",
    "fieldname": "operational_department_cost_estimation",
    "fieldtype": "Table",
    "label": "Operational Department Cost Estimation",
    "options": "Operational Department Cost Estimation"
   },
   {
+   "depends_on": "eval:doc.department == 'Operations - EETPL'",
    "fieldname": "operational_department_total_cost_section",
    "fieldtype": "Section Break",
    "label": "Operational Department Total Cost "
   },
   {
-   "fieldname": "total_bare_cost",
-   "fieldtype": "Float",
-   "label": "Total Bare Cost"
+   "fieldname": "overhead_tab",
+   "fieldtype": "Tab Break",
+   "label": "Man Days"
+  },
+  {
+   "fieldname": "expense_tab",
+   "fieldtype": "Tab Break",
+   "label": "Expense"
+  },
+  {
+   "fieldname": "profit_tab",
+   "fieldtype": "Tab Break",
+   "label": "Profit"
+  },
+  {
+   "fieldname": "opportunity",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Opportunity",
+   "options": "Opportunity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "profit_amount",
+   "fieldtype": "Currency",
+   "label": "Profit Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_strq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_project_cost",
+   "fieldtype": "Currency",
+   "label": "Total Project Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "project_template",
+   "fieldtype": "Link",
+   "label": "Project Template",
+   "options": "Project Template"
+  },
+  {
+   "fieldname": "section_break_sepy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_piye",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_fsbn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.department == 'Project - EETPL'",
+   "fieldname": "projects_department_cost_estimation",
+   "fieldtype": "Table",
+   "label": "Projects Department Cost Estimation",
+   "options": "Project Department Cost Estimation"
+  },
+  {
+   "fieldname": "total_technical_amount",
+   "fieldtype": "Currency",
+   "label": "Total Technical Amount ",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_amount_of_eia",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_expense",
+   "fieldtype": "Currency",
+   "label": "Total Expense",
+   "read_only": 1
+  },
+  {
+   "fieldname": "man_days",
+   "fieldtype": "Table",
+   "label": "Man Days",
+   "options": "Man Days"
+  },
+  {
+   "fieldname": "total_man_days_amount",
+   "fieldtype": "Currency",
+   "label": "Total Man Days Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_bare_amount",
+   "fieldtype": "Currency",
+   "label": "Total Bare Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_amount_with_over_head_and_service_charges",
+   "fieldtype": "Currency",
+   "label": "Total Amount With OH and SC",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_hyrf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_grand_amount",
+   "fieldtype": "Currency",
+   "label": "Total Grand Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_travelling_amount",
+   "fieldtype": "Currency",
+   "label": "Total Travelling Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_over_head",
+   "fieldtype": "Currency",
+   "label": "Total Over Head",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_vspy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_cost_of_eia",
+   "fieldtype": "Currency",
+   "label": "Total Cost ",
+   "read_only": 1
+  },
+  {
+   "fieldname": "profit_percentage",
+   "fieldtype": "Percent",
+   "label": "Profit %"
+  },
+  {
+   "fieldname": "other_expense",
+   "fieldtype": "Table",
+   "label": "Other Expense",
+   "options": "Other Expense"
+  },
+  {
+   "fieldname": "section_break_mqxn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_other_expense",
+   "fieldtype": "Currency",
+   "label": "Total Other Expense",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Cost Estimation",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_afuw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fetch_from": "company.custom_company_code",
+   "fieldname": "company_code",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Company Code"
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2024-08-12 13:07:05.702865",
+ "modified": "2024-09-24 13:23:35.659380",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",
@@ -166,5 +369,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }
