@@ -1,7 +1,8 @@
 import frappe 
 
+
 @frappe.whitelist()
-def create_quotation(cost_estimation_id, opportunity):
+def create_quotation(cost_estimation_id, opportunity, company):
     try:
         # Fetch Opportunity details (opportunity_from and party_name)
         opportunity_details = frappe.get_value(
@@ -37,8 +38,9 @@ def create_quotation(cost_estimation_id, opportunity):
                 "quotation_to": opportunity_details.opportunity_from,
                 "party_name": opportunity_details.party_name,
                 "custom_department": opportunity_details.custom_department,
-                "custom_project_type":opportunity_details.custom_project_type,
+                "custom_project_type": opportunity_details.custom_project_type,
                 "custom_cost_estimation": cost_estimation_id,
+                "company": company,
             }
         )
 

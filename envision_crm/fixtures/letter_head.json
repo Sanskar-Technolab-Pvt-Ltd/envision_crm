@@ -1,5 +1,28 @@
 [
  {
+  "align": "Center",
+  "content": "<div style=\"text-align: center;\">\n<img src=\"/files/Envision Contineous Head.png\" alt=\"Continuous Head\" height=\"\" style=\"height: px;\">\n</div>",
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Letter Head",
+  "footer": "<div style=\"text-align: right;\">\n<img src=\"/files/Contineous Head footer.png\" alt=\"Continuous Head\" width=\"200.0\" style=\"width: 200.0px;\">\n</div>",
+  "footer_align": "Right",
+  "footer_image": "/files/Contineous Head footer.png",
+  "footer_image_height": 0.0,
+  "footer_image_width": 200.0,
+  "footer_script": null,
+  "footer_source": "Image",
+  "header_script": null,
+  "image": "/files/Envision Contineous Head.png",
+  "image_height": 0.0,
+  "image_width": 0.0,
+  "is_default": 0,
+  "letter_head_name": "Continuous Head",
+  "modified": "2024-09-27 11:53:42.768974",
+  "name": "Continuous Head",
+  "source": "Image"
+ },
+ {
   "align": "Right",
   "content": "<div style=\"text-align: right;\">\n<img src=\"/files/Envision Logo.svg\" alt=\"Offer Print\" height=\"50.0\" style=\"height: 50.0px;\">\n</div>",
   "disabled": 0,
@@ -15,10 +38,10 @@
   "header_script": null,
   "image": "/files/Envision Logo.svg",
   "image_height": 50.0,
-  "image_width": 50.0,
+  "image_width": 5.0,
   "is_default": 1,
   "letter_head_name": "Offer Print",
-  "modified": "2024-09-19 19:04:43.632858",
+  "modified": "2024-09-26 13:20:36.327261",
   "name": "Offer Print",
   "source": "Image"
  }

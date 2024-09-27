@@ -12,7 +12,7 @@ frappe.ui.form.on("Cost Estimation", {
             args: {
               cost_estimation_id: frm.doc.name,
               opportunity: frm.doc.opportunity,
-              //  item_name: current_row.selling_item,
+               company: frm.doc.company,
             },
             callback: function (r) {
               if (!r.exc) {
@@ -50,6 +50,19 @@ frappe.ui.form.on("Cost Estimation", {
     frm.set_value("profit_percentage", 0);
     frm.set_value("profit_amount", 0);
     frm.set_value("total_project_cost", 0);
+
+    // show priority and due_date field
+    // if status is Open
+    frm.toggle_display(
+      [
+        "projects_department_cost_estimation",
+        "total_amount",
+        "total_supply_amount",
+        "total_erection_amount",
+      ],
+      frm.doc.department === frm.doc.department
+    );
+
   },
 
   project_template: function (frm) {

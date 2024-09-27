@@ -288,5 +288,8 @@ fixtures = [
     #     ],
     # },
     {"dt": "Print Format", "filters": [["name", "in", ["Print Offer"]]]},
-    {"dt": "Letter Head", "filters": [["name", "in", ["Offer Print"]]]},
+    {
+        "dt": "Letter Head",
+        "filters": [["name", "in", ["Offer Print", "Continuous Head"]]],
+    },
 ]
