@@ -15,6 +15,7 @@
   "company",
   "company_code",
   "amended_from",
+  "quotation",
   "section_break_lewm",
   "quotation_items",
   "section_break_yoys",
@@ -47,6 +48,11 @@
   "section_break_sepy",
   "man_days",
   "section_break_piye",
+  "total_level_1_hours",
+  "total_level_2_hours",
+  "column_break_lbjz",
+  "total_level_3_hours",
+  "total_level_4_hours",
   "total_man_days_amount",
   "section_break_fsbn",
   "other_expense",
@@ -123,6 +129,7 @@
    "label": "EIA Department Cost Estimation"
   },
   {
+   "allow_bulk_edit": 1,
    "fieldname": "eia_department_cost_estimation",
    "fieldtype": "Table",
    "label": "EIA Department Cost Estimation",
@@ -145,6 +152,7 @@
    "label": "Operational Department Cost Estimation"
   },
   {
+   "allow_bulk_edit": 1,
    "depends_on": "eval:doc.department == 'Operations - EETPL'",
    "fieldname": "operational_department_cost_estimation",
    "fieldtype": "Table",
@@ -215,6 +223,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "allow_bulk_edit": 1,
    "depends_on": "eval:doc.department == 'Project - EETPL'",
    "fieldname": "projects_department_cost_estimation",
    "fieldtype": "Table",
@@ -240,6 +249,7 @@
    "read_only": 1
   },
   {
+   "allow_bulk_edit": 1,
    "fieldname": "man_days",
    "fieldtype": "Table",
    "label": "Man Days",
@@ -301,6 +311,7 @@
    "label": "Profit %"
   },
   {
+   "allow_bulk_edit": 1,
    "fieldname": "other_expense",
    "fieldtype": "Table",
    "label": "Other Expense",
@@ -342,12 +353,48 @@
    "fieldtype": "Data",
    "hidden": 1,
    "label": "Company Code"
+  },
+  {
+   "fieldname": "quotation",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Quotation",
+   "options": "Quotation"
+  },
+  {
+   "fieldname": "column_break_lbjz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_level_1_hours",
+   "fieldtype": "Float",
+   "label": "Total L1 Hourse"
+  },
+  {
+   "fieldname": "total_level_2_hours",
+   "fieldtype": "Float",
+   "label": "Total L2 Hourse"
+  },
+  {
+   "fieldname": "total_level_3_hours",
+   "fieldtype": "Float",
+   "label": "Total L3 Hourse"
+  },
+  {
+   "fieldname": "total_level_4_hours",
+   "fieldtype": "Float",
+   "label": "Total L4 Hourse"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
- "links": [],
- "modified": "2024-09-24 13:23:35.659380",
+ "links": [
+  {
+   "link_doctype": "Quotation",
+   "link_fieldname": "custom_cost_estimation"
+  }
+ ],
+ "modified": "2024-10-10 16:53:02.773362",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",

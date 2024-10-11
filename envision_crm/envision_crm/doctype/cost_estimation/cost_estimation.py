@@ -7,8 +7,11 @@ from frappe.model.document import Document
 
 class CostEstimation(Document):
     pass
+#     @frappe.whitelist()
+#     def test(self):
+#         return self.company
 
 
-@frappe.whitelist()
-def test():
-    pass
+# @frappe.whitelist()
+# def test():
+#     pass

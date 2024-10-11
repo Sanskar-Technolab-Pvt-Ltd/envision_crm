@@ -43,7 +43,8 @@
    "fieldname": "rate",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Rate"
+   "label": "Rate",
+   "read_only": 1
   },
   {
    "fieldname": "amount",
@@ -84,7 +85,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-09-19 17:41:32.884257",
+ "modified": "2024-10-07 18:52:27.383351",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Quotation Selling Items",

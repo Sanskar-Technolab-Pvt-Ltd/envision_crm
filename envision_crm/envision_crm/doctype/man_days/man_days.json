@@ -6,44 +6,38 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "task_details_section",
   "parent_task",
-  "child_task",
   "column_break_prde",
   "stages_of_project",
-  "activities",
   "section_break_bovu",
   "level_1_days",
-  "level_3_days",
-  "column_break_efoc",
   "level_2_days",
+  "column_break_efoc",
+  "level_3_days",
   "level_4_days",
   "section_break_tfta",
   "level_1_hours",
-  "level_3_hours",
-  "column_break_disa",
   "level_2_hours",
+  "column_break_disa",
+  "level_3_hours",
   "level_4_hours",
   "total_hours",
   "costing_section",
   "level_1_amount",
-  "level_3_amount",
-  "column_break_gvrs",
   "level_2_amount",
+  "column_break_gvrs",
+  "level_3_amount",
   "level_4_amount",
   "total_amount"
  ],
  "fields": [
   {
+   "columns": 1,
    "fieldname": "stages_of_project",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Stages of Project"
-  },
-  {
-   "fieldname": "activities",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Activities"
+   "label": "Subject"
   },
   {
    "fieldname": "section_break_bovu",
@@ -69,24 +63,28 @@
    "label": "Total Hours"
   },
   {
+   "columns": 1,
    "fieldname": "level_1_days",
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "L1 Days"
   },
   {
+   "columns": 1,
    "fieldname": "level_3_days",
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "L3 Days"
   },
   {
+   "columns": 1,
    "fieldname": "level_2_days",
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "L2 Days"
   },
   {
+   "columns": 1,
    "fieldname": "level_4_days",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -113,15 +111,11 @@
    "label": "L3 Hours "
   },
   {
+   "columns": 1,
    "fieldname": "parent_task",
    "fieldtype": "Link",
-   "label": "Parent Task",
-   "options": "Task"
-  },
-  {
-   "fieldname": "child_task",
-   "fieldtype": "Link",
-   "label": "Child Task",
+   "in_list_view": 1,
+   "label": "Task",
    "options": "Task"
   },
   {
@@ -143,30 +137,43 @@
    "label": "Total Amount"
   },
   {
+   "columns": 1,
    "fieldname": "level_1_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "L1 Amount"
   },
   {
+   "columns": 1,
    "fieldname": "level_3_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "L3 Amount"
   },
   {
+   "columns": 1,
    "fieldname": "level_2_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "L2 Amount"
   },
   {
+   "columns": 1,
    "fieldname": "level_4_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "L4 Amount"
+  },
+  {
+   "fieldname": "task_details_section",
+   "fieldtype": "Section Break",
+   "label": "Task Details"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-09-09 15:52:47.072793",
+ "modified": "2024-10-11 11:53:39.884395",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Man Days",

@@ -52,14 +52,16 @@ def create_quotation(cost_estimation_id, opportunity, company):
                     "item_code": item.item_code,
                     "qty": item.quantity,
                     "rate": item.rate,
+                    "custom_estimated_rate": item.rate,
                     "amount": item.amount,
                 },
             )
+            print("custom_estimated_rate", item.rate)
 
         # Insert the new Quotation document into the database and commit
         new_quotation.insert(ignore_permissions=True)
         frappe.db.commit()
-        frappe.msgprint("Quotation created successfully")
+        # frappe.msgprint("Quotation created successfully")
 
         return {
             "quotation_name": new_quotation.name,

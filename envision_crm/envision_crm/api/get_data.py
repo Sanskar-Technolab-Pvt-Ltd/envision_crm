@@ -54,14 +54,17 @@ def get_project_template_task_list(Project_template_id):
     task_list = frappe.get_all(
         "Project Template Task",
         filters={"parent": Project_template_id},
-        fields=["parent", "parenttype", "task", "subject"],
+        fields=["parent", "parenttype", "task", "subject","idx"],
     )
+    sorted_task_list=[]
     # print("\n\n\n",task_list)
-    organized_tasks = categorize_tasks(task_list)
-    print("\n\n\n organized_tasks", organized_tasks)
+    # organized_tasks = categorize_tasks(task_list)
+    if task_list:
 
-    return organized_tasks
+        sorted_task_list = sorted(task_list, key=lambda x: x["idx"])
+    # print("\n\n\n organized_tasks", sorted_task_list)
 
+    return sorted_task_list
 
 
 @frappe.whitelist()

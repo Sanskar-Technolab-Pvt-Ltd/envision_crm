@@ -1,29 +1,36 @@
 frappe.ui.form.on("Cost Estimation", {
-  on_submit: function (frm) {
-    frm.add_custom_button("Create Quotation", () => {
-      // Asking confirmation message
-      frappe.confirm(
-        "Are you sure you want to create a Quotation?",
-        function () {
-          // Frappe call for crewating quotation with common data
-          frappe.call({
-            method:
-              "envision_crm.envision_crm.api.create_quotation.create_quotation",
-            args: {
-              cost_estimation_id: frm.doc.name,
-              opportunity: frm.doc.opportunity,
-               company: frm.doc.company,
-            },
-            callback: function (r) {
-              if (!r.exc) {
-                // Set the set_route to quotation form
-                frappe.set_route("Form", "Quotation", r.message.quotation_name);
-              }
-            },
-          }); // End frappe call
-        }
-      ); // End Conformation message
-    }); // End click button function
+  refresh: function (frm) {
+    console.log("Referesh status ", frm.doc.docstatus);
+    if (frm.doc.docstatus === 1) {
+      frm.add_custom_button("Create Quotation", () => {
+        // Asking confirmation message
+        frappe.confirm(
+          "Are you sure you want to create a Quotation?",
+          function () {
+            // Frappe call for crewating quotation with common data
+            frappe.call({
+              method:
+                "envision_crm.envision_crm.api.create_quotation.create_quotation",
+              args: {
+                cost_estimation_id: frm.doc.name,
+                opportunity: frm.doc.opportunity,
+                company: frm.doc.company,
+              },
+              callback: function (r) {
+                if (!r.exc) {
+                  // Set the set_route to quotation form
+                  frappe.set_route(
+                    "Form",
+                    "Quotation",
+                    r.message.quotation_name
+                  );
+                }
+              },
+            }); // End frappe call
+          }
+        ); // End Conformation message
+      }); // End click button function
+    }
   }, // End refresh event
 
   // if Opportunity change then all fields are reset.
@@ -47,6 +54,11 @@ frappe.ui.form.on("Cost Estimation", {
     frm.set_value("total_amount_with_over_head_and_service_charges", 0);
     frm.set_value("total_grand_amount", 0);
     frm.set_value("total_man_days_amount", 0);
+    frm.set_value("total_level_1_hours", 0);
+    frm.set_value("total_level_2_hours", 0);
+    frm.set_value("total_level_3_hours", 0);
+    frm.set_value("total_level_4_hours", 0);
+
     frm.set_value("profit_percentage", 0);
     frm.set_value("profit_amount", 0);
     frm.set_value("total_project_cost", 0);
@@ -62,7 +74,6 @@ frappe.ui.form.on("Cost Estimation", {
       ],
       frm.doc.department === frm.doc.department
     );
-
   },
 
   project_template: function (frm) {
@@ -76,93 +87,36 @@ frappe.ui.form.on("Cost Estimation", {
         if (!r.exc) {
           //  console.log(r.message);
 
-          // let row = frm.add_child("man_days", {
-          //   activities: "Admin",
-          // });
-
           // if Prject Template change then entire man days table reset.
           frm.clear_table("man_days");
           frm.set_value("total_man_days_amount", 0);
+           frm.set_value("total_level_1_hours", 0);
+           frm.set_value("total_level_2_hours", 0);
+           frm.set_value("total_level_3_hours", 0);
+           frm.set_value("total_level_4_hours", 0);
           frm.refresh_field("total_man_days_amount");
 
           let task_mapping = r.message;
+          console.log(task_mapping);
 
-          // Iterate over the parent tasks
-          for (let parent_task in task_mapping) {
-            let parent_subject = task_mapping[parent_task].subject;
-            // let parent_task_id = task_mapping[parent_task];
-            // console.log("PArent id ", parent_task);
-            let children = task_mapping[parent_task].children;
-
-            // Check if there are any child tasks
-            if (children.length > 0) {
-              // Iterate over each child task for the current parent task
-              children.forEach((child_task) => {
-                // Add a new row for each child task
-                let row = frm.add_child("man_days");
-
-                // Set the parent task's subject in the "stages_of_project" field
-                frappe.model.set_value(
-                  row.doctype,
-                  row.name,
-                  "parent_task",
-                  parent_task
-                );
-                frappe.model.set_value(
-                  row.doctype,
-                  row.name,
-                  "stages_of_project",
-                  parent_subject
-                );
-
-                frappe.model.set_value(
-                  row.doctype,
-                  row.name,
-                  "child_task",
-                  child_task[0]
-                );
-
-                // Set the child task's subject in the "activities" field
-                // child_task[1] is the child task's subject
-                frappe.model.set_value(
-                  row.doctype,
-                  row.name,
-                  "activities",
-                  child_task[1]
-                );
-              });
-            } else {
-              // If there are no child tasks, add a single row for the parent task
-              let row = frm.add_child("man_days");
-
-              // Set the parent task's subject in both fields since there are no children
-              frappe.model.set_value(
-                row.doctype,
-                row.name,
-                "parent_task",
-                parent_task
-              );
-              frappe.model.set_value(
-                row.doctype,
-                row.name,
-                "stages_of_project",
-                parent_subject
-              );
-
-              // frappe.model.set_value(
-              //   row.doctype,
-              //   row.name,
-              //   "stages_of_project",
-              //   parent_subject
-              // );
-              // frappe.model.set_value(
-              //   row.doctype,
-              //   row.name,
-              //   "activities",
-              //   parent_subject
-              // );
-            }
-          }
+          task_mapping.forEach((task) => {
+            // Add a new row for each child task
+            console.log("Task", task.task);
+            let row = frm.add_child("man_days");
+            // Set the parent task's subject in the "stages_of_project" field
+            frappe.model.set_value(
+              row.doctype,
+              row.name,
+              "parent_task",
+              task.task
+            );
+            frappe.model.set_value(
+              row.doctype,
+              row.name,
+              "stages_of_project",
+              task.subject
+            );
+          });
 
           // Refresh the child table after adding rows
           frm.refresh_field("man_days");
@@ -1138,6 +1092,9 @@ frappe.ui.form.on("Man Days", {
 });
 
 function update_total_man_days_amount(frm) {
+  // Update total level wise hours
+  update_total_man_days_hours(frm);
+
   let total_man_days_amount = 0;
 
   // Iterate over all rows in the child table
@@ -1150,6 +1107,33 @@ function update_total_man_days_amount(frm) {
 
   // Refresh the fields to reflect the changes
   frm.refresh_field("total_man_days_amount");
+}
+
+function update_total_man_days_hours(frm) {
+  let total_level_1_hours = 0;
+  let total_level_2_hours = 0;
+  let total_level_3_hours = 0;
+  let total_level_4_hours = 0;
+
+  // Iterate over all rows in the child table
+  frm.doc.man_days.forEach((row) => {
+    total_level_1_hours += row.level_1_hours || 0;
+    total_level_2_hours += row.level_2_hours || 0;
+    total_level_3_hours += row.level_3_hours || 0;
+    total_level_4_hours += row.level_4_hours || 0;
+  });
+
+  // Set the total amounts in the parent form
+  frm.set_value("total_level_1_hours", total_level_1_hours);
+  frm.set_value("total_level_2_hours", total_level_2_hours);
+  frm.set_value("total_level_3_hours", total_level_3_hours);
+  frm.set_value("total_level_4_hours", total_level_4_hours);
+
+  // Refresh the fields to reflect the changes
+  frm.refresh_field("total_level_1_hours");
+  frm.refresh_field("total_level_2_hours");
+  frm.refresh_field("total_level_3_hours");
+  frm.refresh_field("total_level_4_hours");
 }
 
 // Travle Expense Calculate
