@@ -21,27 +21,29 @@
   "section_break_yoys",
   "projects_department_cost_estimation",
   "section_break_zqms",
-  "total_amount",
-  "total_supply_amount",
+  "column_break_dxnz",
   "column_break_krsu",
+  "total_amount",
   "total_erection_amount",
+  "total_supply_amount",
   "eia_department_cost_estimation_section",
   "eia_department_cost_estimation",
   "eia_department_total_cost_section",
-  "total_technical_amount",
-  "total_travelling_amount",
-  "total_over_head",
   "column_break_tyfz",
   "total_amount_of_eia",
+  "total_over_head",
   "total_expense",
   "column_break_vspy",
+  "total_technical_amount",
+  "total_travelling_amount",
   "total_cost_of_eia",
   "section_break_payf",
   "operational_department_cost_estimation",
   "operational_department_total_cost_section",
+  "column_break_eamp",
+  "column_break_hyrf",
   "total_bare_amount",
   "total_amount_with_over_head_and_service_charges",
-  "column_break_hyrf",
   "total_grand_amount",
   "overhead_tab",
   "project_template",
@@ -60,9 +62,15 @@
   "total_other_expense",
   "profit_tab",
   "profit_percentage",
-  "profit_amount",
+  "margin_amount",
   "column_break_strq",
-  "total_project_cost"
+  "profit_amount",
+  "total_project_cost",
+  "margin_percentage",
+  "column_break_qhuv",
+  "add_profit_on_expense",
+  "add_profit_on_man_days",
+  "add_profit_on_travel"
  ],
  "fields": [
   {
@@ -201,7 +209,7 @@
   {
    "fieldname": "total_project_cost",
    "fieldtype": "Currency",
-   "label": "Total Project Cost",
+   "label": "Quote Price",
    "read_only": 1
   },
   {
@@ -239,12 +247,14 @@
   {
    "fieldname": "total_amount_of_eia",
    "fieldtype": "Currency",
+   "hidden": 1,
    "label": "Total Amount",
    "read_only": 1
   },
   {
    "fieldname": "total_expense",
    "fieldtype": "Currency",
+   "hidden": 1,
    "label": "Total Expense",
    "read_only": 1
   },
@@ -292,6 +302,7 @@
   {
    "fieldname": "total_over_head",
    "fieldtype": "Currency",
+   "hidden": 1,
    "label": "Total Over Head",
    "read_only": 1
   },
@@ -308,7 +319,8 @@
   {
    "fieldname": "profit_percentage",
    "fieldtype": "Percent",
-   "label": "Profit %"
+   "label": "Profit %",
+   "precision": "2"
   },
   {
    "allow_bulk_edit": 1,
@@ -384,6 +396,48 @@
    "fieldname": "total_level_4_hours",
    "fieldtype": "Float",
    "label": "Total L4 Hourse"
+  },
+  {
+   "fieldname": "column_break_dxnz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_eamp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_qhuv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "add_profit_on_expense",
+   "fieldtype": "Check",
+   "label": "Add Profit on Expense"
+  },
+  {
+   "default": "0",
+   "fieldname": "add_profit_on_man_days",
+   "fieldtype": "Check",
+   "label": "Add Profit on Man Days"
+  },
+  {
+   "default": "0",
+   "fieldname": "add_profit_on_travel",
+   "fieldtype": "Check",
+   "label": "Add Profit on Travel "
+  },
+  {
+   "fieldname": "margin_amount",
+   "fieldtype": "Currency",
+   "label": "Margin Amount"
+  },
+  {
+   "fieldname": "margin_percentage",
+   "fieldtype": "Percent",
+   "label": "Margin % ",
+   "precision": "2",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -394,7 +448,7 @@
    "link_fieldname": "custom_cost_estimation"
   }
  ],
- "modified": "2024-10-10 16:53:02.773362",
+ "modified": "2024-10-11 15:57:09.782617",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",

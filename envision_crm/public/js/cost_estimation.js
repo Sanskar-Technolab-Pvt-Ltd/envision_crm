@@ -62,6 +62,10 @@ frappe.ui.form.on("Cost Estimation", {
     frm.set_value("profit_percentage", 0);
     frm.set_value("profit_amount", 0);
     frm.set_value("total_project_cost", 0);
+    frm.set_value("margin_amount", 0);
+    frm.set_value("add_profit_on_expense", 0);
+    frm.set_value("add_profit_on_man_days", 0);
+    frm.set_value("add_profit_on_travel", 0);
 
     // show priority and due_date field
     // if status is Open
@@ -90,10 +94,10 @@ frappe.ui.form.on("Cost Estimation", {
           // if Prject Template change then entire man days table reset.
           frm.clear_table("man_days");
           frm.set_value("total_man_days_amount", 0);
-           frm.set_value("total_level_1_hours", 0);
-           frm.set_value("total_level_2_hours", 0);
-           frm.set_value("total_level_3_hours", 0);
-           frm.set_value("total_level_4_hours", 0);
+          frm.set_value("total_level_1_hours", 0);
+          frm.set_value("total_level_2_hours", 0);
+          frm.set_value("total_level_3_hours", 0);
+          frm.set_value("total_level_4_hours", 0);
           frm.refresh_field("total_man_days_amount");
 
           let task_mapping = r.message;
@@ -128,22 +132,59 @@ frappe.ui.form.on("Cost Estimation", {
   // if ( "operation " in frm.doc.department )
 
   // Projects department Profit calculate
+
   total_erection_amount: function (frm, cdt, cdn) {
     calculate_profit_amount(frm, frm.doc.total_erection_amount);
   },
 
-  // EIA department Profit calculate
   total_cost_of_eia: function (frm, cdt, cdn) {
     calculate_profit_amount(frm, frm.doc.total_cost_of_eia);
   },
 
-  // Operational department Profit calculate
   total_grand_amount: function (frm, cdt, cdn) {
     calculate_profit_amount(frm, frm.doc.total_grand_amount);
   },
+
+  profit_percentage: function (frm, cdt, cdn) {
+    if (frm.doc.department === "Project - EETPL") {
+      calculate_profit_amount(frm, frm.doc.total_erection_amount);
+    } else if (frm.doc.department === "EIA - EETPL") {
+      calculate_profit_amount(frm, frm.doc.total_cost_of_eia);
+    } else if (frm.doc.department === "Operations - EETPL") {
+      calculate_profit_amount(frm, frm.doc.total_grand_amount);
+    }
+  },
+
+  margin_amount: function (frm) {
+    calculate_margin_percentage(frm, frm.doc.total_project_cost);
+  },
+
+  // Trigger profit calculation when checkboxes change
+  add_profit_on_expense: function (frm) {
+    calculate_profit_amount_based_on_checkboxes(frm);
+  },
+
+  add_profit_on_man_days: function (frm) {
+    calculate_profit_amount_based_on_checkboxes(frm);
+  },
+
+  add_profit_on_travel: function (frm) {
+    calculate_profit_amount_based_on_checkboxes(frm);
+  },
 });
 
-// Function to calculate profit amount based on department total cost and profit percentage
+// Wrapper function to trigger calculation based on checkboxes
+function calculate_profit_amount_based_on_checkboxes(frm) {
+  if (frm.doc.department === "Project - EETPL") {
+    calculate_profit_amount(frm, frm.doc.total_erection_amount);
+  } else if (frm.doc.department === "EIA - EETPL") {
+    calculate_profit_amount(frm, frm.doc.total_cost_of_eia);
+  } else if (frm.doc.department === "Operations - EETPL") {
+    calculate_profit_amount(frm, frm.doc.total_grand_amount);
+  }
+}
+
+// Function to calculate profit amount based on department total cost and checkboxes
 function calculate_profit_amount(frm, department_total_cost) {
   // Retrieve profit percentage from the form, defaulting to 0 if not present
   let profit_percentage = frm.doc.profit_percentage || 0;
@@ -153,23 +194,60 @@ function calculate_profit_amount(frm, department_total_cost) {
   // Ensure department_total_cost is valid and default to 0 if not
   department_total_cost = department_total_cost || 0;
 
-  // Log the values for debugging
-  //  console.log("Profit Percentage: ", profit_percentage);
-  //  console.log("Department Total Cost: ", department_total_cost);
+  // Base cost calculations depending on selected checkboxes
+  if (frm.doc.add_profit_on_expense) {
+    // Calculate profit on the department total cost (expense)
+    total_project_cost = department_total_cost;
+  }
 
-  // Calculate profit amount using the formula: (department total cost * profit percentage) / 100
-  profit_amount = (department_total_cost * profit_percentage) / 100;
-  total_project_cost = department_total_cost + profit_amount;
+  if (frm.doc.add_profit_on_man_days) {
+    // Add man days amount if the checkbox is checked
+    total_project_cost += frm.doc.total_man_days_amount || 0;
+  }
 
-  // Log the calculated profit amount
-  //  console.log("Calculated Profit Amount: ", profit_amount);
+  if (frm.doc.add_profit_on_travel) {
+    // Add other expense (e.g., travel) if the checkbox is checked
+    total_project_cost += frm.doc.total_other_expense || 0;
+  }
 
-  // Set the calculated profit amount in the form
-  frm.set_value("profit_amount", Math.round(profit_amount));
-  frm.set_value("total_project_cost", Math.round(total_project_cost));
+  // Calculate profit amount based on total project cost and profit percentage
+  profit_amount = (total_project_cost * profit_percentage) / 100;
 
-  // Refresh the field to reflect the new value
+  // Log for debugging
+  console.log(
+    "Total Project Cost for Profit Calculation: ",
+    total_project_cost
+  );
+  console.log("Calculated Profit Amount: ", profit_amount);
+
+  // Set calculated values in the form
+  frm.set_value("profit_amount", profit_amount.toFixed(2)); // Set profit amount with 2 decimal places
+  frm.set_value(
+    "total_project_cost",
+    (department_total_cost + profit_amount).toFixed(2)
+  );
+
+  // Recalculate margin percentage based on new total project cost
+  calculate_margin_percentage(frm, total_project_cost + profit_amount);
+
+  // Refresh fields
   frm.refresh_field("profit_amount");
+  frm.refresh_field("total_project_cost");
+}
+
+// Function to calculate the Margin percentage
+function calculate_margin_percentage(frm, total_project_cost) {
+  let margin_percentage = 0;
+  let margin_amount = frm.doc.margin_amount || 0;
+
+  // if (total_project_cost > 0) {
+    margin_percentage = (margin_amount / total_project_cost) * 100;
+  // }
+
+  console.log("Margin Percentage: ", margin_percentage);
+
+  frm.set_value("margin_percentage", margin_percentage.toFixed(2)); // Set margin percentage with 2 decimal places
+  frm.refresh_field("margin_percentage");
 }
 
 // Project Department Cost Estimation
