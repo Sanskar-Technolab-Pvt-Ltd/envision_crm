@@ -433,6 +433,7 @@
    "label": "Margin Amount"
   },
   {
+   "default": "0",
    "fieldname": "margin_percentage",
    "fieldtype": "Percent",
    "label": "Margin % ",
@@ -448,7 +449,7 @@
    "link_fieldname": "custom_cost_estimation"
   }
  ],
- "modified": "2024-10-11 15:57:09.782617",
+ "modified": "2024-10-14 11:02:18.734559",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",

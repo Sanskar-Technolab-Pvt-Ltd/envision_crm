@@ -1,5 +1,8 @@
 frappe.ui.form.on("Cost Estimation", {
   refresh: function (frm) {
+    // Apply the filter when the form loads or refreshes
+    // apply_dynamic_filter(frm);
+
     console.log("Referesh status ", frm.doc.docstatus);
     if (frm.doc.docstatus === 1) {
       frm.add_custom_button("Create Quotation", () => {
@@ -171,7 +174,36 @@ frappe.ui.form.on("Cost Estimation", {
   add_profit_on_travel: function (frm) {
     calculate_profit_amount_based_on_checkboxes(frm);
   },
+
+  // selling_items_add: function (frm) {
+  //   apply_dynamic_filter(frm);
+  // },
+
+  // selling_items_remove: function (frm) {
+  //   apply_dynamic_filter(frm);
+  // },
 });
+
+// // Function to apply a dynamic filter to the 'selling_item' field
+// function apply_dynamic_filter(frm) {
+//     // Get the list of item codes from the Selling Items table
+//     let selected_items = frm.doc.selling_items.map(row => row.item_code);
+//     console.log(selected_items);
+
+//     // Set a dynamic query on the 'selling_item' field of the Operational Department Cost Estimation table
+//     frm.fields_dict["projects_department_cost_estimation"].grid.get_field(
+//       "selling_item"
+//     ).get_query = function (doc, cdt, cdn) {
+//       return {
+//         filters: {
+//           item_code: ["in", selected_items], // Show only the selected items in the dropdown
+//         },
+//       };
+//     };
+
+//     // Refresh the table to ensure the new filter takes effect
+//     frm.refresh_field("projects_department_cost_estimation");
+// }
 
 // Wrapper function to trigger calculation based on checkboxes
 function calculate_profit_amount_based_on_checkboxes(frm) {
@@ -241,7 +273,7 @@ function calculate_margin_percentage(frm, total_project_cost) {
   let margin_amount = frm.doc.margin_amount || 0;
 
   // if (total_project_cost > 0) {
-    margin_percentage = (margin_amount / total_project_cost) * 100;
+  margin_percentage = (margin_amount / total_project_cost) * 100;
   // }
 
   console.log("Margin Percentage: ", margin_percentage);
