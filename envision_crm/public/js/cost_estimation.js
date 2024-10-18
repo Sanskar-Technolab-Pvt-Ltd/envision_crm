@@ -22,11 +22,16 @@ frappe.ui.form.on("Cost Estimation", {
               callback: function (r) {
                 if (!r.exc) {
                   // Set the set_route to quotation form
+                  message = r.message;
                   frappe.set_route(
                     "Form",
                     "Quotation",
                     r.message.quotation_name
                   );
+                  console.log(message.quotation_name);
+                  if (message.quotation_name) {
+                    frm.set_value("quotation", message.quotation_name);
+                  }
                 }
               },
             }); // End frappe call
@@ -174,37 +179,66 @@ frappe.ui.form.on("Cost Estimation", {
   add_profit_on_travel: function (frm) {
     calculate_profit_amount_based_on_checkboxes(frm);
   },
-
-  // selling_items_add: function (frm) {
-  //   apply_dynamic_filter(frm);
-  // },
-
-  // selling_items_remove: function (frm) {
-  //   apply_dynamic_filter(frm);
-  // },
 });
 
-// // Function to apply a dynamic filter to the 'selling_item' field
-// function apply_dynamic_filter(frm) {
-//     // Get the list of item codes from the Selling Items table
-//     let selected_items = frm.doc.selling_items.map(row => row.item_code);
-//     console.log(selected_items);
+// Selling Item table
+frappe.ui.form.on("Quotation Selling Items", {
+  quotation_items_add: function (frm, cdt, cdn) {
+    console.log("Add selling rows");
+    console.log("Reference called ");
 
-//     // Set a dynamic query on the 'selling_item' field of the Operational Department Cost Estimation table
-//     frm.fields_dict["projects_department_cost_estimation"].grid.get_field(
-//       "selling_item"
-//     ).get_query = function (doc, cdt, cdn) {
-//       return {
-//         filters: {
-//           item_code: ["in", selected_items], // Show only the selected items in the dropdown
-//         },
-//       };
-//     };
+    apply_dynamic_filter(frm);
+  },
 
-//     // Refresh the table to ensure the new filter takes effect
-//     frm.refresh_field("projects_department_cost_estimation");
-// }
+  quotation_items_remove: function (frm, cdt, cdn) {
+    console.log("delete selling rows");
 
+    apply_dynamic_filter(frm);
+  },
+  item_code: function (frm, cdt, cdn) {
+    console.log("delete selling rows");
+
+    apply_dynamic_filter(frm);
+  },
+});
+
+// Function to apply a dynamic filter to the 'selling_item' field
+function apply_dynamic_filter(frm) {
+  console.log("function call ");
+
+  
+  // Check if selling_items exists and iterate through it
+  if (cur_frm.doc.quotation_items.length > 1) {
+    // Get the list of item codes from the Selling Items table
+    let selected_items = [];
+
+    cur_frm.doc.quotation_items.forEach((row) => {
+      console.log(" inside loop Selected Items:", row);
+
+      selected_items.push(row.item_code);
+    });
+
+    console.log("Selected Items:", selected_items);
+
+    // Set a dynamic query on the 'selling_item' field in the Operational Department Cost Estimation table
+    cur_frm.set_query(
+      "selling_item",
+      "projects_department_cost_estimation",
+      function () {
+        return {
+          filters: [
+            ["item_code", "in", selected_items], // Filter to show only selected items
+          ],
+        };
+      }
+    );
+    // Refresh the table field to apply the filter
+    frm.refresh_field("projects_department_cost_estimation");
+  }
+
+
+ 
+}
 // Wrapper function to trigger calculation based on checkboxes
 function calculate_profit_amount_based_on_checkboxes(frm) {
   if (frm.doc.department === "Project - EETPL") {
@@ -272,9 +306,9 @@ function calculate_margin_percentage(frm, total_project_cost) {
   let margin_percentage = 0;
   let margin_amount = frm.doc.margin_amount || 0;
 
-  // if (total_project_cost > 0) {
-  margin_percentage = (margin_amount / total_project_cost) * 100;
-  // }
+  if (total_project_cost > 0) {
+    margin_percentage = (margin_amount / total_project_cost) * 100;
+  }
 
   console.log("Margin Percentage: ", margin_percentage);
 
@@ -288,6 +322,10 @@ frappe.ui.form.on("Project Department Cost Estimation", {
     if (frm.doc.quotation_items.length === 1) {
       let selling_table = frm.doc.quotation_items[0];
       set_selling_item_values(cdt, cdn, selling_table);
+    }
+    else{
+      // If more item in the selling table
+      apply_dynamic_filter(frm);
     }
   },
 
@@ -316,6 +354,7 @@ frappe.ui.form.on("Project Department Cost Estimation", {
         }
       },
     });
+   
   },
 
   rate: function (frm, cdt, cdn) {
