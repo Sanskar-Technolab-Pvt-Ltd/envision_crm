@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "has_item_table",
+  "main",
   "serial_no",
   "template",
   "heading",
@@ -44,12 +45,19 @@
    "fieldname": "template_details",
    "fieldtype": "Text Editor",
    "label": "Template Details"
+  },
+  {
+   "default": "0",
+   "fieldname": "main",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Main Heading"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-08 12:25:42.542352",
+ "modified": "2024-10-22 11:02:27.404174",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Print Offer",
