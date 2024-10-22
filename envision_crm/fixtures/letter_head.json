@@ -38,10 +38,10 @@
   "header_script": null,
   "image": "/files/Envision Logo.svg",
   "image_height": 50.0,
-  "image_width": 5.0,
+  "image_width": 50.0,
   "is_default": 1,
   "letter_head_name": "Offer Print",
-  "modified": "2024-09-26 13:20:36.327261",
+  "modified": "2024-09-19 19:04:43.632858",
   "name": "Offer Print",
   "source": "Image"
  }

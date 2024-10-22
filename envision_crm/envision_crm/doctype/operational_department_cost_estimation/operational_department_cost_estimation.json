@@ -8,32 +8,28 @@
  "field_order": [
   "selling_item",
   "item_code",
-  "column_break_jbgy",
-  "item_name",
   "skills_level",
+  "column_break_jbgy",
   "section_break_pogd",
   "minimum_wages",
-  "quantity",
-  "epf_percentage",
-  "column_break_lqpm",
   "monthly_salary",
+  "quantity",
   "working_days",
+  "epf_percentage",
   "bonus_percentage",
   "profit_percentage",
-  "section_break_fgym",
+  "column_break_lqpm",
   "total_minimum_wage",
   "epf_amount",
-  "column_break_qure",
-  "allowance_amount",
   "bonus_amount",
-  "section_break_lkmm",
+  "allowance_amount",
   "leave",
   "over_time_and_public_holiday",
-  "gratuity",
-  "column_break_abpz",
+  "section_break_lkmm",
   "safety_item",
   "wc_policy",
-  "section_break_kuei",
+  "gratuity",
+  "column_break_abpz",
   "bare_amount",
   "section_break_belv",
   "over_head_amount",
@@ -41,6 +37,8 @@
   "column_break_bwxp",
   "total_amount",
   "section_break_qcts",
+  "column_break_onhp",
+  "column_break_zteo",
   "grand_total_amount"
  ],
  "fields": [
@@ -50,11 +48,6 @@
    "in_list_view": 1,
    "label": "Item Code",
    "options": "Item"
-  },
-  {
-   "fieldname": "item_name",
-   "fieldtype": "Data",
-   "label": "Item Name"
   },
   {
    "fieldname": "column_break_jbgy",
@@ -88,17 +81,9 @@
    "label": "Working Days"
   },
   {
-   "fieldname": "section_break_fgym",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "total_minimum_wage",
    "fieldtype": "Currency",
    "label": "Total Minimum Wage"
-  },
-  {
-   "fieldname": "column_break_qure",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "section_break_lkmm",
@@ -127,10 +112,6 @@
    "fieldname": "wc_policy",
    "fieldtype": "Float",
    "label": "WC Policy"
-  },
-  {
-   "fieldname": "section_break_kuei",
-   "fieldtype": "Section Break"
   },
   {
    "fieldname": "section_break_belv",
@@ -227,12 +208,20 @@
    "fieldtype": "Percent",
    "in_list_view": 1,
    "label": "Profit(%) "
+  },
+  {
+   "fieldname": "column_break_onhp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_zteo",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-09-12 12:51:04.113389",
+ "modified": "2024-10-22 11:01:02.277340",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Operational Department Cost Estimation",
