@@ -1,43 +1,58 @@
 frappe.ui.form.on("Cost Estimation", {
   refresh: function (frm) {
     // Apply the filter when the form loads or refreshes
-    // apply_dynamic_filter(frm);
 
-    console.log("Referesh status ", frm.doc.docstatus);
+    
     if (frm.doc.docstatus === 1) {
-      frm.add_custom_button("Create Quotation", () => {
-        // Asking confirmation message
-        frappe.confirm(
-          "Are you sure you want to create a Quotation?",
-          function () {
-            // Frappe call for crewating quotation with common data
-            frappe.call({
-              method:
-                "envision_crm.envision_crm.api.create_quotation.create_quotation",
-              args: {
-                cost_estimation_id: frm.doc.name,
-                opportunity: frm.doc.opportunity,
-                company: frm.doc.company,
-              },
-              callback: function (r) {
-                if (!r.exc) {
-                  // Set the set_route to quotation form
-                  message = r.message;
-                  frappe.set_route(
-                    "Form",
-                    "Quotation",
-                    r.message.quotation_name
-                  );
-                  console.log(message.quotation_name);
-                  if (message.quotation_name) {
-                    frm.set_value("quotation", message.quotation_name);
-                  }
-                }
-              },
-            }); // End frappe call
-          }
-        ); // End Conformation message
-      }); // End click button function
+      frappe.db.get_list("Quotation",{
+        filters:{
+          custom_cost_estimation:frm.doc.name,
+        },
+        fields:["name","docstatus"]
+
+      }).then(quotations => {
+        const hasDraftOrSubmitted = quotations.some(ce => ce.docstatus === 0 || ce.docstatus === 1);
+        if(!hasDraftOrSubmitted){
+          frm.add_custom_button("Create Quotation", () => {
+            // Asking confirmation message
+            frappe.confirm(
+              "Are you sure you want to create a Quotation?",
+              function () {
+                // Frappe call for crewating quotation with common data
+                frappe.call({
+                  method:
+                    "envision_crm.envision_crm.api.create_quotation.create_quotation",
+                  args: {
+                    cost_estimation_id: frm.doc.name,
+                    opportunity: frm.doc.opportunity,
+                    company: frm.doc.company,
+                  },
+                  callback: function (r) {
+                    if (!r.exc) {
+                      // Set the set_route to quotation form
+                      message = r.message;
+                      frappe.set_route(
+                        "Form",
+                        "Quotation",
+                        r.message.quotation_name
+                      );
+                      
+                      // if (message.quotation_name) {
+                      //   frappe.db.set_value('Cost Estimation', frm.doc.name, 'quotation', message.quotation_name)
+                      //   .then(() => {
+                      //     frappe.msgprint("Quotation reference updated in the form.");
+                      //     frm.reload_doc();  // Reload the document to reflect changes
+                      //   });
+                      // }
+                    }
+                  },
+                }); // End frappe call
+              }
+            ); // End Conformation message
+          });
+        }
+      })
+ // End click button function
     }
   }, // End refresh event
 
@@ -71,7 +86,7 @@ frappe.ui.form.on("Cost Estimation", {
     frm.set_value("profit_amount", 0);
     frm.set_value("total_project_cost", 0);
     frm.set_value("margin_amount", 0);
-    frm.set_value("add_profit_on_expense", 0);
+    // frm.set_value("add_profit_on_expense", 0);
     frm.set_value("add_profit_on_man_days", 0);
     frm.set_value("add_profit_on_travel", 0);
 
@@ -97,7 +112,7 @@ frappe.ui.form.on("Cost Estimation", {
       },
       callback: function (r) {
         if (!r.exc) {
-          //  console.log(r.message);
+          
 
           // if Prject Template change then entire man days table reset.
           frm.clear_table("man_days");
@@ -109,11 +124,11 @@ frappe.ui.form.on("Cost Estimation", {
           frm.refresh_field("total_man_days_amount");
 
           let task_mapping = r.message;
-          console.log(task_mapping);
+          
 
           task_mapping.forEach((task) => {
             // Add a new row for each child task
-            console.log("Task", task.task);
+            
             let row = frm.add_child("man_days");
             // Set the parent task's subject in the "stages_of_project" field
             frappe.model.set_value(
@@ -154,7 +169,7 @@ frappe.ui.form.on("Cost Estimation", {
   },
 
   profit_percentage: function (frm, cdt, cdn) {
-    if (frm.doc.department === "Project - EETPL") {
+    if (frm.doc.department === "Projects - EETPL") {
       calculate_profit_amount(frm, frm.doc.total_erection_amount);
     } else if (frm.doc.department === "EIA - EETPL") {
       calculate_profit_amount(frm, frm.doc.total_cost_of_eia);
@@ -181,67 +196,59 @@ frappe.ui.form.on("Cost Estimation", {
   },
 });
 
-// Selling Item table
-frappe.ui.form.on("Quotation Selling Items", {
-  quotation_items_add: function (frm, cdt, cdn) {
-    console.log("Add selling rows");
-    console.log("Reference called ");
+// // Selling Item table
+// frappe.ui.form.on("Quotation Selling Items", {
+//   // quotation_items_add: function (frm, cdt, cdn) {
+//   //   // console.log("Add selling rows");
+//   //   // console.log("Reference called ");
 
-    apply_dynamic_filter(frm);
-  },
+//   //   // apply_dynamic_filter(frm);
+//   // },
 
-  quotation_items_remove: function (frm, cdt, cdn) {
-    console.log("delete selling rows");
+//   quotation_items_remove: function (frm, cdt, cdn) {
+//     // console.log("delete selling rows");
 
-    apply_dynamic_filter(frm);
-  },
-  item_code: function (frm, cdt, cdn) {
-    console.log("delete selling rows");
+//     // apply_dynamic_filter(frm);
+//   },
+//   // item_code: function (frm, cdt, cdn) {
+//   //   console.log("delete selling rows");
 
-    apply_dynamic_filter(frm);
-  },
-});
+//   //   apply_dynamic_filter(frm);
+//   // },
+// });
 
 // Function to apply a dynamic filter to the 'selling_item' field
-function apply_dynamic_filter(frm) {
-  console.log("function call ");
+function apply_dynamic_filter(frm, field_name, table_name) {
 
-  
-  // Check if selling_items exists and iterate through it
+
+  // Check if quotation_items exist and have more than 1 entry
   if (cur_frm.doc.quotation_items.length > 1) {
-    // Get the list of item codes from the Selling Items table
     let selected_items = [];
 
     cur_frm.doc.quotation_items.forEach((row) => {
-      console.log(" inside loop Selected Items:", row);
-
+      
       selected_items.push(row.item_code);
     });
 
-    console.log("Selected Items:", selected_items);
+    
 
-    // Set a dynamic query on the 'selling_item' field in the Operational Department Cost Estimation table
-    cur_frm.set_query(
-      "selling_item",
-      "projects_department_cost_estimation",
-      function () {
-        return {
-          filters: [
-            ["item_code", "in", selected_items], // Filter to show only selected items
-          ],
-        };
-      }
-    );
-    // Refresh the table field to apply the filter
-    frm.refresh_field("projects_department_cost_estimation");
+    // Set a dynamic query on the specified field and table
+    cur_frm.set_query(field_name, table_name, function () {
+      return {
+        filters: [
+          ["item_code", "in", selected_items], // Filter to show only selected items
+        ],
+      };
+    });
+
+    // Refresh the specified table field to apply the filter
+    frm.refresh_field(table_name);
   }
-
-
- 
 }
+
 // Wrapper function to trigger calculation based on checkboxes
 function calculate_profit_amount_based_on_checkboxes(frm) {
-  if (frm.doc.department === "Project - EETPL") {
+  if (frm.doc.department === "Projects - EETPL") {
     calculate_profit_amount(frm, frm.doc.total_erection_amount);
   } else if (frm.doc.department === "EIA - EETPL") {
     calculate_profit_amount(frm, frm.doc.total_cost_of_eia);
@@ -280,17 +287,13 @@ function calculate_profit_amount(frm, department_total_cost) {
   profit_amount = (total_project_cost * profit_percentage) / 100;
 
   // Log for debugging
-  console.log(
-    "Total Project Cost for Profit Calculation: ",
-    total_project_cost
-  );
-  console.log("Calculated Profit Amount: ", profit_amount);
+
 
   // Set calculated values in the form
-  frm.set_value("profit_amount", profit_amount.toFixed(2)); // Set profit amount with 2 decimal places
+  frm.set_value("profit_amount",  Math.round(profit_amount).toFixed(2)); // Set profit amount with 2 decimal places
   frm.set_value(
     "total_project_cost",
-    (department_total_cost + profit_amount).toFixed(2)
+    Math.round(department_total_cost + profit_amount).toFixed(2)
   );
 
   // Recalculate margin percentage based on new total project cost
@@ -310,7 +313,7 @@ function calculate_margin_percentage(frm, total_project_cost) {
     margin_percentage = (margin_amount / total_project_cost) * 100;
   }
 
-  console.log("Margin Percentage: ", margin_percentage);
+  
 
   frm.set_value("margin_percentage", margin_percentage.toFixed(2)); // Set margin percentage with 2 decimal places
   frm.refresh_field("margin_percentage");
@@ -322,14 +325,18 @@ frappe.ui.form.on("Project Department Cost Estimation", {
     if (frm.doc.quotation_items.length === 1) {
       let selling_table = frm.doc.quotation_items[0];
       set_selling_item_values(cdt, cdn, selling_table);
-    }
-    else{
-      // If more item in the selling table
-      apply_dynamic_filter(frm);
+    } else if (frm.doc.quotation_items.length > 1) {
+      // If there is exactly one item in the quotation_items table
+      apply_dynamic_filter(
+        frm,
+        "selling_item",
+        "projects_department_cost_estimation"
+      );
     }
   },
 
-  projects_department_cost_estimation_remove: function (frm) {
+  projects_department_cost_estimation_remove: function (frm, cdt, cdn) {
+    
     update_totals(frm);
     parent_item_wise_total_amount(
       frm,
@@ -337,6 +344,8 @@ frappe.ui.form.on("Project Department Cost Estimation", {
       "total_amount_with_erection",
       "quantity"
     );
+    console.log("Item Removed again");
+
   },
 
   selling_item: function (frm, cdt, cdn) {
@@ -354,7 +363,6 @@ frappe.ui.form.on("Project Department Cost Estimation", {
         }
       },
     });
-   
   },
 
   rate: function (frm, cdt, cdn) {
@@ -374,6 +382,14 @@ frappe.ui.form.on("Project Department Cost Estimation", {
   },
 
   erection_percentage: function (frm, cdt, cdn) {
+    handle_percentage_changes(frm, cdt, cdn);
+    parent_item_wise_total_amount(
+      frm,
+      "total_amount_with_erection",
+      "quantity"
+    );
+  },
+  profit_percentage: function (frm, cdt, cdn) {
     handle_percentage_changes(frm, cdt, cdn);
     parent_item_wise_total_amount(
       frm,
@@ -430,6 +446,7 @@ function handle_percentage_changes(frm, cdt, cdn) {
     current_row.erection_percentage
   );
 
+
   frappe.model.set_value(cdt, cdn, {
     unloading_amount: unloading_amount,
     transportation_amount: transportation_amount,
@@ -470,12 +487,24 @@ function update_total_amount_with_erection(cdt, cdn, erection_amount) {
   let current_row = locals[cdt][cdn];
   let total_amount_with_erection =
     (current_row.supply_amount || 0) + (erection_amount || 0);
+  
+  let profit_amount = calculate_percentage_amount(
+    total_amount_with_erection,
+    current_row.profit_percentage
+  );
+
+   frappe.model.set_value(cdt, cdn, "profit_amount", Math.round(profit_amount));
+   
+
+  total_amount_with_erection += profit_amount; 
+
   frappe.model.set_value(
     cdt,
     cdn,
     "total_amount_with_erection",
-    total_amount_with_erection
+    Math.round(total_amount_with_erection)
   );
+
 }
 
 // Function to update the overall totals
@@ -568,9 +597,6 @@ function parent_item_wise_total_amount(
     selling_item_quantities[selling_item] += row[qty_field] || 0;
   });
 
-  console.log("selling_item_totals:", selling_item_totals);
-  console.log("selling_item_quantities:", selling_item_quantities);
-
   // Iterate over each row in the quotation_items table to update rate, quantity, and amount
   frm.doc.quotation_items.forEach((row) => {
     let item_code = row.item_code;
@@ -580,21 +606,21 @@ function parent_item_wise_total_amount(
       // Set the rate from the selling_item_totals
       let rate = selling_item_totals[item_code];
 
-      // Get the total quantity for this item
-      let total_qty = selling_item_quantities[item_code];
+      // Set the quantity and calculate the amount (rate * current row quantity)
+      let amount = rate * (row.quantity || 0);
 
-      // Set the quantity and calculate the amount (rate * total quantity)
-      let amount = rate * row.quantity;
-
-      // Set the rate, quantity, and amount for the current item row
+      // Update the rate and amount for the current item row
       frappe.model.set_value(row.doctype, row.name, "rate", Math.round(rate));
-      // frappe.model.set_value(row.doctype, row.name, "quantity", total_qty);
       frappe.model.set_value(
         row.doctype,
         row.name,
         "amount",
         Math.round(amount)
       );
+    } else {
+      // If the item was removed from the child table, reset its rate and amount to 0
+      frappe.model.set_value(row.doctype, row.name, "rate", 0);
+      frappe.model.set_value(row.doctype, row.name, "amount", 0);
     }
   });
 
@@ -606,7 +632,18 @@ function parent_item_wise_total_amount(
 frappe.ui.form.on("EIA Department Cost Estimation", {
   // when a new row is added in the cost estimation child table
   eia_department_cost_estimation_add: function (frm, cdt, cdn) {
-    set_first_selling_item(frm, cdt, cdn);
+    // set_first_selling_item(frm, cdt, cdn);
+     if (frm.doc.quotation_items.length === 1) {
+       let selling_table = frm.doc.quotation_items[0];
+       set_selling_item_values(cdt, cdn, selling_table);
+     } else if (frm.doc.quotation_items.length > 1) {
+       // If there is exactly one item in the quotation_items table
+       apply_dynamic_filter(
+         frm,
+         "selling_item",
+         "eia_department_cost_estimation"
+       );
+     }
   },
   eia_department_cost_estimation_remove: function (frm, cdt, cdn) {
     // update_costs_and_totals(frm, cdt, cdn);
@@ -767,6 +804,13 @@ frappe.ui.form.on("Operational Department Cost Estimation", {
     if (frm.doc.quotation_items.length === 1) {
       let selling_table = frm.doc.quotation_items[0];
       frappe.model.set_value(cdt, cdn, "selling_item", selling_table.item_code);
+    } else if (frm.doc.quotation_items.length > 1) {
+      // If there is exactly one item in the quotation_items table
+      apply_dynamic_filter(
+        frm,
+        "selling_item",
+        "operational_department_cost_estimation"
+      );
     }
   },
 
@@ -1067,10 +1111,10 @@ function get_level_wise_per_hour_amount(callback) {
         if (!r.exc) {
           // Store the level wise amount list in the global variable
           level_wise_per_hour_amounts = r.message;
-          console.log(
-            "Fetched and stored level-wise amounts:",
-            level_wise_per_hour_amounts
-          );
+          // console.log(
+          //   "Fetched and stored level-wise amounts:",
+          //   level_wise_per_hour_amounts
+          // );
 
           // Execute callback once data is fetched
           if (callback) callback();
@@ -1078,10 +1122,10 @@ function get_level_wise_per_hour_amount(callback) {
       },
     });
   } else {
-    console.log(
-      "Using cached level-wise amounts:",
-      level_wise_per_hour_amounts
-    );
+    // console.log(
+    //   "Using cached level-wise amounts:",
+    //   level_wise_per_hour_amounts
+    // );
 
     // Execute callback immediately if data is already fetched
     if (callback) callback();
@@ -1138,13 +1182,13 @@ function calculate_level_wise_amounts(frm, cdt, cdn) {
     frappe.model.set_value(cdt, cdn, "level_4_amount", level_4_amount);
     frappe.model.set_value(cdt, cdn, "total_amount", total_amount);
 
-    console.log("Level-wise amounts calculated and set:", {
-      level_1_amount,
-      level_2_amount,
-      level_3_amount,
-      level_4_amount,
-      total_amount,
-    });
+    // console.log("Level-wise amounts calculated and set:", {
+    //   level_1_amount,
+    //   level_2_amount,
+    //   level_3_amount,
+    //   level_4_amount,
+    //   total_amount,
+    // });
   });
 }
 

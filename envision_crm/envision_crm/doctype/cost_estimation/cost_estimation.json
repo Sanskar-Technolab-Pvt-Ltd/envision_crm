@@ -24,8 +24,8 @@
   "column_break_dxnz",
   "column_break_krsu",
   "total_amount",
-  "total_erection_amount",
   "total_supply_amount",
+  "total_erection_amount",
   "eia_department_cost_estimation_section",
   "eia_department_cost_estimation",
   "eia_department_total_cost_section",
@@ -74,7 +74,7 @@
  ],
  "fields": [
   {
-   "depends_on": "eval:doc.department == 'Project - EETPL'",
+   "depends_on": "eval:doc.department == 'Projects - EETPL'",
    "fieldname": "section_break_zqms",
    "fieldtype": "Section Break",
    "label": "Projects Department Total Cost"
@@ -107,7 +107,7 @@
    "fieldtype": "Section Break"
   },
   {
-   "depends_on": "eval:doc.department == 'Project - EETPL'",
+   "depends_on": "eval:doc.department == 'Projects - EETPL'",
    "fieldname": "section_break_yoys",
    "fieldtype": "Section Break",
    "label": "Projects Department Cost Estimation"
@@ -157,21 +157,21 @@
    "depends_on": "eval:doc.department == 'Operations - EETPL'",
    "fieldname": "section_break_payf",
    "fieldtype": "Section Break",
-   "label": "Operational Department Cost Estimation"
+   "label": "Operations Department Cost Estimation"
   },
   {
    "allow_bulk_edit": 1,
    "depends_on": "eval:doc.department == 'Operations - EETPL'",
    "fieldname": "operational_department_cost_estimation",
    "fieldtype": "Table",
-   "label": "Operational Department Cost Estimation",
+   "label": "Operations Department Cost Estimation",
    "options": "Operational Department Cost Estimation"
   },
   {
    "depends_on": "eval:doc.department == 'Operations - EETPL'",
    "fieldname": "operational_department_total_cost_section",
    "fieldtype": "Section Break",
-   "label": "Operational Department Total Cost "
+   "label": "Operations Department Total Cost "
   },
   {
    "fieldname": "overhead_tab",
@@ -232,7 +232,7 @@
   },
   {
    "allow_bulk_edit": 1,
-   "depends_on": "eval:doc.department == 'Project - EETPL'",
+   "depends_on": "eval:doc.department == 'Projects - EETPL'",
    "fieldname": "projects_department_cost_estimation",
    "fieldtype": "Table",
    "label": "Projects Department Cost Estimation",
@@ -269,6 +269,7 @@
    "fieldname": "total_man_days_amount",
    "fieldtype": "Currency",
    "label": "Total Man Days Amount",
+   "precision": "2",
    "read_only": 1
   },
   {
@@ -337,6 +338,7 @@
    "fieldname": "total_other_expense",
    "fieldtype": "Currency",
    "label": "Total Other Expense",
+   "precision": "2",
    "read_only": 1
   },
   {
@@ -367,6 +369,7 @@
    "label": "Company Code"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "quotation",
    "fieldtype": "Link",
    "hidden": 1,
@@ -380,22 +383,26 @@
   {
    "fieldname": "total_level_1_hours",
    "fieldtype": "Float",
-   "label": "Total L1 Hourse"
+   "label": "Total L1 Hourse",
+   "precision": "2"
   },
   {
    "fieldname": "total_level_2_hours",
    "fieldtype": "Float",
-   "label": "Total L2 Hourse"
+   "label": "Total L2 Hourse",
+   "precision": "2"
   },
   {
    "fieldname": "total_level_3_hours",
    "fieldtype": "Float",
-   "label": "Total L3 Hourse"
+   "label": "Total L3 Hourse",
+   "precision": "2"
   },
   {
    "fieldname": "total_level_4_hours",
    "fieldtype": "Float",
-   "label": "Total L4 Hourse"
+   "label": "Total L4 Hourse",
+   "precision": "2"
   },
   {
    "fieldname": "column_break_dxnz",
@@ -410,7 +417,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "add_profit_on_expense",
    "fieldtype": "Check",
    "label": "Add Profit on Expense"
@@ -445,11 +452,12 @@
  "is_submittable": 1,
  "links": [
   {
+   "group": "Quotation",
    "link_doctype": "Quotation",
    "link_fieldname": "custom_cost_estimation"
   }
  ],
- "modified": "2024-10-14 11:02:18.734559",
+ "modified": "2024-10-22 17:04:53.095630",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",
@@ -464,8 +472,35 @@
    "print": 1,
    "read": 1,
    "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
    "role": "System Manager",
    "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],
