@@ -432,7 +432,7 @@
    "default": "0",
    "fieldname": "add_profit_on_travel",
    "fieldtype": "Check",
-   "label": "Add Profit on Travel "
+   "label": "Add Profit on Other Expense "
   },
   {
    "fieldname": "margin_amount",
@@ -457,7 +457,7 @@
    "link_fieldname": "custom_cost_estimation"
   }
  ],
- "modified": "2024-10-22 17:04:53.095630",
+ "modified": "2024-10-23 19:08:25.954057",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",

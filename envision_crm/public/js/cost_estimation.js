@@ -1357,16 +1357,19 @@ function calculate_other_expense_amount(frm, cdt, cdn) {
   let current_row = locals[cdt][cdn];
   let amount = 0;
   let rate = current_row.rate || 0;
-  let days = current_row.days || 0;
-  let quantity = current_row.quantity || 0;
-
-  if (current_row.expense_type === "Travel") {
-    amount = rate * quantity;
-  } else if (current_row.expense_type === "Food") {
-    amount = rate * quantity * days;
-  } else {
-    amount = rate;
-  }
+  let days = current_row.days || 1;
+  let quantity = current_row.quantity || 1;
+  
+   amount = rate * quantity * days;
+  // if (current_row.expense_type === "Travel") {
+  //   amount = rate * quantity;
+  // } 
+  //  if (current_row.expense_type === "Food") {
+  //   amount = rate * quantity * days;
+  // }
+  //  else {
+  //   amount = rate * quantity * days;
+  // }
 
   // Set the calculated amount for the current row
   frappe.model.set_value(cdt, cdn, "amount", Math.round(amount));
