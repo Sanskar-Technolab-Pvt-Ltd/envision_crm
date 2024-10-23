@@ -28,13 +28,4 @@ frappe.ui.form.on("Print Offer", {
       },
     });
   },
-  // validate: function(frm) {
-  //   if (frm.doc.quotation_value > 500000) {
-  //       frm.set_value('workflow_state', 'Draft');
-  //       frm.set_df_property('workflow_name', 'options', 'Quotation Approval (Over 5 Lakhs)');
-  //   } else {
-  //       frm.set_value('workflow_state', 'Draft');
-  //       frm.set_df_property('workflow_name', 'options', 'Quotation Approval (Up to 5 Lakhs)');
-  //   }
-// }
 });
