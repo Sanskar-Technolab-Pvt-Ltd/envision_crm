@@ -37,6 +37,12 @@ doctype_js = {
     "Opportunity": "public/js/opportunity.js",
     "Lead": "public/js/lead.js",
 }
+
+
+override_doctype_dashboards = {
+    "Opportunity": "envision_crm.override.opportunity_dashboard.get_data",
+    # "Quotation": "envision_crm.override.quotation_dashboard.get_data",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -291,5 +297,19 @@ fixtures = [
     {
         "dt": "Letter Head",
         "filters": [["name", "in", ["Offer Print", "Continuous Head"]]],
+    },
+    {
+        "dt": "Workflow State",
+        "filters": [["name", "in", ["Reviewed ", "Submitted", "Pending", "Rework"]]],
+    },
+    {
+        "dt": "Workflow Action Master",
+        "filters": [
+            ["name", "in", ["Review ", "Reject", "Approve", "Submit for Review"]]
+        ],
+    },
+    {
+        "dt": "Workflow",
+        "filters": [["name", "in", ["Quotation Workflow"]]],
     },
 ]

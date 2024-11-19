@@ -2,57 +2,59 @@ frappe.ui.form.on("Cost Estimation", {
   refresh: function (frm) {
     // Apply the filter when the form loads or refreshes
 
-    
     if (frm.doc.docstatus === 1) {
-      frappe.db.get_list("Quotation",{
-        filters:{
-          custom_cost_estimation:frm.doc.name,
-        },
-        fields:["name","docstatus"]
+      frappe.db
+        .get_list("Quotation", {
+          filters: {
+            custom_cost_estimation: frm.doc.name,
+          },
+          fields: ["name", "docstatus"],
+        })
+        .then((quotations) => {
+          const hasDraftOrSubmitted = quotations.some(
+            (ce) => ce.docstatus === 0 || ce.docstatus === 1
+          );
+          if (!hasDraftOrSubmitted) {
+            frm.add_custom_button("Create Quotation", () => {
+              // Asking confirmation message
+              frappe.confirm(
+                "Are you sure you want to create a Quotation?",
+                function () {
+                  // Frappe call for crewating quotation with common data
+                  frappe.call({
+                    method:
+                      "envision_crm.envision_crm.api.create_quotation.create_quotation",
+                    args: {
+                      cost_estimation_id: frm.doc.name,
+                      opportunity: frm.doc.opportunity,
+                      company: frm.doc.company,
+                    },
+                    callback: function (r) {
+                      if (!r.exc) {
+                        // Set the set_route to quotation form
+                        message = r.message;
+                        frappe.set_route(
+                          "Form",
+                          "Quotation",
+                          r.message.quotation_name
+                        );
 
-      }).then(quotations => {
-        const hasDraftOrSubmitted = quotations.some(ce => ce.docstatus === 0 || ce.docstatus === 1);
-        if(!hasDraftOrSubmitted){
-          frm.add_custom_button("Create Quotation", () => {
-            // Asking confirmation message
-            frappe.confirm(
-              "Are you sure you want to create a Quotation?",
-              function () {
-                // Frappe call for crewating quotation with common data
-                frappe.call({
-                  method:
-                    "envision_crm.envision_crm.api.create_quotation.create_quotation",
-                  args: {
-                    cost_estimation_id: frm.doc.name,
-                    opportunity: frm.doc.opportunity,
-                    company: frm.doc.company,
-                  },
-                  callback: function (r) {
-                    if (!r.exc) {
-                      // Set the set_route to quotation form
-                      message = r.message;
-                      frappe.set_route(
-                        "Form",
-                        "Quotation",
-                        r.message.quotation_name
-                      );
-                      
-                      // if (message.quotation_name) {
-                      //   frappe.db.set_value('Cost Estimation', frm.doc.name, 'quotation', message.quotation_name)
-                      //   .then(() => {
-                      //     frappe.msgprint("Quotation reference updated in the form.");
-                      //     frm.reload_doc();  // Reload the document to reflect changes
-                      //   });
-                      // }
-                    }
-                  },
-                }); // End frappe call
-              }
-            ); // End Conformation message
-          });
-        }
-      })
- // End click button function
+                        // if (message.quotation_name) {
+                        //   frappe.db.set_value('Cost Estimation', frm.doc.name, 'quotation', message.quotation_name)
+                        //   .then(() => {
+                        //     frappe.msgprint("Quotation reference updated in the form.");
+                        //     frm.reload_doc();  // Reload the document to reflect changes
+                        //   });
+                        // }
+                      }
+                    },
+                  }); // End frappe call
+                }
+              ); // End Conformation message
+            });
+          }
+        });
+      // End click button function
     }
   }, // End refresh event
 
@@ -112,8 +114,6 @@ frappe.ui.form.on("Cost Estimation", {
       },
       callback: function (r) {
         if (!r.exc) {
-          
-
           // if Prject Template change then entire man days table reset.
           frm.clear_table("man_days");
           frm.set_value("total_man_days_amount", 0);
@@ -124,11 +124,10 @@ frappe.ui.form.on("Cost Estimation", {
           frm.refresh_field("total_man_days_amount");
 
           let task_mapping = r.message;
-          
 
           task_mapping.forEach((task) => {
             // Add a new row for each child task
-            
+
             let row = frm.add_child("man_days");
             // Set the parent task's subject in the "stages_of_project" field
             frappe.model.set_value(
@@ -194,50 +193,79 @@ frappe.ui.form.on("Cost Estimation", {
   add_profit_on_travel: function (frm) {
     calculate_profit_amount_based_on_checkboxes(frm);
   },
+
+  total_man_days_amount: function (frm) {
+    calculate_man_days_or_other_expense_amount(
+      frm,
+      frm.doc.total_man_days_amount,
+      "man_days",
+      "man_days_amount"
+    );
+    frm.refresh_field(frm.doc.quotation_items);
+  },
+  total_other_expense: function (frm) {
+    calculate_man_days_or_other_expense_amount(
+      frm.doc.total_other_expense,
+      "other_expense",
+      "other_expense_amount"
+    );
+    frm.refresh_field("quotation_items");
+  },
 });
 
 // // Selling Item table
-// frappe.ui.form.on("Quotation Selling Items", {
-//   // quotation_items_add: function (frm, cdt, cdn) {
-//   //   // console.log("Add selling rows");
-//   //   // console.log("Reference called ");
+frappe.ui.form.on("Quotation Selling Items", {
+  man_days: function (frm, cdt, cdn) {
+    calculate_amount_for_row(
+      frm.doc.total_man_days_amount, // total_man_days_amount
+      cdt, // Child DocType (cdt)
+      cdn, // Child DocName (cdn)
+      "man_days", // man_days_field
+      "man_days_amount" // man_days_amount_field
+    );
+  },
+  other_expense: function (frm, cdt, cdn) {
+    calculate_amount_for_row(
+      frm.doc.total_other_expense, // total_man_days_amount
+      cdt, // Child DocType (cdt)
+      cdn, // Child DocName (cdn)
+      "other_expense", // man_days_field
+      "other_expense_amount" // man_days_amount_field
+    );
+  },
+  // quotation_items_add: function (frm, cdt, cdn) {
+  //   // console.log("Add selling rows");
+  //   // console.log("Reference called ");
 
-//   //   // apply_dynamic_filter(frm);
-//   // },
+  //   // apply_dynamic_filter(frm);
+  // },
 
-//   quotation_items_remove: function (frm, cdt, cdn) {
-//     // console.log("delete selling rows");
+  // quotation_items_remove: function (frm, cdt, cdn) {
+  // console.log("delete selling rows");
 
-//     // apply_dynamic_filter(frm);
-//   },
-//   // item_code: function (frm, cdt, cdn) {
-//   //   console.log("delete selling rows");
+  // apply_dynamic_filter(frm);
+  // },
+  // item_code: function (frm, cdt, cdn) {
+  //   console.log("delete selling rows");
 
-//   //   apply_dynamic_filter(frm);
-//   // },
-// });
+  //   apply_dynamic_filter(frm);
+  // },
+});
 
 // Function to apply a dynamic filter to the 'selling_item' field
 function apply_dynamic_filter(frm, field_name, table_name) {
-
-
   // Check if quotation_items exist and have more than 1 entry
   if (cur_frm.doc.quotation_items.length > 1) {
     let selected_items = [];
 
     cur_frm.doc.quotation_items.forEach((row) => {
-      
       selected_items.push(row.item_code);
     });
-
-    
 
     // Set a dynamic query on the specified field and table
     cur_frm.set_query(field_name, table_name, function () {
       return {
-        filters: [
-          ["item_code", "in", selected_items], // Filter to show only selected items
-        ],
+        filters: [["item_code", "in", selected_items]],
       };
     });
 
@@ -288,9 +316,8 @@ function calculate_profit_amount(frm, department_total_cost) {
 
   // Log for debugging
 
-
   // Set calculated values in the form
-  frm.set_value("profit_amount",  Math.round(profit_amount).toFixed(2)); // Set profit amount with 2 decimal places
+  frm.set_value("profit_amount", Math.round(profit_amount).toFixed(2));
   frm.set_value(
     "total_project_cost",
     Math.round(department_total_cost + profit_amount).toFixed(2)
@@ -313,10 +340,60 @@ function calculate_margin_percentage(frm, total_project_cost) {
     margin_percentage = (margin_amount / total_project_cost) * 100;
   }
 
-  
-
-  frm.set_value("margin_percentage", margin_percentage.toFixed(2)); // Set margin percentage with 2 decimal places
+  frm.set_value("margin_percentage", margin_percentage.toFixed(2));
   frm.refresh_field("margin_percentage");
+}
+
+// function calculate_man_days_amount(frm) {
+//   let total_man_days_amount = frm.doc.total_man_days_amount || 0;
+
+//   frm.doc.quotation_items.forEach((row) => {
+//     let man_days_percentage = (row.man_days || 0) / 100;
+//     let man_days_amount = total_man_days_amount * man_days_percentage;
+
+//     frappe.model.set_value(
+//       row.doctype,
+//       row.name,
+//       "man_days_amount",
+//       man_days_amount
+//     );
+//   });
+
+//   frm.refresh_field("quotation_items");
+// }
+
+function calculate_man_days_or_other_expense_amount(
+  frm,
+  total_amount,
+  percent_field,
+  amount_field
+) {
+  total_amount = total_amount || 0;
+
+  frm.doc.quotation_items.forEach((row) => {
+    let percentage = (row[percent_field] || 0) / 100;
+    let amount = total_amount * percentage;
+
+    frappe.model.set_value(row.doctype, row.name, amount_field, amount);
+    console.log(amount);
+  });
+}
+
+function calculate_amount_for_row(
+  total_amount,
+  cdt,
+  cdn,
+  percent_field,
+  amount_field
+) {
+  total_amount = total_amount || 0;
+
+  let row = locals[cdt][cdn];
+
+  let percentage = (row[percent_field] || 0) / 100;
+  let amount = total_amount * percentage;
+
+  frappe.model.set_value(cdt, cdn, amount_field, amount);
 }
 
 // Project Department Cost Estimation
@@ -336,7 +413,6 @@ frappe.ui.form.on("Project Department Cost Estimation", {
   },
 
   projects_department_cost_estimation_remove: function (frm, cdt, cdn) {
-    
     update_totals(frm);
     parent_item_wise_total_amount(
       frm,
@@ -345,7 +421,6 @@ frappe.ui.form.on("Project Department Cost Estimation", {
       "quantity"
     );
     console.log("Item Removed again");
-
   },
 
   selling_item: function (frm, cdt, cdn) {
@@ -446,7 +521,6 @@ function handle_percentage_changes(frm, cdt, cdn) {
     current_row.erection_percentage
   );
 
-
   frappe.model.set_value(cdt, cdn, {
     unloading_amount: unloading_amount,
     transportation_amount: transportation_amount,
@@ -487,16 +561,15 @@ function update_total_amount_with_erection(cdt, cdn, erection_amount) {
   let current_row = locals[cdt][cdn];
   let total_amount_with_erection =
     (current_row.supply_amount || 0) + (erection_amount || 0);
-  
+
   let profit_amount = calculate_percentage_amount(
     total_amount_with_erection,
     current_row.profit_percentage
   );
 
-   frappe.model.set_value(cdt, cdn, "profit_amount", Math.round(profit_amount));
-   
+  frappe.model.set_value(cdt, cdn, "profit_amount", Math.round(profit_amount));
 
-  total_amount_with_erection += profit_amount; 
+  total_amount_with_erection += profit_amount;
 
   frappe.model.set_value(
     cdt,
@@ -504,7 +577,6 @@ function update_total_amount_with_erection(cdt, cdn, erection_amount) {
     "total_amount_with_erection",
     Math.round(total_amount_with_erection)
   );
-
 }
 
 // Function to update the overall totals
@@ -633,17 +705,17 @@ frappe.ui.form.on("EIA Department Cost Estimation", {
   // when a new row is added in the cost estimation child table
   eia_department_cost_estimation_add: function (frm, cdt, cdn) {
     // set_first_selling_item(frm, cdt, cdn);
-     if (frm.doc.quotation_items.length === 1) {
-       let selling_table = frm.doc.quotation_items[0];
-       set_selling_item_values(cdt, cdn, selling_table);
-     } else if (frm.doc.quotation_items.length > 1) {
-       // If there is exactly one item in the quotation_items table
-       apply_dynamic_filter(
-         frm,
-         "selling_item",
-         "eia_department_cost_estimation"
-       );
-     }
+    if (frm.doc.quotation_items.length === 1) {
+      let selling_table = frm.doc.quotation_items[0];
+      set_selling_item_values(cdt, cdn, selling_table);
+    } else if (frm.doc.quotation_items.length > 1) {
+      // If there is exactly one item in the quotation_items table
+      apply_dynamic_filter(
+        frm,
+        "selling_item",
+        "eia_department_cost_estimation"
+      );
+    }
   },
   eia_department_cost_estimation_remove: function (frm, cdt, cdn) {
     // update_costs_and_totals(frm, cdt, cdn);
@@ -1093,7 +1165,7 @@ function convert_days_into_hours(days) {
   if (per_day_hour === null) {
     // Return a default value or an error if per_day_hour is not yet fetched
     console.error("Per Day Hour not available. Fetching now...");
-    return days * 8; // Default fallback to 8 if per_day_hour is not yet available
+    return days * 8;
   }
 
   return days * per_day_hour; // Use fetched per_day_hour value
@@ -1198,7 +1270,7 @@ function handle_days_change(frm, cdt, cdn, day_field, hour_field) {
     try {
       let current_row = locals[cdt][cdn];
       let days = current_row[day_field] || 0;
-      let hours = convert_days_into_hours(days); // Use per_day_hour in conversion
+      let hours = convert_days_into_hours(days);
 
       frappe.model.set_value(cdt, cdn, hour_field, Math.round(hours));
       total_hours(frm, cdt, cdn); // Recalculate total hours
@@ -1359,11 +1431,11 @@ function calculate_other_expense_amount(frm, cdt, cdn) {
   let rate = current_row.rate || 0;
   let days = current_row.days || 1;
   let quantity = current_row.quantity || 1;
-  
-   amount = rate * quantity * days;
+
+  amount = rate * quantity * days;
   // if (current_row.expense_type === "Travel") {
   //   amount = rate * quantity;
-  // } 
+  // }
   //  if (current_row.expense_type === "Food") {
   //   amount = rate * quantity * days;
   // }

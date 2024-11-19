@@ -1,0 +1,38 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-10-30 10:15:21.109690",
+  "name": "Reviewed",
+  "style": "Primary",
+  "workflow_state_name": "Reviewed"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "question-sign",
+  "modified": "2024-10-30 10:14:12.258486",
+  "name": "Pending",
+  "style": "Danger",
+  "workflow_state_name": "Pending"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-10-30 10:15:12.101195",
+  "name": "Submitted",
+  "style": "Success",
+  "workflow_state_name": "Submitted"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-10-29 15:53:58.185364",
+  "name": "Rework",
+  "style": "Danger",
+  "workflow_state_name": "Rework"
+ }
+]
