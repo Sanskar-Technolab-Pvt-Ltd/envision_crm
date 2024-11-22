@@ -68,7 +68,8 @@
   {
    "fieldname": "unloading_percentage",
    "fieldtype": "Percent",
-   "label": "Unloading(%)"
+   "label": "Unloading(%)",
+   "precision": "2"
   },
   {
    "fieldname": "transportation_percentage",
@@ -83,33 +84,38 @@
   {
    "fieldname": "profit_percentage",
    "fieldtype": "Percent",
-   "label": "Profit(%)"
+   "label": "Margin(%)"
   },
   {
    "fieldname": "man_days",
    "fieldtype": "Percent",
-   "label": "Man Days(%)"
+   "label": "Man Days(%)",
+   "precision": "2",
+   "read_only": 1
   },
   {
    "fieldname": "other_expense",
    "fieldtype": "Percent",
-   "label": "Other Expense(%)"
+   "label": "Other Expense(%)",
+   "read_only": 1
   },
   {
    "fieldname": "man_days_amount",
    "fieldtype": "Currency",
-   "label": "Man Days Amount"
+   "label": "Man Days Amount",
+   "read_only": 1
   },
   {
    "fieldname": "other_expense_amount",
    "fieldtype": "Currency",
-   "label": "Other Expense Amount"
+   "label": "Other Expense Amount",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-10-30 10:23:12.916107",
+ "modified": "2024-11-22 16:23:32.138367",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Quotation Selling Items",

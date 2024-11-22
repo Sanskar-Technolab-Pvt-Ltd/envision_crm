@@ -1,8 +1,9 @@
 frappe.ui.form.on("Cost Estimation", {
   refresh: function (frm) {
     // Apply the filter when the form loads or refreshes
+    // Hide submit button
 
-    if (frm.doc.docstatus === 1) {
+    if (frm.doc.docstatus === 0) {
       frappe.db
         .get_list("Quotation", {
           filters: {
@@ -58,6 +59,14 @@ frappe.ui.form.on("Cost Estimation", {
     }
   }, // End refresh event
 
+  after_save: function (frm) {
+    // if (frm.doc.docstatus === 0) {
+    //   setTimeout(() => {
+    //     $("[data-label='Submit']").css("display", "none");
+    //   }, 100);
+    // }
+  },
+
   // if Opportunity change then all fields are reset.
   opportunity: function (frm) {
     frm.clear_table("quotation_items");
@@ -86,7 +95,10 @@ frappe.ui.form.on("Cost Estimation", {
 
     frm.set_value("profit_percentage", 0);
     frm.set_value("profit_amount", 0);
+    // frm.set_value("total_project_cost", 0);
     frm.set_value("total_project_cost", 0);
+
+    // total_project_cost
     frm.set_value("margin_amount", 0);
     // frm.set_value("add_profit_on_expense", 0);
     frm.set_value("add_profit_on_man_days", 0);
@@ -94,15 +106,15 @@ frappe.ui.form.on("Cost Estimation", {
 
     // show priority and due_date field
     // if status is Open
-    frm.toggle_display(
-      [
-        "projects_department_cost_estimation",
-        "total_amount",
-        "total_supply_amount",
-        "total_erection_amount",
-      ],
-      frm.doc.department === frm.doc.department
-    );
+    // frm.toggle_display(
+    //   [
+    //     "projects_department_cost_estimation",
+    //     "total_amount",
+    //     "total_supply_amount",
+    //     "total_erection_amount",
+    //   ],
+    //   frm.doc.department === frm.doc.department
+    // );
   },
 
   project_template: function (frm) {
@@ -156,43 +168,51 @@ frappe.ui.form.on("Cost Estimation", {
   // Projects department Profit calculate
 
   total_erection_amount: function (frm, cdt, cdn) {
-    calculate_profit_amount(frm, frm.doc.total_erection_amount);
+    calculate_total_project_cost(frm, frm.doc.total_erection_amount);
+    parent_item_wise_total_amount(
+      frm,
+      "projects_department_cost_estimation",
+      "total_amount_with_erection",
+      "quantity",
+      "total_erection_amount"
+    );
   },
 
   total_cost_of_eia: function (frm, cdt, cdn) {
-    calculate_profit_amount(frm, frm.doc.total_cost_of_eia);
+    calculate_total_project_cost(frm, frm.doc.total_cost_of_eia);
   },
 
   total_grand_amount: function (frm, cdt, cdn) {
-    calculate_profit_amount(frm, frm.doc.total_grand_amount);
+    calculate_total_project_cost(frm, frm.doc.total_grand_amount);
   },
 
-  profit_percentage: function (frm, cdt, cdn) {
-    if (frm.doc.department === "Projects - EETPL") {
-      calculate_profit_amount(frm, frm.doc.total_erection_amount);
-    } else if (frm.doc.department === "EIA - EETPL") {
-      calculate_profit_amount(frm, frm.doc.total_cost_of_eia);
-    } else if (frm.doc.department === "Operations - EETPL") {
-      calculate_profit_amount(frm, frm.doc.total_grand_amount);
-    }
-  },
+  // profit_percentage: function (frm, cdt, cdn) {
+  //   if (frm.doc.department === "Projects - EETPL") {
+  //     calculate_total_project_cost(frm, frm.doc.total_erection_amount);
+  //   } else if (frm.doc.department === "EIA - EETPL") {
+  //     calculate_total_project_cost(frm, frm.doc.total_cost_of_eia);
+  //   } else if (frm.doc.department === "Operations - EETPL") {
+  //     calculate_total_project_cost(frm, frm.doc.total_grand_amount);
+  //   }
+  // },
 
   margin_amount: function (frm) {
-    calculate_margin_percentage(frm, frm.doc.total_project_cost);
+    // calculate_margin_percentage(frm, frm.doc.total_project_cost);
+    calculate_total_project_cost_based_on_checkboxes(frm);
   },
 
   // Trigger profit calculation when checkboxes change
-  add_profit_on_expense: function (frm) {
-    calculate_profit_amount_based_on_checkboxes(frm);
-  },
+  // add_profit_on_expense: function (frm) {
+  //   calculate_total_project_cost_based_on_checkboxes(frm);
+  // },
 
-  add_profit_on_man_days: function (frm) {
-    calculate_profit_amount_based_on_checkboxes(frm);
-  },
+  // add_profit_on_man_days: function (frm) {
+  //   calculate_total_project_cost_based_on_checkboxes(frm);
+  // },
 
-  add_profit_on_travel: function (frm) {
-    calculate_profit_amount_based_on_checkboxes(frm);
-  },
+  // add_profit_on_travel: function (frm) {
+  //   calculate_total_project_cost_based_on_checkboxes(frm);
+  // },
 
   total_man_days_amount: function (frm) {
     calculate_man_days_or_other_expense_amount(
@@ -202,35 +222,52 @@ frappe.ui.form.on("Cost Estimation", {
       "man_days_amount"
     );
     frm.refresh_field(frm.doc.quotation_items);
+
+    // Recalculate the total project cost whent the man days change
+    calculate_total_project_cost_based_on_checkboxes(frm);
   },
   total_other_expense: function (frm) {
     calculate_man_days_or_other_expense_amount(
+      frm,
       frm.doc.total_other_expense,
       "other_expense",
       "other_expense_amount"
     );
-    frm.refresh_field("quotation_items");
+    frm.refresh_field(frm.doc.quotation_items);
+
+    // Recalculate the total project cost whent the man days change
+    calculate_total_project_cost_based_on_checkboxes(frm);
   },
 });
 
 // // Selling Item table
 frappe.ui.form.on("Quotation Selling Items", {
+  rate: function (frm, cdt, cdn) {
+    let current_row = locals[cdt][cdn];
+    let quantity = current_row.quantity || 1;
+    let rate = current_row.rate || 0;
+    let amount = quantity * rate;
+
+    frappe.model.set_value(cdt, cdn, "amount", Math.round(amount));
+    console.log("Amount =", amount);
+  },
   man_days: function (frm, cdt, cdn) {
     calculate_amount_for_row(
-      frm.doc.total_man_days_amount, // total_man_days_amount
-      cdt, // Child DocType (cdt)
-      cdn, // Child DocName (cdn)
-      "man_days", // man_days_field
-      "man_days_amount" // man_days_amount_field
+      frm.doc.total_man_days_amount,
+      cdt,
+      cdn,
+      "man_days",
+      "man_days_amount"
     );
+    
   },
   other_expense: function (frm, cdt, cdn) {
     calculate_amount_for_row(
-      frm.doc.total_other_expense, // total_man_days_amount
-      cdt, // Child DocType (cdt)
-      cdn, // Child DocName (cdn)
-      "other_expense", // man_days_field
-      "other_expense_amount" // man_days_amount_field
+      frm.doc.total_other_expense,
+      cdt,
+      cdn,
+      "other_expense",
+      "other_expense_amount"
     );
   },
   // quotation_items_add: function (frm, cdt, cdn) {
@@ -275,69 +312,82 @@ function apply_dynamic_filter(frm, field_name, table_name) {
 }
 
 // Wrapper function to trigger calculation based on checkboxes
-function calculate_profit_amount_based_on_checkboxes(frm) {
+function calculate_total_project_cost_based_on_checkboxes(frm) {
+  console.log("object")
   if (frm.doc.department === "Projects - EETPL") {
-    calculate_profit_amount(frm, frm.doc.total_erection_amount);
+    calculate_total_project_cost(frm, frm.doc.total_erection_amount);
   } else if (frm.doc.department === "EIA - EETPL") {
-    calculate_profit_amount(frm, frm.doc.total_cost_of_eia);
+    calculate_total_project_cost(frm, frm.doc.total_cost_of_eia);
   } else if (frm.doc.department === "Operations - EETPL") {
-    calculate_profit_amount(frm, frm.doc.total_grand_amount);
+    calculate_total_project_cost(frm, frm.doc.total_grand_amount);
   }
 }
 
 // Function to calculate profit amount based on department total cost and checkboxes
-function calculate_profit_amount(frm, department_total_cost) {
+function calculate_total_project_cost(frm, department_total_cost) {
   // Retrieve profit percentage from the form, defaulting to 0 if not present
   let profit_percentage = frm.doc.profit_percentage || 0;
   let profit_amount = 0;
   let total_project_cost = 0;
+  // let total_project_cost = 0;
+  total_project_cost =
+    department_total_cost +
+    frm.doc.total_man_days_amount +
+    frm.doc.total_other_expense +
+    frm.doc.margin_amount;
+  console.log(
+    "total_project_cost",
+    total_project_cost,
+    department_total_cost +
+      frm.doc.total_man_days_amount +
+      frm.doc.total_other_expense +
+      frm.doc.margin_amount,
+    frm.doc.margin_amount
+  );
 
   // Ensure department_total_cost is valid and default to 0 if not
   department_total_cost = department_total_cost || 0;
 
-  // Base cost calculations depending on selected checkboxes
-  if (frm.doc.add_profit_on_expense) {
-    // Calculate profit on the department total cost (expense)
-    total_project_cost = department_total_cost;
-  }
+  // Recalculate margin percentage based on Margin amount
+  // calculate_margin_percentage(frm, total_project_cost + profit_amount);department_total_cost;
+  calculate_margin_percentage(frm, department_total_cost);
+  console.log("department_total_cost", department_total_cost);
 
-  if (frm.doc.add_profit_on_man_days) {
-    // Add man days amount if the checkbox is checked
-    total_project_cost += frm.doc.total_man_days_amount || 0;
-  }
+  // // Base cost calculations depending on selected checkboxes
+  // if (frm.doc.add_profit_on_expense) {
+  //   // Calculate profit on the department total cost (expense)
+  //   total_project_cost = department_total_cost;
+  // }
 
-  if (frm.doc.add_profit_on_travel) {
-    // Add other expense (e.g., travel) if the checkbox is checked
-    total_project_cost += frm.doc.total_other_expense || 0;
-  }
+  // if (frm.doc.add_profit_on_man_days) {
+  //   // Add man days amount if the checkbox is checked
+  //   total_project_cost += frm.doc.total_man_days_amount || 0;
+  // }
+
+  // if (frm.doc.add_profit_on_travel) {
+  //   // Add other expense (e.g., travel) if the checkbox is checked
+  //   total_project_cost += frm.doc.total_other_expense || 0;
+  // }
 
   // Calculate profit amount based on total project cost and profit percentage
-  profit_amount = (total_project_cost * profit_percentage) / 100;
-
-  // Log for debugging
+  // profit_amount = (total_project_cost * profit_percentage) / 100;
 
   // Set calculated values in the form
-  frm.set_value("profit_amount", Math.round(profit_amount).toFixed(2));
-  frm.set_value(
-    "total_project_cost",
-    Math.round(department_total_cost + profit_amount).toFixed(2)
-  );
-
-  // Recalculate margin percentage based on new total project cost
-  calculate_margin_percentage(frm, total_project_cost + profit_amount);
+  // frm.set_value("profit_amount", Math.round(profit_amount).toFixed(2));
+  frm.set_value("total_project_cost", total_project_cost);
 
   // Refresh fields
-  frm.refresh_field("profit_amount");
+  // frm.refresh_field("profit_amount");
   frm.refresh_field("total_project_cost");
 }
 
 // Function to calculate the Margin percentage
-function calculate_margin_percentage(frm, total_project_cost) {
+function calculate_margin_percentage(frm, department_total_cost) {
   let margin_percentage = 0;
   let margin_amount = frm.doc.margin_amount || 0;
 
-  if (total_project_cost > 0) {
-    margin_percentage = (margin_amount / total_project_cost) * 100;
+  if (department_total_cost > 0) {
+    margin_percentage = (margin_amount / department_total_cost) * 100;
   }
 
   frm.set_value("margin_percentage", margin_percentage.toFixed(2));
@@ -393,7 +443,13 @@ function calculate_amount_for_row(
   let percentage = (row[percent_field] || 0) / 100;
   let amount = total_amount * percentage;
 
+  let rate = row.rate + amount;
+  console.log("rate", rate);
+
   frappe.model.set_value(cdt, cdn, amount_field, amount);
+  frappe.model.set_value(cdt, cdn, "rate", rate);
+  // frappe.model.set_value(cdt, cdn, "amount", amount_value);
+  return amount;
 }
 
 // Project Department Cost Estimation
@@ -414,13 +470,14 @@ frappe.ui.form.on("Project Department Cost Estimation", {
 
   projects_department_cost_estimation_remove: function (frm, cdt, cdn) {
     update_totals(frm);
-    parent_item_wise_total_amount(
-      frm,
-      "projects_department_cost_estimation",
-      "total_amount_with_erection",
-      "quantity"
-    );
-    console.log("Item Removed again");
+    // parent_item_wise_total_amount(
+    //   frm,
+    //   "projects_department_cost_estimation",
+    //   "total_amount_with_erection",
+    //   "quantity",
+    //   "total_erection_amount"
+    // );
+    // console.log("Item Removed again");
   },
 
   selling_item: function (frm, cdt, cdn) {
@@ -458,28 +515,29 @@ frappe.ui.form.on("Project Department Cost Estimation", {
 
   erection_percentage: function (frm, cdt, cdn) {
     handle_percentage_changes(frm, cdt, cdn);
-    parent_item_wise_total_amount(
-      frm,
-      "total_amount_with_erection",
-      "quantity"
-    );
+    // parent_item_wise_total_amount(
+    //   frm,
+    //   "total_amount_with_erection",
+    //   "quantity",
+    //   "total_erection_amount"
+    // );
   },
-  profit_percentage: function (frm, cdt, cdn) {
-    handle_percentage_changes(frm, cdt, cdn);
-    parent_item_wise_total_amount(
-      frm,
-      "total_amount_with_erection",
-      "quantity"
-    );
-  },
+  // profit_percentage: function (frm, cdt, cdn) {
+  //   handle_percentage_changes(frm, cdt, cdn);
+  // },
 
   total_amount_with_erection: function (frm, cdt, cdn) {
-    parent_item_wise_total_amount(
-      frm,
-      "projects_department_cost_estimation",
-      "total_amount_with_erection",
-      "quantity"
-    );
+    // parent_item_wise_total_amount(
+    //   frm,
+    //   "projects_department_cost_estimation",
+    //   "total_amount_with_erection",
+    //   "quantity",
+    //   "total_erection_amount"
+    // );
+  },
+
+  margin_percentage: function (frm, cdt, cdn) {
+    handle_percentage_changes(frm, cdt, cdn);
   },
 });
 
@@ -490,7 +548,7 @@ function set_selling_item_values(cdt, cdn, data) {
     unloading_percentage: data.unloading_percentage || 0,
     transportation_percentage: data.transportation_percentage || 0,
     erection_percentage: data.erection_percentage || 0,
-    profit_percentage: data.profit_percentage || 0,
+    margin_percentage: data.profit_percentage || 0,
   });
 }
 
@@ -535,6 +593,17 @@ function handle_percentage_changes(frm, cdt, cdn) {
     current_row.amount
   );
   update_total_amount_with_erection(cdt, cdn, erection_amount);
+
+  // Calculate margin amount based on the total amount with erection
+  let margin_amount = calculate_percentage_amount(
+    current_row.total_amount_with_erection,
+    current_row.margin_percentage
+  );
+
+  // set the margin amount in the field
+  frappe.model.set_value(cdt, cdn, "margin_amount", Math.round(margin_amount));
+
+  console.log("margin_amount", margin_amount);
   update_totals(frm);
 }
 
@@ -562,14 +631,14 @@ function update_total_amount_with_erection(cdt, cdn, erection_amount) {
   let total_amount_with_erection =
     (current_row.supply_amount || 0) + (erection_amount || 0);
 
-  let profit_amount = calculate_percentage_amount(
-    total_amount_with_erection,
-    current_row.profit_percentage
-  );
+  // let profit_amount = calculate_percentage_amount(
+  //   total_amount_with_erection,
+  //   current_row.profit_percentage
+  // );
 
-  frappe.model.set_value(cdt, cdn, "profit_amount", Math.round(profit_amount));
+  // frappe.model.set_value(cdt, cdn, "profit_amount", Math.round(profit_amount));
 
-  total_amount_with_erection += profit_amount;
+  // total_amount_with_erection += profit_amount;
 
   frappe.model.set_value(
     cdt,
@@ -583,24 +652,28 @@ function update_total_amount_with_erection(cdt, cdn, erection_amount) {
 function update_totals(frm) {
   let total_amount = 0,
     total_supply_amount = 0,
-    total_erection_amount = 0;
+    total_erection_amount = 0,
+    total_margin_amount = 0;
 
   frm.doc.projects_department_cost_estimation.forEach((row) => {
     total_amount += row.amount || 0;
     total_supply_amount += row.supply_amount || 0;
     total_erection_amount += row.total_amount_with_erection || 0;
+    total_margin_amount += row.margin_amount || 0;
   });
 
   frm.set_value({
     total_amount: Math.round(total_amount),
     total_supply_amount: Math.round(total_supply_amount),
     total_erection_amount: Math.round(total_erection_amount),
+    margin_amount: Math.round(total_margin_amount),
   });
 
   frm.refresh_fields([
     "total_amount",
     "total_supply_amount",
     "total_erection_amount",
+    "margin_amount",
   ]);
 }
 
@@ -642,11 +715,13 @@ function update_totals(frm) {
 //   frm.refresh_field("quotation_items");
 // }
 
+// Quotation item group wise amount
 function parent_item_wise_total_amount(
   frm,
   child_table,
   total_amount_field,
-  qty_field
+  qty_field,
+  total_expense_amount_field // Use this parameter to access the field dynamically
 ) {
   // Initialize objects to store the sum of total_amount and total_qty for each selling_item
   let selling_item_totals = {};
@@ -669,6 +744,9 @@ function parent_item_wise_total_amount(
     selling_item_quantities[selling_item] += row[qty_field] || 0;
   });
 
+  // Get the value of the dynamic total expense field
+  let total_expense_amount = frm.doc[total_expense_amount_field] || 0;
+
   // Iterate over each row in the quotation_items table to update rate, quantity, and amount
   frm.doc.quotation_items.forEach((row) => {
     let item_code = row.item_code;
@@ -678,11 +756,23 @@ function parent_item_wise_total_amount(
       // Set the rate from the selling_item_totals
       let rate = selling_item_totals[item_code];
 
+      // Calculate the Man days % values using rate / total expense amount
+      let man_days_percent = total_expense_amount
+        ? (selling_item_totals[item_code] / total_expense_amount) * 100
+        : 0;
+      console.log("Man days % ");
+
       // Set the quantity and calculate the amount (rate * current row quantity)
       let amount = rate * (row.quantity || 0);
 
       // Update the rate and amount for the current item row
       frappe.model.set_value(row.doctype, row.name, "rate", Math.round(rate));
+      frappe.model.set_value(
+        row.doctype,
+        row.name,
+        "man_days",
+        Math.round(man_days_percent)
+      );
       frappe.model.set_value(
         row.doctype,
         row.name,
@@ -693,13 +783,13 @@ function parent_item_wise_total_amount(
       // If the item was removed from the child table, reset its rate and amount to 0
       frappe.model.set_value(row.doctype, row.name, "rate", 0);
       frappe.model.set_value(row.doctype, row.name, "amount", 0);
+      frappe.model.set_value(row.doctype, row.name, "man_days", 0);
     }
   });
 
   // Refresh the quotation_items table after the updates
   frm.refresh_field("quotation_items");
 }
-
 // Cost Estimation For EIA Departrment
 frappe.ui.form.on("EIA Department Cost Estimation", {
   // when a new row is added in the cost estimation child table

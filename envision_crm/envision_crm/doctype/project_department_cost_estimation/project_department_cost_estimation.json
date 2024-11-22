@@ -35,8 +35,10 @@
   "section_break_zklv",
   "column_break_sbxc",
   "profit_percentage",
+  "margin_percentage",
   "column_break_lwbn",
   "profit_amount",
+  "margin_amount",
   "total_amount_with_erection"
  ],
  "fields": [
@@ -174,7 +176,9 @@
   {
    "fieldname": "profit_amount",
    "fieldtype": "Currency",
+   "hidden": 1,
    "label": "Profit Amount",
+   "precision": "2",
    "read_only": 1
   },
   {
@@ -203,17 +207,32 @@
   {
    "fieldname": "profit_percentage",
    "fieldtype": "Percent",
-   "label": "Profit(%)"
+   "hidden": 1,
+   "label": "Profit(%)",
+   "precision": "2"
   },
   {
    "fieldname": "column_break_sbxc",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "margin_percentage",
+   "fieldtype": "Percent",
+   "label": "Margin(%)",
+   "precision": "2"
+  },
+  {
+   "fieldname": "margin_amount",
+   "fieldtype": "Currency",
+   "label": "Margin Amount",
+   "precision": "2",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-10-22 11:03:33.302054",
+ "modified": "2024-11-20 17:43:03.926555",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Project Department Cost Estimation",

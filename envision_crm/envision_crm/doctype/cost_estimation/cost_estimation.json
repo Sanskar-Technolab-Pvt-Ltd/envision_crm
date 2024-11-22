@@ -82,14 +82,14 @@
   {
    "fieldname": "total_amount",
    "fieldtype": "Currency",
-   "label": "Total Amount",
+   "label": "Purchase Cost",
    "precision": "2",
    "read_only": 1
   },
   {
    "fieldname": "total_supply_amount",
    "fieldtype": "Currency",
-   "label": "Total Supply Amount ",
+   "label": "Ex-Site Cost",
    "read_only": 1
   },
   {
@@ -99,7 +99,7 @@
   {
    "fieldname": "total_erection_amount",
    "fieldtype": "Currency",
-   "label": "Total (Supply Amount + Erection Amount  ) ",
+   "label": "Total Cost",
    "read_only": 1
   },
   {
@@ -197,9 +197,11 @@
    "reqd": 1
   },
   {
+   "default": "0.00",
    "fieldname": "profit_amount",
    "fieldtype": "Currency",
    "label": "Profit Amount",
+   "precision": "2",
    "read_only": 1
   },
   {
@@ -207,9 +209,11 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "0.00",
    "fieldname": "total_project_cost",
    "fieldtype": "Currency",
    "label": "Quote Price",
+   "precision": "2",
    "read_only": 1
   },
   {
@@ -318,6 +322,7 @@
    "read_only": 1
   },
   {
+   "default": "0",
    "fieldname": "profit_percentage",
    "fieldtype": "Percent",
    "label": "Profit %",
@@ -369,7 +374,6 @@
    "label": "Company Code"
   },
   {
-   "allow_on_submit": 1,
    "fieldname": "quotation",
    "fieldtype": "Link",
    "hidden": 1,
@@ -435,15 +439,17 @@
    "label": "Add Profit on Other Expense "
   },
   {
+   "default": "0.00",
    "fieldname": "margin_amount",
    "fieldtype": "Currency",
-   "label": "Margin Amount"
+   "label": "Margin Amount",
+   "precision": "2"
   },
   {
    "default": "0",
    "fieldname": "margin_percentage",
    "fieldtype": "Percent",
-   "label": "Margin % ",
+   "label": "% Margin on Cost",
    "precision": "2",
    "read_only": 1
   }
@@ -457,7 +463,7 @@
    "link_fieldname": "custom_cost_estimation"
   }
  ],
- "modified": "2024-10-23 19:08:25.954057",
+ "modified": "2024-11-22 15:40:29.528768",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",
