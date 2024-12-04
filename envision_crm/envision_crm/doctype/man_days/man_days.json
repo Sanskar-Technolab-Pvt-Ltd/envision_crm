@@ -10,25 +10,32 @@
   "parent_task",
   "column_break_prde",
   "stages_of_project",
+  "project_template",
   "section_break_bovu",
   "level_1_days",
   "level_2_days",
-  "column_break_efoc",
   "level_3_days",
+  "column_break_efoc",
   "level_4_days",
+  "level_5_days",
+  "level_6_days",
   "section_break_tfta",
   "level_1_hours",
   "level_2_hours",
-  "column_break_disa",
   "level_3_hours",
+  "column_break_disa",
   "level_4_hours",
+  "level_5_hours",
+  "level_6_hours",
   "total_hours",
   "costing_section",
   "level_1_amount",
   "level_2_amount",
-  "column_break_gvrs",
   "level_3_amount",
+  "column_break_gvrs",
   "level_4_amount",
+  "level_5_amount",
+  "level_6_amount",
   "total_amount"
  ],
  "fields": [
@@ -185,12 +192,64 @@
    "fieldname": "task_details_section",
    "fieldtype": "Section Break",
    "label": "Task Details"
+  },
+  {
+   "columns": 1,
+   "fieldname": "project_template",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Project Template",
+   "options": "Project Template"
+  },
+  {
+   "columns": 1,
+   "fieldname": "level_5_days",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "L5 Days",
+   "precision": "2"
+  },
+  {
+   "columns": 1,
+   "fieldname": "level_6_days",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "L6 Days",
+   "precision": "2"
+  },
+  {
+   "fieldname": "level_5_hours",
+   "fieldtype": "Float",
+   "label": "L5 Hours",
+   "precision": "2"
+  },
+  {
+   "fieldname": "level_6_hours",
+   "fieldtype": "Float",
+   "label": "L6 Hours",
+   "precision": "2"
+  },
+  {
+   "columns": 1,
+   "fieldname": "level_5_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "L5 Amount",
+   "precision": "2"
+  },
+  {
+   "columns": 1,
+   "fieldname": "level_6_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "L6 Amount",
+   "precision": "2"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-10-22 11:25:00.215602",
+ "modified": "2024-11-29 17:11:15.474532",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Man Days",

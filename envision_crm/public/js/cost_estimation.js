@@ -105,19 +105,10 @@ frappe.ui.form.on("Cost Estimation", {
     frm.set_value("add_profit_on_travel", 0);
 
     // show priority and due_date field
-    // if status is Open
-    // frm.toggle_display(
-    //   [
-    //     "projects_department_cost_estimation",
-    //     "total_amount",
-    //     "total_supply_amount",
-    //     "total_erection_amount",
-    //   ],
-    //   frm.doc.department === frm.doc.department
-    // );
   },
 
   project_template: function (frm) {
+    let project_template = frm.doc.project_template || "";
     frappe.call({
       method:
         "envision_crm.envision_crm.api.get_data.get_project_template_task_list",
@@ -127,13 +118,13 @@ frappe.ui.form.on("Cost Estimation", {
       callback: function (r) {
         if (!r.exc) {
           // if Prject Template change then entire man days table reset.
-          frm.clear_table("man_days");
-          frm.set_value("total_man_days_amount", 0);
-          frm.set_value("total_level_1_hours", 0);
-          frm.set_value("total_level_2_hours", 0);
-          frm.set_value("total_level_3_hours", 0);
-          frm.set_value("total_level_4_hours", 0);
-          frm.refresh_field("total_man_days_amount");
+          // frm.clear_table("man_days");
+          // frm.set_value("total_man_days_amount", 0);
+          // frm.set_value("total_level_1_hours", 0);
+          // frm.set_value("total_level_2_hours", 0);
+          // frm.set_value("total_level_3_hours", 0);
+          // frm.set_value("total_level_4_hours", 0);
+          // frm.refresh_field("total_man_days_amount");
 
           let task_mapping = r.message;
 
@@ -154,13 +145,27 @@ frappe.ui.form.on("Cost Estimation", {
               "stages_of_project",
               task.subject
             );
+
+            frappe.model.set_value(
+              row.doctype,
+              row.name,
+              "project_template",
+              project_template
+            );
+            console.log("Template name ", project_template);
           });
 
           // Refresh the child table after adding rows
           frm.refresh_field("man_days");
+
+          setTimeout(() => {
+            frm.set_value("project_template", "");
+          }, 500);
         }
       },
     });
+
+    // frm.set_value("project_template", "");
   },
 
   // if ( "operation " in frm.doc.department )
@@ -239,7 +244,23 @@ frappe.ui.form.on("Cost Estimation", {
     calculate_total_project_cost_based_on_checkboxes(frm);
   },
 });
-
+function hide_child_table_field(
+  frm,
+  child_table_name,
+  field_name,
+  hide = true
+) {
+  // Check if the child table and field exist
+  if (frm.fields_dict[child_table_name]) {
+    frm.fields_dict[child_table_name].grid.update_docfield_property(
+      field_name,
+      "hidden",
+      hide
+    );
+  } else {
+    console.error(`Child table ${child_table_name} not found.`);
+  }
+}
 // // Selling Item table
 frappe.ui.form.on("Quotation Selling Items", {
   rate: function (frm, cdt, cdn) {
@@ -259,7 +280,6 @@ frappe.ui.form.on("Quotation Selling Items", {
       "man_days",
       "man_days_amount"
     );
-    
   },
   other_expense: function (frm, cdt, cdn) {
     calculate_amount_for_row(
@@ -270,23 +290,72 @@ frappe.ui.form.on("Quotation Selling Items", {
       "other_expense_amount"
     );
   },
-  // quotation_items_add: function (frm, cdt, cdn) {
-  //   // console.log("Add selling rows");
-  //   // console.log("Reference called ");
+  quotation_items_add: function (frm, cdt, cdn) {
+    if (frm.doc.department !== "Projects - EETPL") {
+      //  Hide the field 'unloading_percentage', 'transportation_percentage', 'erection_percentage' in the 'quotation_items' child table
 
-  //   // apply_dynamic_filter(frm);
-  // },
+      // Hide the specific field in the child table
+      hide_child_table_field(
+        frm,
+        "quotation_items",
+        "unloading_percentage",
+        true
+      );
 
-  // quotation_items_remove: function (frm, cdt, cdn) {
-  // console.log("delete selling rows");
+      hide_child_table_field(
+        frm,
+        "quotation_items",
+        "transportation_percentage",
+        true
+      );
 
-  // apply_dynamic_filter(frm);
-  // },
-  // item_code: function (frm, cdt, cdn) {
-  //   console.log("delete selling rows");
+      hide_child_table_field(
+        frm,
+        "quotation_items",
+        "erection_percentage",
+        true
+      );
+    } else if (frm.doc.department === "Projects - EETPL") {
+      // Show the specific field in the child table
 
-  //   apply_dynamic_filter(frm);
-  // },
+      hide_child_table_field(
+        frm,
+        "quotation_items",
+        "unloading_percentage",
+        false
+      );
+
+      hide_child_table_field(
+        frm,
+        "quotation_items",
+        "transportation_percentage",
+        false
+      );
+
+      hide_child_table_field(
+        frm,
+        "quotation_items",
+        "erection_percentage",
+        false
+      );
+    }
+
+    //   // console.log("Add selling rows");
+    //   // console.log("Reference called ");
+
+    //   // apply_dynamic_filter(frm);
+    // },
+
+    // quotation_items_remove: function (frm, cdt, cdn) {
+    // console.log("delete selling rows");
+
+    // apply_dynamic_filter(frm);
+    // },
+    // item_code: function (frm, cdt, cdn) {
+    //   console.log("delete selling rows");
+
+    //   apply_dynamic_filter(frm);
+  },
 });
 
 // Function to apply a dynamic filter to the 'selling_item' field
@@ -313,7 +382,7 @@ function apply_dynamic_filter(frm, field_name, table_name) {
 
 // Wrapper function to trigger calculation based on checkboxes
 function calculate_total_project_cost_based_on_checkboxes(frm) {
-  console.log("object")
+  console.log("object");
   if (frm.doc.department === "Projects - EETPL") {
     calculate_total_project_cost(frm, frm.doc.total_erection_amount);
   } else if (frm.doc.department === "EIA - EETPL") {
@@ -854,6 +923,22 @@ frappe.ui.form.on("EIA Department Cost Estimation", {
       "no_of_persons"
     );
   },
+  margin_percentage: function (frm, cdt, cdn) {
+    let current_row = locals[cdt][cdn];
+
+    let margin_amount = calculate_percentage_amount(
+      current_row.expense || 0,
+      current_row.margin_percentage || 0
+    );
+
+    // set the margin amount in the field
+    frappe.model.set_value(
+      cdt,
+      cdn,
+      "margin_amount",
+      Math.round(margin_amount)
+    );
+  },
 
   // total_cost_of_eia:function(frm){
   //    parent_item_wise_total_amount(
@@ -1305,6 +1390,8 @@ function calculate_level_wise_amounts(frm, cdt, cdn) {
     let level_2_hours = current_row.level_2_hours || 0;
     let level_3_hours = current_row.level_3_hours || 0;
     let level_4_hours = current_row.level_4_hours || 0;
+    let level_5_hours = current_row.level_5_hours || 0;
+    let level_6_hours = current_row.level_6_hours || 0;
 
     // Get per-hour amounts for each level from the fetched data
     // let level_1_amount =
@@ -1333,15 +1420,31 @@ function calculate_level_wise_amounts(frm, cdt, cdn) {
       level_wise_per_hour_amounts.find((l) => l.idx === 4).amount *
       level_4_hours;
 
+    let level_5_amount =
+      level_wise_per_hour_amounts.find((l) => l.idx === 5).amount *
+      level_5_hours;
+
+    let level_6_amount =
+      level_wise_per_hour_amounts.find((l) => l.idx === 6).amount *
+      level_6_hours;
+
     // Calculate total amount
     let total_amount =
-      level_1_amount + level_2_amount + level_3_amount + level_4_amount;
+      level_1_amount +
+      level_2_amount +
+      level_3_amount +
+      level_4_amount +
+      level_5_amount +
+      level_6_amount;
 
     // Set the calculated amounts in the respective fields
     frappe.model.set_value(cdt, cdn, "level_1_amount", level_1_amount);
     frappe.model.set_value(cdt, cdn, "level_2_amount", level_2_amount);
     frappe.model.set_value(cdt, cdn, "level_3_amount", level_3_amount);
     frappe.model.set_value(cdt, cdn, "level_4_amount", level_4_amount);
+    frappe.model.set_value(cdt, cdn, "level_5_amount", level_5_amount);
+    frappe.model.set_value(cdt, cdn, "level_6_amount", level_6_amount);
+
     frappe.model.set_value(cdt, cdn, "total_amount", total_amount);
 
     // console.log("Level-wise amounts calculated and set:", {
@@ -1379,6 +1482,8 @@ function total_hours(frm, cdt, cdn) {
     current_row.level_2_hours || 0,
     current_row.level_3_hours || 0,
     current_row.level_4_hours || 0,
+    current_row.level_5_hours || 0,
+    current_row.level_6_hours || 0,
   ].reduce((temp, hours) => temp + hours, 0);
 
   //  console.log("Total hours:", total_hours);
@@ -1389,7 +1494,7 @@ function total_hours(frm, cdt, cdn) {
 // Handle hour changes
 function handle_hours_change(frm, cdt, cdn, hour_field) {
   try {
-    total_hours(frm, cdt, cdn); // Update total hours
+    total_hours(frm, cdt, cdn);
     //  console.log(`Updated ${hour_field}`);
   } catch (error) {
     console.error(`Error updating ${hour_field}:`, error);
@@ -1421,6 +1526,12 @@ frappe.ui.form.on("Man Days", {
   level_4_days: function (frm, cdt, cdn) {
     handle_days_change(frm, cdt, cdn, "level_4_days", "level_4_hours");
   },
+  level_5_days: function (frm, cdt, cdn) {
+    handle_days_change(frm, cdt, cdn, "level_5_days", "level_5_hours");
+  },
+  level_6_days: function (frm, cdt, cdn) {
+    handle_days_change(frm, cdt, cdn, "level_6_days", "level_6_hours");
+  },
 
   level_1_hours: function (frm, cdt, cdn) {
     handle_hours_change(frm, cdt, cdn, "level_1_hours");
@@ -1439,6 +1550,16 @@ frappe.ui.form.on("Man Days", {
 
   level_4_hours: function (frm, cdt, cdn) {
     handle_hours_change(frm, cdt, cdn, "level_4_hours");
+    calculate_level_wise_amounts(frm, cdt, cdn);
+  },
+
+  level_5_hours: function (frm, cdt, cdn) {
+    handle_hours_change(frm, cdt, cdn, "level_5_hours");
+    calculate_level_wise_amounts(frm, cdt, cdn);
+  },
+
+  level_6_hours: function (frm, cdt, cdn) {
+    handle_hours_change(frm, cdt, cdn, "level_6_hours");
     calculate_level_wise_amounts(frm, cdt, cdn);
   },
   total_amount: function (frm, cdt, cdn) {
