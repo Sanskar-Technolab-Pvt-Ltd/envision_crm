@@ -303,18 +303,18 @@ fixtures = [
     #     "dt": "Letter Head",
     #     "filters": [["name", "in", ["Offer Print", "Continuous Head"]]],
     # },
-    # {
-    #     "dt": "Workflow State",
-    #     "filters": [["name", "in", ["Reviewed ", "Submitted", "Pending", "Rework"]]],
-    # },
-    # {
-    #     "dt": "Workflow Action Master",
-    #     "filters": [
-    #         ["name", "in", ["Review ", "Reject", "Approve", "Submit for Review"]]
-    #     ],
-    # },
-    # {
-    #     "dt": "Workflow",
-    #     "filters": [["name", "in", ["Quotation Workflow"]]],
-    # },
+    {
+        "dt": "Workflow State",
+        "filters": [["name", "in", ["Reviewed ", "Submitted", "Pending", "Rework"]]],
+    },
+    {
+        "dt": "Workflow Action Master",
+        "filters": [
+            ["name", "in", ["Review ", "Reject", "Approve", "Submit for Review"]]
+        ],
+    },
+    {
+        "dt": "Workflow",
+        "filters": [["name", "in", ["Quotation Workflow"]]],
+    },
 ]

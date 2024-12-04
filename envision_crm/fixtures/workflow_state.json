@@ -11,11 +11,11 @@
  {
   "docstatus": 0,
   "doctype": "Workflow State",
-  "icon": "question-sign",
-  "modified": "2024-10-30 10:14:12.258486",
-  "name": "Pending",
-  "style": "Danger",
-  "workflow_state_name": "Pending"
+  "icon": "",
+  "modified": "2024-10-04 11:09:10.985629",
+  "name": "Rework",
+  "style": "Warning",
+  "workflow_state_name": "Rework"
  },
  {
   "docstatus": 0,
@@ -30,9 +30,9 @@
   "docstatus": 0,
   "doctype": "Workflow State",
   "icon": "",
-  "modified": "2024-10-29 15:53:58.185364",
-  "name": "Rework",
-  "style": "Danger",
-  "workflow_state_name": "Rework"
+  "modified": "2024-11-29 11:48:47.918481",
+  "name": "Pending",
+  "style": "",
+  "workflow_state_name": "Pending"
  }
 ]
