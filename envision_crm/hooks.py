@@ -12,7 +12,7 @@ app_license = "mit"
 # include js, css files in header of desk.html
 # app_include_css = "/assets/envision_crm/css/envision_crm.css"
 app_include_js = [
-    "/assets/envision_crm/js/quotation.js",
+    # "/assets/envision_crm/js/quotation.js",
     # "/assets/envision_crm/js/opportunity.js",
     # "/assets/envision_crm/js/cost_estimation.js",
 ]
@@ -36,6 +36,7 @@ doctype_js = {
     "Cost Estimation": "public/js/cost_estimation.js",
     "Opportunity": "public/js/opportunity.js",
     "Lead": "public/js/lead.js",
+    "Quotation": "public/js/quotation.js",
 }
 
 
@@ -143,9 +144,12 @@ doc_events = {
     # "Opportunity": {
     #     "before_save": "envision_crm.envision_crm.api.opportunity.naming_series",
     # },
+    "Quotation": {
+        "on_submit": "envision_crm.envision_crm.api.cost_estimation.submit_cost_estimation",
+    },
     # "Quotation": {
-    #     "before_save": "envision_crm.envision_crm.api.quotation.naming_series",
-    # },
+    #     "on_submit": "your_app_path.quotation.submit_cost_estimation",
+    # }
     # "Cost Estimation": {
     #     "before_save": "envision_crm.envision_crm.api.cost_estimation.naming_series",
     # },
@@ -293,19 +297,26 @@ fixtures = [
     #         ["property", "=", "naming_series"],
     #     ],
     # },
+    {"dt": "Workspace", "filters": [["name", "=", "CRM"]]},
     {"dt": "Print Format", "filters": [["name", "in", ["Print Offer"]]]},
-    {
-        "dt": "Letter Head",
-        "filters": [["name", "in", ["Offer Print", "Continuous Head"]]],
-    },
+    # {
+    #     "dt": "Letter Head",
+    #     "filters": [["name", "in", ["Offer Print", "Continuous Head"]]],
+    # },
     {
         "dt": "Workflow State",
-        "filters": [["name", "in", ["Reviewed ", "Submitted", "Pending", "Rework"]]],
+        "filters": [
+            ["name", "in", ["Reviewed ", "Submitted", "Pending", "Rework", "Cancelled"]]
+        ],
     },
     {
         "dt": "Workflow Action Master",
         "filters": [
-            ["name", "in", ["Review ", "Reject", "Approve", "Submit for Review"]]
+            [
+                "name",
+                "in",
+                ["Review ", "Reject", "Approve", "Submit for Review", "Cancel"],
+            ]
         ],
     },
     {

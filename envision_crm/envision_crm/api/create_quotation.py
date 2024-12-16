@@ -1,75 +1,143 @@
 import frappe 
+from frappe import _
+
+from frappe.contacts.address_and_contact import load_address_and_contact
+from frappe.email.inbox import link_communication_to_document
+from frappe.model.mapper import get_mapped_doc
+from frappe.query_builder import DocType, Interval
+from frappe.query_builder.functions import Now
+from frappe.utils import flt, get_fullname
+
+from erpnext.setup.utils import get_exchange_rate
+from erpnext.utilities.transaction_base import TransactionBase
+
 
 
 @frappe.whitelist()
-def create_quotation(cost_estimation_id, opportunity, company):
-    try:
-        # Fetch Opportunity details (opportunity_from and party_name)
-        opportunity_details = frappe.get_value(
-            "Opportunity",
-            opportunity,
-            ["opportunity_from", "party_name", "custom_department","custom_project_type"],
+def make_quotation_from_cost_estimation(cost_estimation_id, target_doc=None):
+    def set_missing_values(source, target):
+        from erpnext.controllers.accounts_controller import (
+            get_default_taxes_and_charges,
+        )
+
+        # Get the quotation document
+        quotation = frappe.get_doc(target)
+
+        company_currency = frappe.get_cached_value(
+            "Company", quotation.company, "default_currency"
+        )
+
+        # Determine exchange rate
+        if company_currency == quotation.currency:
+            exchange_rate = 1
+        else:
+            exchange_rate = get_exchange_rate(
+                quotation.currency,
+                company_currency,
+                quotation.transaction_date,
+                args="for_selling",
+            )
+
+        quotation.conversion_rate = exchange_rate
+
+        # Fetch default taxes and update
+        taxes = get_default_taxes_and_charges(
+            "Sales Taxes and Charges Template", company=quotation.company
+        )
+        if taxes.get("taxes"):
+            quotation.update(taxes)
+
+        # Run missing values and totals calculations
+        quotation.run_method("set_missing_values")
+        quotation.run_method("calculate_taxes_and_totals")
+
+        # Link the opportunity if not already linked
+        if not quotation.opportunity:
+            quotation.opportunity = source.opportunity
+
+    # Fetch the Cost Estimation document
+    cost_estimation = frappe.get_doc("Cost Estimation", cost_estimation_id)
+    if not cost_estimation.opportunity:
+        frappe.throw("No Opportunity is linked with this Cost Estimation.")
+
+    # Fetch items from the "Quotation Selling Items" child table
+    selling_items = frappe.get_all(
+        "Quotation Selling Items",
+        filters={"parent": cost_estimation_id},
+        fields=[
+            "item_code",
+            "quantity",
+            "rate",
+            "amount",
+            "idx",
+            "quote_price",
+        ],
+        order_by="idx",
+    )
+
+    if not selling_items:
+        frappe.throw(f"No selling items found for Cost Estimation {cost_estimation_id}")
+
+    # Fetch rows from the "Cost Estimation Expense" child table
+    cost_estimation_expenses = frappe.get_all(
+        "Cost Estimation Expense",
+        filters={"parent": cost_estimation_id},
+        fields=["item_code", "capacity", "moc", "quantity"],
+    )
+
+    # Map fields from Cost Estimation and Opportunity to Quotation
+    doclist = get_mapped_doc(
+        "Opportunity",
+        cost_estimation.opportunity,
+        {
+            "Opportunity": {
+                "doctype": "Quotation",
+                "field_map": {"opportunity_from": "quotation_to", "name": "enq_no"},
+            },
+        },
+        target_doc,
+        set_missing_values,
+    )
+
+    # Append items from the Cost Estimation's "Quotation Selling Items" child table
+    for item in selling_items:
+        # Fetch item details
+        item_details = frappe.get_value(
+            "Item",
+            item.item_code,
+            ["item_name", "stock_uom"],
             as_dict=True,
         )
 
-        if not opportunity_details:
-            frappe.throw(("Opportunity not found"))
+        if not item_details:
+            frappe.throw(f"Item Code {item.item_code} not found in the Item master.")
 
-        # Fetch and sort Quotation Selling Items by 'idx'
-        sorted_quotation_selling_items = frappe.get_all(
-            "Quotation Selling Items",
-            filters={"parent": cost_estimation_id},
-            fields=["item_code", "quantity", "rate", "amount", "idx"],
-            order_by="idx",
-        )
-
-        if not sorted_quotation_selling_items:
-            frappe.throw(
-                ("No selling items found for cost estimation {0}").format(
-                    cost_estimation_id
-                )
-            )
-        print("\n\n\n data ",[opportunity_details, sorted_quotation_selling_items])
-        # return [opportunity_details, sorted_quotation_selling_items]
-        # Create and populate Quotation
-        new_quotation = frappe.new_doc("Quotation")
-        new_quotation.update(
+        doclist.append(
+            "items",
             {
-                "quotation_to": opportunity_details.opportunity_from,
-                "party_name": opportunity_details.party_name,
-                "custom_department": opportunity_details.custom_department,
-                "custom_project_type": opportunity_details.custom_project_type,
-                "custom_cost_estimation": cost_estimation_id,
-                "company": company,
-            }
+                "item_code": item.item_code,
+                "item_name": item_details.item_name,
+                "uom": item_details.stock_uom,
+                "qty": item.quantity,
+                "rate": item.quote_price,
+                "custom_estimated_rate": item.quote_price,
+                # "amount": item.amount,
+            },
         )
 
-        # Append items in one loop
-        for item in sorted_quotation_selling_items:
-            new_quotation.append(
-                "items",
-                {
-                    "item_code": item.item_code,
-                    "qty": item.quantity,
-                    "rate": item.rate,
-                    "custom_estimated_rate": item.rate,
-                    "amount": item.amount,
-                },
-            )
-            print("custom_estimated_rate", item.rate)
+    # Append rows from the Cost Estimation's "Cost Estimation Expense" child table
+    for expense in cost_estimation_expenses:
+        doclist.append(
+            "custom_quotation_cost_estimation_expense",
+            {
+                "item_code": expense.item_code,
+                "specification": expense.capacity,
+                "moc": expense.moc,
+                "quantity": expense.quantity,
+            },
+        )
 
-        # Insert the new Quotation document into the database and commit
-        new_quotation.insert(ignore_permissions=True)
-        frappe.db.commit()
-        
-        # frappe.msgprint("Quotation created successfully")
+    # Link the Cost Estimation in the Quotation
+    doclist.custom_cost_estimation = cost_estimation_id
 
-        return {
-            "quotation_name": new_quotation.name,
-            "opportunity_details": opportunity_details,
-            "sorted_quotation_selling_items": sorted_quotation_selling_items,
-        }
-
-    except frappe.DoesNotExistError as e:
-        frappe.log_error(f"Document not found: {str(e)}", "create_quotation")
-        return {"status": "error", "message": f"Document not found: {str(e)}"}
+    return doclist
