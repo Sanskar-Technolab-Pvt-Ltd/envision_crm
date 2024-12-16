@@ -1,0 +1,215 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-08-06 11:32:14.363222",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "selling_item",
+  "item_code",
+  "column_break_wiqm",
+  "section_break_gycp",
+  "item_description",
+  "section_break_rnzo",
+  "capacity",
+  "make",
+  "moc",
+  "column_break_bhya",
+  "section_break_kmdk",
+  "quantity",
+  "rate",
+  "column_break_chmp",
+  "amount",
+  "section_break_nzsy",
+  "unloading_percentage",
+  "transportation_percentage",
+  "erection_percentage",
+  "column_break_fxmc",
+  "unloading_amount",
+  "transportation_amount",
+  "erection_amount",
+  "section_break_zklv",
+  "column_break_sbxc",
+  "column_break_lwbn",
+  "total_amount_with_erection"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code ",
+   "options": "Item"
+  },
+  {
+   "fieldname": "column_break_wiqm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_gycp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "item_description",
+   "fieldtype": "Text Editor",
+   "label": "Item Description"
+  },
+  {
+   "fieldname": "section_break_rnzo",
+   "fieldtype": "Section Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "capacity",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Capacity"
+  },
+  {
+   "fieldname": "make",
+   "fieldtype": "Data",
+   "label": "Make"
+  },
+  {
+   "fieldname": "column_break_bhya",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "moc",
+   "fieldtype": "Data",
+   "label": "MOC"
+  },
+  {
+   "fieldname": "section_break_kmdk",
+   "fieldtype": "Section Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_chmp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_nzsy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_fxmc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_zklv",
+   "fieldtype": "Section Break",
+   "label": "Landed/ Bare Cost"
+  },
+  {
+   "columns": 1,
+   "fieldname": "unloading_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Unloading Amount",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "transportation_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Transportation Amount ",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_lwbn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "erection_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Installation Amount",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "total_amount_with_erection",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Landed/ Bare Cost",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "selling_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Selling Item",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "default": "1",
+   "fieldname": "quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity",
+   "precision": "2",
+   "reqd": 1
+  },
+  {
+   "fieldname": "unloading_percentage",
+   "fieldtype": "Percent",
+   "label": "Unloading(%)",
+   "precision": "2"
+  },
+  {
+   "fieldname": "transportation_percentage",
+   "fieldtype": "Percent",
+   "label": "Transportation(%)",
+   "precision": "2"
+  },
+  {
+   "fieldname": "erection_percentage",
+   "fieldtype": "Percent",
+   "label": "Erection(%)",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_sbxc",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-12-12 16:17:45.688043",
+ "modified_by": "Administrator",
+ "module": "Envision CRM",
+ "name": "Cost Estimation Expense",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

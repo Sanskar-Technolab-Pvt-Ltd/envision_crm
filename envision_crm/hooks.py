@@ -11,7 +11,11 @@ app_license = "mit"
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/envision_crm/css/envision_crm.css"
-# app_include_js = "/assets/envision_crm/js/envision_crm.js"
+app_include_js = [
+    # "/assets/envision_crm/js/quotation.js",
+    # "/assets/envision_crm/js/opportunity.js",
+    # "/assets/envision_crm/js/cost_estimation.js",
+]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/envision_crm/css/envision_crm.css"
@@ -28,7 +32,18 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+    "Cost Estimation": "public/js/cost_estimation.js",
+    "Opportunity": "public/js/opportunity.js",
+    "Lead": "public/js/lead.js",
+    "Quotation": "public/js/quotation.js",
+}
+
+
+override_doctype_dashboards = {
+    "Opportunity": "envision_crm.override.opportunity_dashboard.get_data",
+    # "Quotation": "envision_crm.override.quotation_dashboard.get_data",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -122,13 +137,23 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+    # "Lead": {
+    #     "before_save": "envision_crm.envision_crm.api.lead.naming_series",
+    # },
+    # "Opportunity": {
+    #     "before_save": "envision_crm.envision_crm.api.opportunity.naming_series",
+    # },
+    "Quotation": {
+        "on_submit": "envision_crm.envision_crm.api.cost_estimation.submit_cost_estimation",
+    },
+    # "Quotation": {
+    #     "on_submit": "your_app_path.quotation.submit_cost_estimation",
+    # }
+    # "Cost Estimation": {
+    #     "before_save": "envision_crm.envision_crm.api.cost_estimation.naming_series",
+    # },
+}
 
 # Scheduled Tasks
 # ---------------
@@ -227,3 +252,75 @@ app_license = "mit"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
+
+# fixtures = [
+#     {
+#         "doctype": "Property Setter",
+#         "filters": [
+#             ["doc_type", "in", ["Lead", "Opportunity"]],
+#             ["property", "=", "naming_series"],
+#         ],
+#     },
+#     {
+#         "doctype": "Print Format",
+#         "filters": ["name", "in", ["Print Offer"]],
+#     },
+#     {
+#         "doctype": "Letter Head",
+#         "filters": ["name", "in", ["Offer Print"]],
+#     },
+# ]
+
+# fixtures = [
+#     # {
+#     #     "dt": "Property Setter",
+#     #     "filters": [
+#     #         ["doc_type", "in", ["Lead", "Opportunity"]],
+#     #         ["property", "=", "naming_series"],
+#     #     ],
+#     # },
+#     {
+#         "dt": "Print Format",
+#         "filters": ["name", "in", ["Print Offer"]],
+#     },
+#     {
+#         "dt": "Letter Head",
+#         "filters": ["name", "in", ["Offer Print"]],
+#     },
+# ]
+
+fixtures = [
+    # {
+    #     "dt": "Property Setter",
+    #     "filters": [
+    #         ["doc_type", "in", ["Lead", "Opportunity"]],
+    #         ["property", "=", "naming_series"],
+    #     ],
+    # },
+    {"dt": "Workspace", "filters": [["name", "=", "CRM"]]},
+    {"dt": "Print Format", "filters": [["name", "in", ["Print Offer"]]]},
+    # {
+    #     "dt": "Letter Head",
+    #     "filters": [["name", "in", ["Offer Print", "Continuous Head"]]],
+    # },
+    {
+        "dt": "Workflow State",
+        "filters": [
+            ["name", "in", ["Reviewed ", "Submitted", "Pending", "Rework", "Cancelled"]]
+        ],
+    },
+    {
+        "dt": "Workflow Action Master",
+        "filters": [
+            [
+                "name",
+                "in",
+                ["Review ", "Reject", "Approve", "Submit for Review", "Cancel"],
+            ]
+        ],
+    },
+    {
+        "dt": "Workflow",
+        "filters": [["name", "in", ["Quotation Workflow"]]],
+    },
+]

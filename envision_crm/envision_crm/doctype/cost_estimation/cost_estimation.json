@@ -1,0 +1,494 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "format:CC{company_code}{YY}{####}",
+ "creation": "2024-07-25 13:17:56.990933",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "expense_tab",
+  "section_break_kdzg",
+  "title",
+  "opportunity",
+  "department",
+  "column_break_afuw",
+  "company",
+  "company_code",
+  "amended_from",
+  "section_break_lewm",
+  "quotation_items",
+  "section_break_dmvt",
+  "total_unit_basic_cost",
+  "column_break_wiyz",
+  "total_basic_cost",
+  "column_break_cats",
+  "total_cost",
+  "total_quote_price",
+  "section_break_vpjo",
+  "column_break_bctj",
+  "margin_percentage",
+  "margin_on_sale",
+  "column_break_umzz",
+  "margin_amount",
+  "total_quoted_amount",
+  "section_break_yoys",
+  "enable_salary_rate_sync",
+  "cost_estimation_expense",
+  "section_break_zqms",
+  "column_break_dxnz",
+  "total_unloading",
+  "total_transport",
+  "total_installation",
+  "column_break_krsu",
+  "total_amount",
+  "total_erection_amount",
+  "section_break_payf",
+  "contract_employee_salary_estimation",
+  "overhead_tab",
+  "project_template",
+  "section_break_sepy",
+  "man_days",
+  "section_break_piye",
+  "total_level_1_days",
+  "total_level_2_days",
+  "total_level_3_days",
+  "column_break_lbjz",
+  "total_level_4_days",
+  "total_level_5_days",
+  "total_level_6_days",
+  "man_days_total_section",
+  "column_break_ejqp",
+  "column_break_jydy",
+  "total_man_days_amount",
+  "percent_man_days_on_total_quote_amount",
+  "section_break_fsbn",
+  "other_expense",
+  "section_break_mqxn",
+  "total_other_expense",
+  "other_expense_on_total_quote_amount_percentage"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_zqms",
+   "fieldtype": "Section Break",
+   "label": "Cost Estimation Expense Totals"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Purchase Cost",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_krsu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_erection_amount",
+   "fieldtype": "Currency",
+   "label": "Total Landed/ Bare Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_kdzg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_yoys",
+   "fieldtype": "Section Break",
+   "label": "Cost Estimation Expense"
+  },
+  {
+   "fieldname": "section_break_lewm",
+   "fieldtype": "Section Break",
+   "label": "Selling Items"
+  },
+  {
+   "fieldname": "quotation_items",
+   "fieldtype": "Table",
+   "label": "Selling Items",
+   "options": "Quotation Selling Items"
+  },
+  {
+   "fetch_from": "opportunity.custom_department",
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "section_break_payf",
+   "fieldtype": "Section Break",
+   "label": "Contract Employee Salary"
+  },
+  {
+   "fieldname": "overhead_tab",
+   "fieldtype": "Tab Break",
+   "label": "Man Days"
+  },
+  {
+   "fieldname": "expense_tab",
+   "fieldtype": "Tab Break",
+   "label": "Expense"
+  },
+  {
+   "fieldname": "opportunity",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Opportunity",
+   "options": "Opportunity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "project_template",
+   "fieldtype": "Link",
+   "label": "Project Template",
+   "options": "Project Template"
+  },
+  {
+   "fieldname": "section_break_sepy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_piye",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_fsbn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_bulk_edit": 1,
+   "fieldname": "man_days",
+   "fieldtype": "Table",
+   "label": "Man Days",
+   "options": "Man Days"
+  },
+  {
+   "fieldname": "total_man_days_amount",
+   "fieldtype": "Currency",
+   "label": "Total Man Days Amount",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "allow_bulk_edit": 1,
+   "fieldname": "other_expense",
+   "fieldtype": "Table",
+   "label": "Other Expense",
+   "options": "Other Expense"
+  },
+  {
+   "fieldname": "section_break_mqxn",
+   "fieldtype": "Section Break",
+   "label": "Other Expense Total"
+  },
+  {
+   "fieldname": "total_other_expense",
+   "fieldtype": "Currency",
+   "label": "Total Other Expense",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Cost Estimation",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_afuw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fetch_from": "company.custom_company_code",
+   "fieldname": "company_code",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Company Code"
+  },
+  {
+   "fieldname": "column_break_lbjz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_dxnz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0.00",
+   "fieldname": "margin_amount",
+   "fieldtype": "Currency",
+   "label": "Margin Amount",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "margin_percentage",
+   "fieldtype": "Percent",
+   "label": "% Margin on Cost",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "allow_bulk_edit": 1,
+   "fieldname": "cost_estimation_expense",
+   "fieldtype": "Table",
+   "label": "Cost Estimation Expense",
+   "options": "Cost Estimation Expense"
+  },
+  {
+   "fieldname": "section_break_vpjo",
+   "fieldtype": "Section Break",
+   "label": "Quoted Price"
+  },
+  {
+   "fieldname": "column_break_bctj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_umzz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "other_expense_on_total_quote_amount_percentage",
+   "fieldtype": "Percent",
+   "label": "% Other Expense on Total Quote Amount",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "man_days_total_section",
+   "fieldtype": "Section Break",
+   "label": "Man Days Total"
+  },
+  {
+   "fieldname": "column_break_ejqp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_jydy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0.00",
+   "fieldname": "total_unit_basic_cost",
+   "fieldtype": "Currency",
+   "label": "Total Unit Basic Cost",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "default": "0.00",
+   "fieldname": "total_basic_cost",
+   "fieldtype": "Currency",
+   "label": "Total Basic Cost",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "default": "0.00",
+   "fieldname": "total_cost",
+   "fieldtype": "Currency",
+   "label": "Total Cost",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "default": "0.00",
+   "fieldname": "total_quote_price",
+   "fieldtype": "Currency",
+   "label": "Total Quote Price",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_dmvt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_wiyz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_cats",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0.00",
+   "fieldname": "total_quoted_amount",
+   "fieldtype": "Currency",
+   "label": "Total Quoted Amount",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "margin_on_sale",
+   "fieldtype": "Percent",
+   "label": "% Margin on Sale",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "percent_man_days_on_total_quote_amount",
+   "fieldtype": "Percent",
+   "label": "% Man Days on Total  Quote Amount",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_level_1_days",
+   "fieldtype": "Float",
+   "label": "Total L1 Days",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_level_2_days",
+   "fieldtype": "Float",
+   "label": "Total L2 Days",
+   "precision": "2"
+  },
+  {
+   "fieldname": "total_level_3_days",
+   "fieldtype": "Float",
+   "label": "Total L3 Days",
+   "precision": "2"
+  },
+  {
+   "fieldname": "total_level_4_days",
+   "fieldtype": "Float",
+   "label": "Total L4 Days",
+   "precision": "2"
+  },
+  {
+   "fieldname": "total_level_5_days",
+   "fieldtype": "Float",
+   "label": "Total L5 Days",
+   "precision": "2"
+  },
+  {
+   "fieldname": "total_level_6_days",
+   "fieldtype": "Float",
+   "label": "Total L6 Days",
+   "precision": "2"
+  },
+  {
+   "fieldname": "total_unloading",
+   "fieldtype": "Currency",
+   "label": "Total Unloading",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_transport",
+   "fieldtype": "Currency",
+   "label": "Total Transport",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_installation",
+   "fieldtype": "Currency",
+   "label": "Total Installation",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_salary_rate_sync",
+   "fieldtype": "Check",
+   "label": "Enable Salary Rate Sync"
+  },
+  {
+   "allow_bulk_edit": 1,
+   "fieldname": "contract_employee_salary_estimation",
+   "fieldtype": "Table",
+   "label": "Contract Employee Salary Estimation",
+   "options": "Contract Employee Salary Estimation"
+  },
+  {
+   "fetch_from": "opportunity.title",
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Title"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "group": "Quotation",
+   "link_doctype": "Quotation",
+   "link_fieldname": "custom_cost_estimation"
+  }
+ ],
+ "modified": "2024-12-16 13:19:02.934563",
+ "modified_by": "Administrator",
+ "module": "Envision CRM",
+ "name": "Cost Estimation",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title",
+ "track_changes": 1
+}

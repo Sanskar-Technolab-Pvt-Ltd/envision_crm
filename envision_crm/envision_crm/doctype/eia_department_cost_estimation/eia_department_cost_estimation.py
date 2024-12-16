@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class ElectricalCost(Document):
+class EIADepartmentCostEstimation(Document):
 	pass

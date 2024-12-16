@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class MSCost(Document):
+class CostEstimationExpense(Document):
 	pass
