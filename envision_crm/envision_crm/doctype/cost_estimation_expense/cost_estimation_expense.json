@@ -8,13 +8,11 @@
  "field_order": [
   "selling_item",
   "item_code",
-  "unit",
   "column_break_wiqm",
   "section_break_gycp",
   "item_description",
   "section_break_rnzo",
   "capacity",
-  "model",
   "make",
   "moc",
   "column_break_bhya",
@@ -31,16 +29,14 @@
   "unloading_amount",
   "transportation_amount",
   "erection_amount",
-  "supply_amount",
   "section_break_zklv",
   "column_break_sbxc",
-  "profit_percentage",
   "column_break_lwbn",
-  "profit_amount",
   "total_amount_with_erection"
  ],
  "fields": [
   {
+   "columns": 1,
    "fieldname": "item_code",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -65,6 +61,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "columns": 1,
    "fieldname": "capacity",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -89,20 +86,24 @@
    "fieldtype": "Section Break"
   },
   {
+   "columns": 1,
    "fieldname": "rate",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Rate"
+   "label": "Rate",
+   "precision": "2"
   },
   {
    "fieldname": "column_break_chmp",
    "fieldtype": "Column Break"
   },
   {
+   "columns": 1,
    "fieldname": "amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Amount",
+   "precision": "2",
    "read_only": 1
   },
   {
@@ -115,18 +116,25 @@
   },
   {
    "fieldname": "section_break_zklv",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Landed/ Bare Cost"
   },
   {
+   "columns": 1,
    "fieldname": "unloading_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Unloading Amount",
+   "precision": "2",
    "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "transportation_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Transportation Amount ",
+   "precision": "2",
    "read_only": 1
   },
   {
@@ -134,30 +142,24 @@
    "fieldtype": "Column Break"
   },
   {
+   "columns": 1,
    "fieldname": "erection_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Installation Amount",
+   "precision": "2",
    "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "total_amount_with_erection",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Total Amount ( Installation + Profit  )",
+   "label": "Total Landed/ Bare Cost",
    "read_only": 1
   },
   {
-   "fieldname": "supply_amount",
-   "fieldtype": "Currency",
-   "label": "Supply Amount ",
-   "read_only": 1
-  },
-  {
-   "fieldname": "model",
-   "fieldtype": "Data",
-   "label": "Model"
-  },
-  {
+   "columns": 1,
    "fieldname": "selling_item",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -166,44 +168,32 @@
    "reqd": 1
   },
   {
-   "fieldname": "unit",
-   "fieldtype": "Link",
-   "label": "Unit",
-   "options": "UOM"
-  },
-  {
-   "fieldname": "profit_amount",
-   "fieldtype": "Currency",
-   "label": "Profit Amount",
-   "read_only": 1
-  },
-  {
+   "columns": 1,
    "default": "1",
    "fieldname": "quantity",
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Quantity",
+   "precision": "2",
    "reqd": 1
   },
   {
    "fieldname": "unloading_percentage",
    "fieldtype": "Percent",
-   "label": "Unloading(%)"
+   "label": "Unloading(%)",
+   "precision": "2"
   },
   {
    "fieldname": "transportation_percentage",
    "fieldtype": "Percent",
-   "label": "Transportation(%)"
+   "label": "Transportation(%)",
+   "precision": "2"
   },
   {
    "fieldname": "erection_percentage",
    "fieldtype": "Percent",
-   "label": "Erection(%)"
-  },
-  {
-   "fieldname": "profit_percentage",
-   "fieldtype": "Percent",
-   "label": "Profit(%)"
+   "label": "Erection(%)",
+   "precision": "2"
   },
   {
    "fieldname": "column_break_sbxc",
@@ -213,10 +203,10 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-10-22 11:03:33.302054",
+ "modified": "2024-12-12 16:17:45.688043",
  "modified_by": "Administrator",
  "module": "Envision CRM",
- "name": "Project Department Cost Estimation",
+ "name": "Cost Estimation Expense",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

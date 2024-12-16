@@ -6,24 +6,30 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "quantity_and_cost_summary_section",
   "item_code",
   "quantity",
   "column_break_kceo",
   "rate",
+  "estimated_man_days",
+  "estimated_other_exp",
   "amount",
+  "total_cost",
+  "section_break_zygn",
+  "profit_percentage",
+  "column_break_mwqj",
+  "margin_amount",
+  "quote_price",
+  "quote_amount",
   "section_break_dbgl",
   "unloading_percentage",
   "transportation_percentage",
   "erection_percentage",
-  "profit_percentage",
-  "column_break_skqh",
-  "man_days",
-  "other_expense",
-  "man_days_amount",
-  "other_expense_amount"
+  "column_break_skqh"
  ],
  "fields": [
   {
+   "columns": 1,
    "fieldname": "item_code",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -32,34 +38,40 @@
    "reqd": 1
   },
   {
+   "columns": 1,
    "default": "1",
    "fieldname": "quantity",
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Quantity",
-   "read_only": 1
+   "precision": "2"
   },
   {
    "fieldname": "column_break_kceo",
    "fieldtype": "Column Break"
   },
   {
+   "columns": 1,
    "fieldname": "rate",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Rate",
+   "label": "Unit Basic Cost",
+   "precision": "2",
    "read_only": 1
   },
   {
+   "columns": 1,
    "fieldname": "amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Amount",
+   "label": "Total Basic Cost",
+   "precision": "2",
    "read_only": 1
   },
   {
    "fieldname": "section_break_dbgl",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Item-Level Allocation"
   },
   {
    "fieldname": "column_break_skqh",
@@ -68,7 +80,8 @@
   {
    "fieldname": "unloading_percentage",
    "fieldtype": "Percent",
-   "label": "Unloading(%)"
+   "label": "Unloading(%)",
+   "precision": "2"
   },
   {
    "fieldname": "transportation_percentage",
@@ -81,35 +94,86 @@
    "label": "Erection(%)"
   },
   {
+   "columns": 1,
    "fieldname": "profit_percentage",
    "fieldtype": "Percent",
-   "label": "Profit(%)"
+   "in_list_view": 1,
+   "label": "Margin(%)",
+   "precision": "2"
   },
   {
-   "fieldname": "man_days",
-   "fieldtype": "Percent",
-   "label": "Man Days(%)"
+   "fieldname": "section_break_zygn",
+   "fieldtype": "Section Break",
+   "label": "Quoted Amount"
   },
   {
-   "fieldname": "other_expense",
-   "fieldtype": "Percent",
-   "label": "Other Expense(%)"
-  },
-  {
-   "fieldname": "man_days_amount",
+   "columns": 1,
+   "fieldname": "estimated_other_exp",
    "fieldtype": "Currency",
-   "label": "Man Days Amount"
+   "in_list_view": 1,
+   "label": "Estimated Other Exp",
+   "precision": "2",
+   "read_only": 1
   },
   {
-   "fieldname": "other_expense_amount",
+   "columns": 1,
+   "fieldname": "margin_amount",
    "fieldtype": "Currency",
-   "label": "Other Expense Amount"
+   "in_list_view": 1,
+   "label": "Margin Amount",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "estimated_man_days",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Estimated Man Days",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "quantity_and_cost_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Quantity and Cost Summary"
+  },
+  {
+   "fieldname": "column_break_mwqj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "total_cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Cost",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "quote_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Quote Price",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "quote_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Quote Amount",
+   "precision": "2",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-10-30 10:23:12.916107",
+ "modified": "2024-12-16 12:08:27.741195",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Quotation Selling Items",
