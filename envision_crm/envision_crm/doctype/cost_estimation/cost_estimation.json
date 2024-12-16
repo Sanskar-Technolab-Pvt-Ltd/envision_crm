@@ -9,6 +9,7 @@
  "field_order": [
   "expense_tab",
   "section_break_kdzg",
+  "title",
   "opportunity",
   "department",
   "column_break_afuw",
@@ -419,6 +420,14 @@
    "fieldtype": "Table",
    "label": "Contract Employee Salary Estimation",
    "options": "Contract Employee Salary Estimation"
+  },
+  {
+   "fetch_from": "opportunity.title",
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Title"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -430,7 +439,7 @@
    "link_fieldname": "custom_cost_estimation"
   }
  ],
- "modified": "2024-12-16 12:46:09.345082",
+ "modified": "2024-12-16 13:19:02.934563",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",
@@ -480,5 +489,6 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
+ "title_field": "title",
  "track_changes": 1
 }
