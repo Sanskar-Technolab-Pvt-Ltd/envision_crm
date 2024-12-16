@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class OperationalDepartmentCostEstimation(Document):
+class ContractEmployeeSalaryEstimation(Document):
 	pass

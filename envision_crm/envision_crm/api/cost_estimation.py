@@ -29,17 +29,10 @@ def create_cost_estimation(opportunity):
         return {"status": "error", "message": f"Document not found: {str(e)}"}
 
 
-# import frappe
-# from frappe.utils.data import today
-
-
-# import frappe
-
-
 @frappe.whitelist()
 def submit_cost_estimation(doc, method):
     # Automatically submit the linked Cost Estimation document when the Quotation is submitted.
-    
+
     if doc.custom_cost_estimation:
         try:
             # Load the Cost Estimation document
@@ -61,6 +54,50 @@ def submit_cost_estimation(doc, method):
             #     f"An error occurred while submitting the linked Cost Estimation: {str(e)}",
             #     alert=True,
             # )
+
+
+# In your custom app's appropriate Python file (e.g., cost_estimation.py)
+
+
+@frappe.whitelist()
+# def get_cost_estimation_items(cost_estimation_id):
+#     if not cost_estimation_id:
+#         frappe.throw("Cost Estimation ID is required.")
+
+#     # Fetch items from the child table
+#     return frappe.get_all(
+#         "Quotation Selling Items",
+#         filters={"parent": cost_estimation_id},
+#         fields=["item_code", "quantity", "rate", "amount", "idx", "quote_price"],
+#         order_by="idx",
+#     )
+
+
+@frappe.whitelist()
+def get_cost_estimation_items(cost_estimation_id):
+    if not cost_estimation_id:
+        frappe.throw("Cost Estimation ID is required.")
+
+    # Fetch items from the Quotation Selling Items child table
+    selling_items = frappe.get_all(
+        "Quotation Selling Items",
+        filters={"parent": cost_estimation_id},
+        fields=["item_code", "quantity", "rate", "amount", "idx", "quote_price"],
+        order_by="idx",
+    )
+
+    # Fetch items from the Cost Estimation Expense child table
+    expense_items = frappe.get_all(
+        "Cost Estimation Expense",
+        filters={"parent": cost_estimation_id},
+        fields=["item_code", "capacity", "moc", "quantity"],
+        order_by="idx",
+    )
+
+    return {
+        "selling_items": selling_items,
+        "expense_items": expense_items,
+    }
 
 
 # @frappe.whitelist()
