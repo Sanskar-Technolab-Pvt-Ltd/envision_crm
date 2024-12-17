@@ -3,7 +3,7 @@
 frappe.ui.form.on("Print Offer", {
   template: function (frm, cdt, cdn) {
     let current_row = locals[cdt][cdn];
-    console.log("Hii", current_row);
+    // console.log("Hii", current_row);
 
     // Fetch the print template details using the API
     frappe.call({
