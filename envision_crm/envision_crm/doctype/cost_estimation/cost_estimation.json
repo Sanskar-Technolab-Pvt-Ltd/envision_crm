@@ -210,7 +210,8 @@
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
-   "options": "Company"
+   "options": "Company",
+   "reqd": 1
   },
   {
    "fetch_from": "company.custom_company_code",
@@ -439,7 +440,7 @@
    "link_fieldname": "custom_cost_estimation"
   }
  ],
- "modified": "2024-12-16 13:19:02.934563",
+ "modified": "2024-12-23 11:54:02.775611",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",
