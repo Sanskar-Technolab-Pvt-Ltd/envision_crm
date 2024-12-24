@@ -228,6 +228,9 @@ frappe.ui.form.on("Cost Estimation", {
 //     console.error(`Child table ${child_table_name} not found.`);
 //   }
 // }
+
+
+
 // // Selling Item table
 frappe.ui.form.on("Quotation Selling Items", {
   quotation_items_add: function (frm, cdt, cdn) {
