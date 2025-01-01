@@ -912,7 +912,7 @@ function calculate_bare_amount(frm, cdt, cdn) {
     (current_row.bonus_amount || 0) +
     (current_row.leave || 0) +
     (current_row.over_time_and_public_holiday || 0) +
-    (current_row.gratuity || 0);
+    (current_row.gratuity_amount || 0);
 
   frappe.model.set_value(cdt, cdn, "bare_amount", Math.round(bare_amount));
   // console.log(bare_amount);
