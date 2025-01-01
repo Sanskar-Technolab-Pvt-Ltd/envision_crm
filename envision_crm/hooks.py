@@ -146,6 +146,7 @@ doc_events = {
     # },
     "Quotation": {
         "on_submit": "envision_crm.envision_crm.api.cost_estimation.submit_cost_estimation",
+        "on_submit": "envision_crm.envision_crm.api.set_quotation_submission_date.set_submission_date",
     },
     # "Quotation": {
     #     "on_submit": "your_app_path.quotation.submit_cost_estimation",
