@@ -3,15 +3,6 @@
   "docstatus": 0,
   "doctype": "Workflow State",
   "icon": "",
-  "modified": "2024-10-30 10:15:21.109690",
-  "name": "Reviewed",
-  "style": "Primary",
-  "workflow_state_name": "Reviewed"
- },
- {
-  "docstatus": 0,
-  "doctype": "Workflow State",
-  "icon": "",
   "modified": "2024-10-04 11:09:10.985629",
   "name": "Rework",
   "style": "Warning",
@@ -25,6 +16,15 @@
   "name": "Cancelled",
   "style": "Danger",
   "workflow_state_name": "Cancelled"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-10-30 10:15:21.109690",
+  "name": "Reviewed",
+  "style": "Primary",
+  "workflow_state_name": "Reviewed"
  },
  {
   "docstatus": 0,
