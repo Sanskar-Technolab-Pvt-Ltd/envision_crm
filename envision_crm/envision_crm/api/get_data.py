@@ -39,13 +39,13 @@ def get_quotation_selling_items_details(cost_estimation_id, item_name):
     # )
 
     # print("\n\n\n\nLength", len(quotation_selling_items_details_list))
-    print("\n\n\n\nget value ", quotation_selling_items_details_list)
+    # print("\n\n\n\nget value ", quotation_selling_items_details_list)
 
     if quotation_selling_items_details_list == None:
         frappe.throw(item_name + " item not available in Selling table")
         # print("\n\n Selling ", quotation_selling_items_details_list)
     else:
-        print("\n\n Selling ", quotation_selling_items_details_list)
+        # print("\n\n Selling ", quotation_selling_items_details_list)
         return quotation_selling_items_details_list
 
 
@@ -136,5 +136,5 @@ def get_level_wise_amount():
         fields=["level", "amount","idx"],
     )
     sorted_cost_list = sorted(level_wise_cost_details, key=lambda x: x["idx"])
-    print("\n\n", sorted_cost_list)
+    # print("\n\n", sorted_cost_list)
     return sorted_cost_list

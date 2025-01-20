@@ -12,7 +12,6 @@ from erpnext.setup.utils import get_exchange_rate
 from erpnext.utilities.transaction_base import TransactionBase
 
 
-
 @frappe.whitelist()
 def make_quotation_from_cost_estimation(cost_estimation_id, target_doc=None):
     def set_missing_values(source, target):
@@ -83,6 +82,7 @@ def make_quotation_from_cost_estimation(cost_estimation_id, target_doc=None):
         "Cost Estimation Expense",
         filters={"parent": cost_estimation_id},
         fields=["item_code", "capacity", "moc", "quantity"],
+        order_by="idx",
     )
 
     # Map fields from Cost Estimation and Opportunity to Quotation

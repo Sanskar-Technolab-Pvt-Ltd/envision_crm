@@ -99,7 +99,7 @@ frappe.ui.form.on("Cost Estimation", {
               "project_template",
               project_template
             );
-            console.log("Template name ", project_template);
+            // console.log("Template name ", project_template);
           });
 
           // Refresh the child table after adding rows
@@ -228,6 +228,9 @@ frappe.ui.form.on("Cost Estimation", {
 //     console.error(`Child table ${child_table_name} not found.`);
 //   }
 // }
+
+
+
 // // Selling Item table
 frappe.ui.form.on("Quotation Selling Items", {
   quotation_items_add: function (frm, cdt, cdn) {
@@ -359,9 +362,9 @@ function update_totals_of_selling_items(frm) {
     total_quote_price += row.quote_price || 0;
     total_margin_amount += row.margin_amount || 0;
     total_quoted_amount += row.quote_amount || 0;
-    console.log("row cout amount ", row.quote_amount, row);
+    // console.log("row cout amount ", row.quote_amount, row);
   });
-  console.log("total_quoted_amount ", total_quoted_amount);
+  // console.log("total_quoted_amount ", total_quoted_amount);
 
   // Set the calculated totals on the parent fields
   frm.set_value("total_basic_cost", Math.round(total_basic_cost));
@@ -471,7 +474,7 @@ function calculate_amount_for_row(
   let amount = total_amount * percentage;
 
   let rate = row.rate + amount;
-  console.log("rate", rate);
+  // console.log("rate", rate);
 
   frappe.model.set_value(cdt, cdn, amount_field, amount);
   frappe.model.set_value(cdt, cdn, "rate", rate);
@@ -909,10 +912,10 @@ function calculate_bare_amount(frm, cdt, cdn) {
     (current_row.bonus_amount || 0) +
     (current_row.leave || 0) +
     (current_row.over_time_and_public_holiday || 0) +
-    (current_row.gratuity || 0);
+    (current_row.gratuity_amount || 0);
 
   frappe.model.set_value(cdt, cdn, "bare_amount", Math.round(bare_amount));
-  console.log(bare_amount);
+  // console.log(bare_amount);
 
 }
 

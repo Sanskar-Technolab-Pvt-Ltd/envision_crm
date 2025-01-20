@@ -146,6 +146,7 @@ doc_events = {
     # },
     "Quotation": {
         "on_submit": "envision_crm.envision_crm.api.cost_estimation.submit_cost_estimation",
+        "on_submit": "envision_crm.envision_crm.api.set_quotation_submission_date.set_submission_date",
     },
     # "Quotation": {
     #     "on_submit": "your_app_path.quotation.submit_cost_estimation",
@@ -297,30 +298,40 @@ fixtures = [
     #         ["property", "=", "naming_series"],
     #     ],
     # },
-    {"dt": "Workspace", "filters": [["name", "=", "CRM"]]},
-    {"dt": "Print Format", "filters": [["name", "in", ["Print Offer"]]]},
+
+    {
+     "dt": "Custom DocPerm",
+        "filters": [
+            ["parent", "in", ["Lead","Opportunity","Cost Estimation","Quotation","Quotation Print Templates"]]
+        ],
+},
+
+
+    # # "Role",
+    # {"dt": "Workspace", "filters": [["name", "=", "CRM"]]},
+    # {"dt": "Print Format", "filters": [["name", "in", ["Print Offer"]]]},
+    # # {
+    # #     "dt": "Letter Head",
+    # #     "filters": [["name", "in", ["Offer Print", "Continuous Head"]]],
+    # # },
     # {
-    #     "dt": "Letter Head",
-    #     "filters": [["name", "in", ["Offer Print", "Continuous Head"]]],
+    #     "dt": "Workflow State",
+    #     "filters": [
+    #         ["name", "in", ["Reviewed ", "Submitted", "Pending", "Rework", "Cancelled"]]
+    #     ],
     # },
-    {
-        "dt": "Workflow State",
-        "filters": [
-            ["name", "in", ["Reviewed ", "Submitted", "Pending", "Rework", "Cancelled"]]
-        ],
-    },
-    {
-        "dt": "Workflow Action Master",
-        "filters": [
-            [
-                "name",
-                "in",
-                ["Review ", "Reject", "Approve", "Submit for Review", "Cancel"],
-            ]
-        ],
-    },
-    {
-        "dt": "Workflow",
-        "filters": [["name", "in", ["Quotation Workflow"]]],
-    },
+    # {
+    #     "dt": "Workflow Action Master",
+    #     "filters": [
+    #         [
+    #             "name",
+    #             "in",
+    #             ["Review ", "Reject", "Approve", "Submit for Review", "Cancel"],
+    #         ]
+    #     ],
+    # },
+    # {
+    #     "dt": "Workflow",
+    #     "filters": [["name", "in", ["Quotation Workflow"]]],
+    # },
 ]
