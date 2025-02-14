@@ -2,7 +2,7 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "format:CC{company_code}{YY}{####}",
+ "autoname": "format:CC{company_code}{FY}{####}",
  "creation": "2024-07-25 13:17:56.990933",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -440,7 +440,7 @@
    "link_fieldname": "custom_cost_estimation"
   }
  ],
- "modified": "2024-12-23 11:54:02.775611",
+ "modified": "2025-02-12 11:39:15.611970",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation",
