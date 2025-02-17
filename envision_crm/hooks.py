@@ -145,8 +145,7 @@ doc_events = {
     #     "before_save": "envision_crm.envision_crm.api.opportunity.naming_series",
     # },
     "Quotation": {
-        "on_submit": "envision_crm.envision_crm.api.cost_estimation.submit_cost_estimation",
-        "on_submit": "envision_crm.envision_crm.api.set_quotation_submission_date.set_submission_date",
+        "on_submit": "envision_crm.envision_crm.api.quotation_submission.quotation_submission",
     },
     # "Quotation": {
     #     "on_submit": "your_app_path.quotation.submit_cost_estimation",
@@ -299,12 +298,12 @@ fixtures = [
     #     ],
     # },
 
-    {
-     "dt": "Custom DocPerm",
-        "filters": [
-            ["parent", "in", ["Lead","Opportunity","Cost Estimation","Quotation","Quotation Print Templates"]]
-        ],
-},
+#     {
+#      "dt": "Custom DocPerm",
+#         "filters": [
+#             ["parent", "in", ["Lead","Opportunity","Cost Estimation","Quotation","Quotation Print Templates"]]
+#         ],
+# },
 
 
     # # "Role",

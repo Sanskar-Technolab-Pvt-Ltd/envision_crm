@@ -53,6 +53,8 @@ frappe.ui.form.on("Quotation Cost Estimation Expense", {
 frappe.ui.form.on("Quotation", {
   items_add: function (frm, cdt, cdn) {
     // Only show items where is_sales_item is enabled
+    console.log("Working")
+
     frm.fields_dict["items"].grid.get_field("item_code").get_query =
       function () {
         return {
@@ -64,7 +66,7 @@ frappe.ui.form.on("Quotation", {
   },
   on_submit: function (frm) {
     // Check if the `custom_cost_estimation` field is populated
-    // console.log("Working")
+    console.log("Working 123")
     if (frm.doc.custom_cost_estimation) {
       // Call the server-side method to submit the linked Cost Estimation
       frappe.call({
@@ -102,7 +104,7 @@ frappe.ui.form.on("Quotation", {
   },
 
   refresh: function (frm) {
-    if (!frm.is_new() && frm.doc.custom_cost_estimation) {
+    // if (!frm.is_new() && frm.doc.custom_cost_estimation) {
       // Add the "Get Items From" dropdown if it doesn't already exist
       // frm.add_custom_button("Get Items From", null, "Action", () => {}, {
       //   group: true,
@@ -117,7 +119,7 @@ frappe.ui.form.on("Quotation", {
         },
         "Get Items From"
       );
-    }
+    // }
   },
 
   onload: function (frm) {
