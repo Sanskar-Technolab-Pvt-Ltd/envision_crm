@@ -6,6 +6,7 @@ frappe.ui.form.on("Print Offer", {
     // console.log("Hii", current_row);
 
     // Fetch the print template details using the API
+    if (current_row.template){
     frappe.call({
       method:
         "envision_crm.envision_crm.api.get_data.get_print_template_details",
@@ -31,6 +32,7 @@ frappe.ui.form.on("Print Offer", {
         }
       },
     });
+  }
   },
 });
 
