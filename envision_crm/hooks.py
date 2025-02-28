@@ -308,7 +308,7 @@ fixtures = [
 
     # # "Role",
     # {"dt": "Workspace", "filters": [["name", "=", "CRM"]]},
-    # {"dt": "Print Format", "filters": [["name", "in", ["Print Offer"]]]},
+    {"dt": "Print Format", "filters": [["name", "in", ["Print Offer","Print Offer PDF"]]]},
     # # {
     # #     "dt": "Letter Head",
     # #     "filters": [["name", "in", ["Offer Print", "Continuous Head"]]],
