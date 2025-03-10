@@ -40,7 +40,7 @@ frappe.ui.form.on("Quotation Cost Estimation Expense", {
   custom_quotation_cost_estimation_expense_add: function (frm, cdt, cdn) {
     // Only show items where is_purchase_item is enabled
     frm.fields_dict["custom_quotation_cost_estimation_expense"].grid.get_field(
-      "item_code"
+      "item"
     ).get_query = function () {
       return {
         filters: {
@@ -283,7 +283,7 @@ function fetch_items_from_cost_estimation(frm) {
         if (expense_items && expense_items.length > 0) {
           let existing_expense_item_codes =
             frm.doc.custom_quotation_cost_estimation_expense.map(
-              (item) => item.item_code
+              (item) => item.item
             );
 
           let expenses_to_fetch = expense_items.filter(
@@ -298,7 +298,7 @@ function fetch_items_from_cost_estimation(frm) {
           } else {
             expenses_to_fetch.forEach((expense_item) => {
               frm.add_child("custom_quotation_cost_estimation_expense", {
-                item_code: expense_item.item_code,
+                item: expense_item.item_code,
                 specification: expense_item.capacity,
                 moc: expense_item.moc,
                 quantity: expense_item.quantity,
