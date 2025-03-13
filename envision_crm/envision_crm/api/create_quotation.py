@@ -130,7 +130,7 @@ def make_quotation_from_cost_estimation(cost_estimation_id, target_doc=None):
         doclist.append(
             "custom_quotation_cost_estimation_expense",
             {
-                "item_code": expense.item_code,
+                "item": expense.item_code,
                 "specification": expense.capacity,
                 "moc": expense.moc,
                 "quantity": expense.quantity,
