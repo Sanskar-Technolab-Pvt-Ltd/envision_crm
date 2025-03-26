@@ -307,10 +307,10 @@ fixtures = [
 
 
     # # "Role",
-    # {"dt": "Workspace", "filters": [["name", "=", "CRM"]]},
+    # {"dt": "Workspace", "filters": [["name", "=", "CRM"]]},                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
     {"dt": "Print Format", "filters": [["name", "in", ["Print Offer","Print Offer PDF"]]]},
     # # {
-    # #     "dt": "Letter Head",
+    # #     "dt": "Letter Head",                                                                                                                                                                                                            
     # #     "filters": [["name", "in", ["Offer Print", "Continuous Head"]]],
     # # },
     # {
@@ -319,7 +319,7 @@ fixtures = [
     #         ["name", "in", ["Reviewed ", "Submitted", "Pending", "Rework", "Cancelled"]]
     #     ],
     # },
-    # {
+    # {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
     #     "dt": "Workflow Action Master",
     #     "filters": [
     #         [
@@ -329,8 +329,8 @@ fixtures = [
     #         ]
     #     ],
     # },
-    # {
-    #     "dt": "Workflow",
-    #     "filters": [["name", "in", ["Quotation Workflow"]]],
-    # },
+    {
+        "dt": "Workflow",
+        "filters": [["name", "in", ["Quotation Workflow"]]],
+    },
 ]
