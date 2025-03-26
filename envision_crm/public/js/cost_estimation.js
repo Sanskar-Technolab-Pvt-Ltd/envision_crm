@@ -47,20 +47,20 @@ frappe.ui.form.on("Cost Estimation", {
   }, // End refresh event
 
   // if Opportunity change then all fields are reset.
-  opportunity: function (frm) {
-    frm.clear_table("quotation_items");
-    frm.clear_table("cost_estimation_expense");
-    frm.clear_table("contract_employee_salary_estimation");
-    frm.clear_table("man_days");
-    frm.set_value("project_template", "");
-    frm.set_value("total_amount", 0);
+  // opportunity: function (frm) {
+  //   frm.clear_table("quotation_items");
+  //   frm.clear_table("cost_estimation_expense");
+  //   frm.clear_table("contract_employee_salary_estimation");
+  //   frm.clear_table("man_days");
+  //   frm.set_value("project_template", "");
+  //   frm.set_value("total_amount", 0);
     
-    frm.set_value("total_erection_amount", 0);
-    frm.set_value("total_man_days_amount", 0);
-    frm.set_value("total_quoted_amount", 0);
+  //   frm.set_value("total_erection_amount", 0);
+  //   frm.set_value("total_man_days_amount", 0);
+  //   frm.set_value("total_quoted_amount", 0);
 
-    frm.set_value("margin_amount", 0);
-  },
+  //   frm.set_value("margin_amount", 0);
+  // },
 
   project_template: function (frm) {
     let project_template = frm.doc.project_template || "";
