@@ -9,13 +9,15 @@
   "selling_item",
   "item_code",
   "column_break_wiqm",
+  "uom",
   "section_break_gycp",
   "item_description",
   "section_break_rnzo",
   "capacity",
   "make",
-  "moc",
   "column_break_bhya",
+  "moc",
+  "particulars",
   "section_break_kmdk",
   "quantity",
   "rate",
@@ -198,12 +200,26 @@
   {
    "fieldname": "column_break_sbxc",
    "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "item_code.stock_uom",
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "label": "UOM",
+   "options": "UOM"
+  },
+  {
+   "columns": 1,
+   "fieldname": "particulars",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Particulars"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-12 16:17:45.688043",
+ "modified": "2025-04-02 17:24:16.806224",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Cost Estimation Expense",

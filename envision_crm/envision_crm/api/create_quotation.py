@@ -81,7 +81,7 @@ def make_quotation_from_cost_estimation(cost_estimation_id, target_doc=None):
     cost_estimation_expenses = frappe.get_all(
         "Cost Estimation Expense",
         filters={"parent": cost_estimation_id},
-        fields=["item_code", "capacity", "moc", "quantity"],
+        fields=["item_code", "capacity", "moc", "quantity","particulars","uom"],
         order_by="idx",
     )
 
@@ -134,6 +134,8 @@ def make_quotation_from_cost_estimation(cost_estimation_id, target_doc=None):
                 "specification": expense.capacity,
                 "moc": expense.moc,
                 "quantity": expense.quantity,
+                "particulars":expense.particulars,
+                "uom":expense.uom,
             },
         )
 

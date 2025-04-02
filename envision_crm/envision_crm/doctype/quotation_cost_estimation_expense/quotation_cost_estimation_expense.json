@@ -11,7 +11,8 @@
   "specification",
   "column_break_vtgo",
   "quantity",
-  "moc"
+  "moc",
+  "uom"
  ],
  "fields": [
   {
@@ -54,12 +55,19 @@
    "in_list_view": 1,
    "label": "Item Code",
    "options": "Item"
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UOM",
+   "options": "UOM"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-03-10 17:49:49.056489",
+ "modified": "2025-04-02 17:45:35.464690",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Quotation Cost Estimation Expense",

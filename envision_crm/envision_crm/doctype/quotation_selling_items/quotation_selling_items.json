@@ -9,6 +9,7 @@
   "quantity_and_cost_summary_section",
   "item_code",
   "quantity",
+  "uom",
   "column_break_kceo",
   "rate",
   "estimated_man_days",
@@ -168,12 +169,21 @@
    "label": "Quote Amount",
    "precision": "2",
    "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fetch_from": "item_code.stock_uom",
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UOM",
+   "options": "UOM"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-16 12:08:27.741195",
+ "modified": "2025-04-02 17:22:07.129158",
  "modified_by": "Administrator",
  "module": "Envision CRM",
  "name": "Quotation Selling Items",

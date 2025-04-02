@@ -3,7 +3,6 @@
 frappe.ui.form.on("Print Offer", {
   template: function (frm, cdt, cdn) {
     let current_row = locals[cdt][cdn];
-    // console.log("Hii", current_row);
 
     // Fetch the print template details using the API
     if (current_row.template){
@@ -55,7 +54,6 @@ frappe.ui.form.on("Quotation Cost Estimation Expense", {
 frappe.ui.form.on("Quotation", {
   items_add: function (frm, cdt, cdn) {
     // Only show items where is_sales_item is enabled
-    console.log("Working")
 
     frm.fields_dict["items"].grid.get_field("item_code").get_query =
       function () {
@@ -68,7 +66,6 @@ frappe.ui.form.on("Quotation", {
   },
   on_submit: function (frm) {
     // Check if the `custom_cost_estimation` field is populated
-    console.log("Working 123")
     if (frm.doc.custom_cost_estimation) {
       // Call the server-side method to submit the linked Cost Estimation
       frappe.call({
@@ -106,11 +103,7 @@ frappe.ui.form.on("Quotation", {
   },
 
   refresh: function (frm) {
-    // if (!frm.is_new() && frm.doc.custom_cost_estimation) {
-      // Add the "Get Items From" dropdown if it doesn't already exist
-      // frm.add_custom_button("Get Items From", null, "Action", () => {}, {
-      //   group: true,
-      // });
+   
 
       // Add "Get Items From Cost Estimation" as an option under the dropdown
       frm.add_custom_button(
@@ -135,88 +128,6 @@ frappe.ui.form.on("Quotation", {
     });
   },
 });
-
-
-
-
-// function fetch_items_from_cost_estimation(frm) {
-//   let cost_estimation_id = frm.doc.custom_cost_estimation;
-
-//   if (!cost_estimation_id) {
-//     frappe.msgprint(
-//       "Please select a Cost Estimation document before fetching items."
-//     );
-//     return;
-//   }
-
-//   // Get items from the selected Cost Estimation
-//   frappe.call({
-//     method:
-//       "envision_crm.envision_crm.api.cost_estimation.get_cost_estimation_items",
-//     args: { cost_estimation_id: cost_estimation_id },
-//     callback: function (response) {
-//       if (response.message && response.message.length > 0) {
-//         let items_to_add = response.message;
-
-//         // Check if any of the items are already present in the Quotation Items table
-//         let existing_item_codes = frm.doc.items.map((item) => item.item_code);
-
-//         let items_to_fetch = items_to_add.filter(
-//           (item) => !existing_item_codes.includes(item.item_code)
-//         );
-
-//         // If no items are missing (i.e., all items are already in the table)
-//         if (items_to_fetch.length === 0) {
-//           frappe.msgprint(
-//             "All items from the selected Cost Estimation are already present in the Quotation."
-//           );
-//           return;
-//         }
-
-//         // Add missing items to the Quotation Items table
-//         items_to_fetch.forEach((item) => {
-//           frappe.call({
-//             method: "frappe.client.get",
-//             args: {
-//               doctype: "Item",
-//               name: item.item_code,
-//             },
-//             callback: function (item_details_response) {
-//               let item_details = item_details_response.message;
-
-//               frm.add_child("items", {
-//                 item_code: item.item_code,
-//                 item_name: item_details.item_name,
-//                 uom: item_details.stock_uom,
-//                 qty: item.quantity,
-//                 rate: item.quote_price,
-//                 custom_estimated_rate: item.quote_price,
-//               });
-
-//               frm.refresh_field("items");
-//             },
-//           });
-//         });
-
-//         // frappe.msgprint(
-//         //   "Items have been successfully fetched from the selected Cost Estimation."
-//         // );
-//       } else {
-//         frappe.msgprint(
-//           `No items found in the corresponding Cost Estimation (${cost_estimation_id}) Selling Items table.`
-//         );
-//       }
-//     },
-//     error: function (err) {
-//       frappe.msgprint(
-//         "An error occurred while fetching items from the Cost Estimation document."
-//       );
-//       console.error(err);
-//     },
-//   });
-// }
-
-
 
 function fetch_items_from_cost_estimation(frm) {
   let cost_estimation_id = frm.doc.custom_cost_estimation;
@@ -302,6 +213,8 @@ function fetch_items_from_cost_estimation(frm) {
                 specification: expense_item.capacity,
                 moc: expense_item.moc,
                 quantity: expense_item.quantity,
+                uom:expense_item.uom,
+                particulars:expense_item.particulars,
               });
 
               frm.refresh_field("custom_quotation_cost_estimation_expense");
