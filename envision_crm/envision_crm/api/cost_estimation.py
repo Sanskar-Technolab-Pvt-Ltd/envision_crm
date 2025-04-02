@@ -90,7 +90,7 @@ def get_cost_estimation_items(cost_estimation_id):
     expense_items = frappe.get_all(
         "Cost Estimation Expense",
         filters={"parent": cost_estimation_id},
-        fields=["item_code", "capacity", "moc", "quantity"],
+        fields=["item_code", "capacity", "moc", "quantity","uom","particulars"],
         order_by="idx",
     )
 

@@ -329,8 +329,8 @@ fixtures = [
     #         ]
     #     ],
     # },
-    {
-        "dt": "Workflow",
-        "filters": [["name", "in", ["Quotation Workflow"]]],
-    },
+    # {
+    #     "dt": "Workflow",
+    #     "filters": [["name", "in", ["Quotation Workflow"]]],
+    # },
 ]
