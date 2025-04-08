@@ -46,22 +46,6 @@ frappe.ui.form.on("Cost Estimation", {
     }
   }, // End refresh event
 
-  // if Opportunity change then all fields are reset.
-  // opportunity: function (frm) {
-  //   frm.clear_table("quotation_items");
-  //   frm.clear_table("cost_estimation_expense");
-  //   frm.clear_table("contract_employee_salary_estimation");
-  //   frm.clear_table("man_days");
-  //   frm.set_value("project_template", "");
-  //   frm.set_value("total_amount", 0);
-    
-  //   frm.set_value("total_erection_amount", 0);
-  //   frm.set_value("total_man_days_amount", 0);
-  //   frm.set_value("total_quoted_amount", 0);
-
-  //   frm.set_value("margin_amount", 0);
-  // },
-
   project_template: function (frm) {
     let project_template = frm.doc.project_template || "";
     frappe.call({
@@ -211,27 +195,8 @@ frappe.ui.form.on("Cost Estimation", {
    
   },
 });
-// function hide_child_table_field(
-//   frm,
-//   child_table_name,
-//   field_name,
-//   hide = true
-// ) {
-//   // Check if the child table and field exist
-//   if (frm.fields_dict[child_table_name]) {
-//     frm.fields_dict[child_table_name].grid.update_docfield_property(
-//       field_name,
-//       "hidden",
-//       hide
-//     );
-//   } else {
-//     console.error(`Child table ${child_table_name} not found.`);
-//   }
-// }
 
-
-
-// // Selling Item table
+// Selling Item table
 frappe.ui.form.on("Quotation Selling Items", {
   quotation_items_add: function (frm, cdt, cdn) {
     // Only show items where is_sales_item is enabled
@@ -292,7 +257,35 @@ frappe.ui.form.on("Quotation Selling Items", {
   quotation_items_remove: function (frm, cdt, cdn) {
     update_totals_of_selling_items(frm);
   },
+
+  unloading_percentage: function (frm, cdt, cdn) {
+    sync_percentage_fields(frm, "unloading_percentage");
+},
+transportation_percentage: function (frm, cdt, cdn) {
+    sync_percentage_fields(frm, "transportation_percentage");
+},
+erection_percentage: function (frm, cdt, cdn) {
+    sync_percentage_fields(frm, "erection_percentage");
+}
 });
+
+// The percentage values are updated in the "Cost Estimation Expense" table
+function sync_percentage_fields(frm, fieldname) {
+  // both child tables exist before proceeding
+  if (frm.doc.quotation_items && frm.doc.cost_estimation_expense) {
+    // Iterate through each row in the "Quotation Selling Items" table
+      frm.doc.quotation_items.forEach((selling_row) => {
+        // Iterate through each row in the "Cost Estimation Expense" table
+          frm.doc.cost_estimation_expense.forEach((expense_row) => {
+            // If item_code in "Quotation Selling Items" matches selling_item in "Cost Estimation Expense"
+              if (selling_row.item_code === expense_row.selling_item) {
+                  // Update the percentage field value in "Cost Estimation Expense"
+                  frappe.model.set_value(expense_row.doctype, expense_row.name, fieldname, selling_row[fieldname]);
+              }
+          });
+      });
+  }
+}
 
 function calculate_quote_amount(frm, cdt, cdn) {
   let current_row = locals[cdt][cdn];
@@ -440,24 +433,6 @@ function apply_dynamic_filter(frm, field_name, table_name) {
     frm.refresh_field(table_name);
   }
 }
-
-
-// function calculate_man_days_or_other_expense_amount(
-//   frm,
-//   total_amount,
-//   percent_field,
-//   amount_field
-// ) {
-//   total_amount = total_amount || 0;
-
-//   frm.doc.quotation_items.forEach((row) => {
-//     let percentage = (row[percent_field] || 0) / 100;
-//     let amount = total_amount * percentage;
-
-//     frappe.model.set_value(row.doctype, row.name, amount_field, amount);
-//     console.log(amount);
-//   });
-// }
 
 function calculate_amount_for_row(
   total_amount,
@@ -985,85 +960,6 @@ function get_level_wise_per_hour_amount(callback) {
     if (callback) callback();
   }
 }
-
-// Function to calculate amounts based on hours
-// function calculate_level_wise_amounts(frm, cdt, cdn) {
-//   // Ensure that the level-wise amounts are fetched first
-//   get_level_wise_per_hour_amount(function () {
-//     let current_row = locals[cdt][cdn];
-
-//     // Get hours for each level
-//     let level_1_hours = current_row.level_1_hours || 0;
-//     let level_2_hours = current_row.level_2_hours || 0;
-//     let level_3_hours = current_row.level_3_hours || 0;
-//     let level_4_hours = current_row.level_4_hours || 0;
-//     let level_5_hours = current_row.level_5_hours || 0;
-//     let level_6_hours = current_row.level_6_hours || 0;
-
-//     // Get per-hour amounts for each level from the fetched data
-//     // let level_1_amount =
-//     //   level_wise_per_hour_amounts.find((l) => l.level === "Level 1").amount *
-//     //   level_1_hours;
-//     // let level_2_amount =
-//     //   level_wise_per_hour_amounts.find((l) => l.level === "Level 2").amount *
-//     //   level_2_hours;
-//     // let level_3_amount =
-//     //   level_wise_per_hour_amounts.find((l) => l.level === "Level 3").amount *
-//     //   level_3_hours;
-//     // let level_4_amount =
-//     //   level_wise_per_hour_amounts.find((l) => l.level === "Level 4").amount *
-//     //   level_4_hours;
-
-//     let level_1_amount =
-//       level_wise_per_hour_amounts.find((l) => l.idx === 1).amount *
-//       level_1_hours;
-//     let level_2_amount =
-//       level_wise_per_hour_amounts.find((l) => l.idx === 2).amount *
-//       level_2_hours;
-//     let level_3_amount =
-//       level_wise_per_hour_amounts.find((l) => l.idx === 3).amount *
-//       level_3_hours;
-//     let level_4_amount =
-//       level_wise_per_hour_amounts.find((l) => l.idx === 4).amount *
-//       level_4_hours;
-
-//     let level_5_amount =
-//       level_wise_per_hour_amounts.find((l) => l.idx === 5).amount *
-//       level_5_hours;
-
-//     let level_6_amount =
-//       level_wise_per_hour_amounts.find((l) => l.idx === 6).amount *
-//       level_6_hours;
-//       // console.log("level_1_amount", level_1_amount);
-
-//     // Calculate total amount
-//     let total_amount =
-//       level_1_amount +
-//       level_2_amount +
-//       level_3_amount +
-//       level_4_amount +
-//       level_5_amount +
-//       level_6_amount;
-
-//     // Set the calculated amounts in the respective fields
-//     frappe.model.set_value(cdt, cdn, "level_1_amount", level_1_amount);
-//     frappe.model.set_value(cdt, cdn, "level_2_amount", level_2_amount);
-//     frappe.model.set_value(cdt, cdn, "level_3_amount", level_3_amount);
-//     frappe.model.set_value(cdt, cdn, "level_4_amount", level_4_amount);
-//     frappe.model.set_value(cdt, cdn, "level_5_amount", level_5_amount);
-//     frappe.model.set_value(cdt, cdn, "level_6_amount", level_6_amount);
-
-//     frappe.model.set_value(cdt, cdn, "total_amount", total_amount);
-
-//     // console.log("Level-wise amounts calculated and set:", {
-//     //   level_1_amount,
-//     //   level_2_amount,
-//     //   level_3_amount,
-//     //   level_4_amount,
-//     //   total_amount,
-//     // });
-//   });
-// }
 
 // Function to calculate and set amounts based on hours for different levels
 function calculate_level_wise_amounts(frm, cdt, cdn) {
