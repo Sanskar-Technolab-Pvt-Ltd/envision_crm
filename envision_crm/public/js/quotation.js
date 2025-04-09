@@ -103,8 +103,9 @@ frappe.ui.form.on("Quotation", {
   },
 
   refresh: function (frm) {
-   
-
+    // Remove read-only restriction on the 'party_name' field  
+    cur_frm.set_df_property("party_name", "read_only", 0);
+    
       // Add "Get Items From Cost Estimation" as an option under the dropdown
       frm.add_custom_button(
         "Cost Estimation",
@@ -114,7 +115,6 @@ frappe.ui.form.on("Quotation", {
         },
         "Get Items From"
       );
-    // }
   },
 
   onload: function (frm) {
