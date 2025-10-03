@@ -1,0 +1,493 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:TDR-OPP-2526-{#####}",
+ "creation": "2025-09-30 19:06:02.384013",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "opportunity_from",
+  "party",
+  "opportunity_type",
+  "tender_source",
+  "industry",
+  "sector_segment",
+  "status",
+  "column_break_opfb",
+  "opportunity_owner",
+  "opportunity_coowner",
+  "estimated_amount",
+  "submission_mode",
+  "custom_sales_person",
+  "sales_person_employee",
+  "sales_person_user_id",
+  "column_break_sgxn",
+  "opportunity_name",
+  "probability",
+  "project",
+  "tender_fee",
+  "submission_and_key_dates_section",
+  "transaction_date",
+  "pre_bid_meeting_date",
+  "submission_due_date",
+  "planned_opening_date",
+  "column_break_kuc0",
+  "closing_date",
+  "actual_submission_date",
+  "actual_technical_bid_opening_date",
+  "actual_financial_bid_opening_date",
+  "actual_price_bid_opening_date",
+  "column_break_w3f3",
+  "tender_website",
+  "emd",
+  "currency_and_amount_section",
+  "conversion_rate",
+  "currency",
+  "column_break_f3yu",
+  "emd_amount",
+  "won_by",
+  "refund_details_section",
+  "refund_requested_on",
+  "column_break_wb5i",
+  "refund_received_on",
+  "additional_information_section",
+  "lost_reason",
+  "remarks",
+  "address_and_contact_tab",
+  "address_html",
+  "customer_address",
+  "address_display",
+  "contact_html",
+  "address_line_1",
+  "column_break_lvrn",
+  "eligibility_criteria_tab",
+  "bid_scop_of_work_section",
+  "eligibility_criteria",
+  "text_editor_vpow",
+  "documents_and_deliverables_section",
+  "documents_and_deliverables",
+  "pre_bid_meeting_tab",
+  "pre_bid_meeting_questionnaire",
+  "competitors_tab",
+  "bidders_information"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "default": "Customer",
+   "fieldname": "opportunity_from",
+   "fieldtype": "Link",
+   "label": "Opportunity From",
+   "options": "DocType",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "opportunity_from",
+   "reqd": 1
+  },
+  {
+   "default": "Tender",
+   "fieldname": "opportunity_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Opportunity Type",
+   "options": "Tender",
+   "reqd": 1
+  },
+  {
+   "fieldname": "tender_source",
+   "fieldtype": "Link",
+   "label": "Tender Source",
+   "options": "Tender Source",
+   "reqd": 1
+  },
+  {
+   "fieldname": "industry",
+   "fieldtype": "Link",
+   "label": "Industry",
+   "options": "Industry Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sector_segment",
+   "fieldtype": "Link",
+   "label": "Sector / Segment",
+   "options": "Market Segment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nTender Invitation Received\nPre Bid Meeting Completed\nTender Not Quoted\nTender Filling In-progress\nTender Submitted\nDemo\nTechnical Bid Opened\nTechnically Qualified\nTechnically Disqualified\nPrice Bid Opened\nNegotiation / Review\nWe are L1\nClosed Won - Tender\nClosed Lost to Competition\nDelayed / On Hold\nGone for Re-Tendering\nTender Cancelled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_opfb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "opportunity_owner",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Opportunity Owner",
+   "options": "User"
+  },
+  {
+   "default": "__user",
+   "fieldname": "opportunity_coowner",
+   "fieldtype": "Link",
+   "label": "Opportunity Co-owner",
+   "options": "User"
+  },
+  {
+   "fieldname": "estimated_amount",
+   "fieldtype": "Currency",
+   "label": "Estimated Amount",
+   "reqd": 1
+  },
+  {
+   "fieldname": "submission_mode",
+   "fieldtype": "Select",
+   "label": "Submission Mode",
+   "options": "\nOnline\nOffline\nOnline & Offline",
+   "reqd": 1
+  },
+  {
+   "fieldname": "custom_sales_person",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "Sales Person",
+   "options": "Sales Person"
+  },
+  {
+   "fetch_from": "custom_sales_person.employee",
+   "fieldname": "sales_person_employee",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Sales Person Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "sales_person_user_id",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Sales Person User ID",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_sgxn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "probability",
+   "fieldtype": "Percent",
+   "label": "Probability (%)"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Project",
+   "options": "Project"
+  },
+  {
+   "fieldname": "tender_fee",
+   "fieldtype": "Currency",
+   "label": "Tender Fee"
+  },
+  {
+   "fieldname": "submission_and_key_dates_section",
+   "fieldtype": "Section Break",
+   "label": "Submission and Key Dates"
+  },
+  {
+   "default": "Today",
+   "fieldname": "transaction_date",
+   "fieldtype": "Date",
+   "label": "Tender Opportunity Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pre_bid_meeting_date",
+   "fieldtype": "Date",
+   "label": "Pre-Bid Meeting Date"
+  },
+  {
+   "fieldname": "submission_due_date",
+   "fieldtype": "Date",
+   "label": "Submission Due Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "planned_opening_date",
+   "fieldtype": "Date",
+   "label": "Planned Opening Date"
+  },
+  {
+   "fieldname": "column_break_kuc0",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "closing_date",
+   "fieldtype": "Date",
+   "label": "Closing Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "actual_submission_date",
+   "fieldtype": "Date",
+   "label": "Actual Submission Date"
+  },
+  {
+   "fieldname": "actual_technical_bid_opening_date",
+   "fieldtype": "Date",
+   "label": "Actual Technical Bid Opening Date"
+  },
+  {
+   "fieldname": "actual_financial_bid_opening_date",
+   "fieldtype": "Date",
+   "label": "Actual Financial Bid Opening Date"
+  },
+  {
+   "fieldname": "actual_price_bid_opening_date",
+   "fieldtype": "Date",
+   "label": "Actual Price Bid Opening Date"
+  },
+  {
+   "fieldname": "column_break_w3f3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tender_website",
+   "fieldtype": "Data",
+   "label": "Tender Website"
+  },
+  {
+   "fieldname": "emd",
+   "fieldtype": "Attach",
+   "hidden": 1,
+   "label": "EMD"
+  },
+  {
+   "fieldname": "currency_and_amount_section",
+   "fieldtype": "Section Break",
+   "label": "Currency and Amount"
+  },
+  {
+   "fieldname": "conversion_rate",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Exchange Rate"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "column_break_f3yu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "emd_amount",
+   "fieldtype": "Currency",
+   "label": "EMD Amount"
+  },
+  {
+   "fieldname": "won_by",
+   "fieldtype": "Link",
+   "label": "Won By",
+   "options": "Competitor"
+  },
+  {
+   "fieldname": "refund_details_section",
+   "fieldtype": "Section Break",
+   "label": "Refund Details"
+  },
+  {
+   "fieldname": "refund_requested_on",
+   "fieldtype": "Date",
+   "label": "Refund Requested On"
+  },
+  {
+   "fieldname": "column_break_wb5i",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "refund_received_on",
+   "fieldtype": "Date",
+   "label": "Refund Received On"
+  },
+  {
+   "fieldname": "additional_information_section",
+   "fieldtype": "Section Break",
+   "label": "Additional Information"
+  },
+  {
+   "fieldname": "lost_reason",
+   "fieldtype": "Link",
+   "label": "Lost Reason",
+   "mandatory_depends_on": "eval:doc.status=='Closed Lost to Competition'",
+   "options": "Opportunity Lost Reason"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "address_and_contact_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address and Contact"
+  },
+  {
+   "fieldname": "address_html",
+   "fieldtype": "HTML",
+   "label": "Address HTML"
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Tender Opportunity Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "address_display",
+   "fieldtype": "Small Text",
+   "label": "Address Display",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contact_html",
+   "fieldtype": "HTML",
+   "label": "Contact HTML"
+  },
+  {
+   "fieldname": "address_line_1",
+   "fieldtype": "Data",
+   "label": "Address Line 1"
+  },
+  {
+   "fieldname": "eligibility_criteria_tab",
+   "fieldtype": "Tab Break",
+   "label": "Tender Check List"
+  },
+  {
+   "fieldname": "bid_scop_of_work_section",
+   "fieldtype": "Section Break",
+   "label": "Eligibility Criteria"
+  },
+  {
+   "fieldname": "eligibility_criteria",
+   "fieldtype": "Attach",
+   "label": "Eligibility Criteria"
+  },
+  {
+   "fieldname": "text_editor_vpow",
+   "fieldtype": "Text Editor"
+  },
+  {
+   "fieldname": "documents_and_deliverables_section",
+   "fieldtype": "Section Break",
+   "label": "Tender Check List"
+  },
+  {
+   "fieldname": "documents_and_deliverables",
+   "fieldtype": "Table",
+   "label": "Tender Check List",
+   "options": "Documents and Deliverables"
+  },
+  {
+   "fieldname": "pre_bid_meeting_tab",
+   "fieldtype": "Tab Break",
+   "label": "Prebid / Queries"
+  },
+  {
+   "fieldname": "pre_bid_meeting_questionnaire",
+   "fieldtype": "Table",
+   "label": "Pre Bid Meeting Questionnaire",
+   "options": "Pre Bid Meeting Questionnaire"
+  },
+  {
+   "fieldname": "competitors_tab",
+   "fieldtype": "Tab Break",
+   "label": "Competitors"
+  },
+  {
+   "fieldname": "bidders_information",
+   "fieldtype": "Table",
+   "label": "Bidders Information",
+   "options": "Bidders Information"
+  },
+  {
+   "fieldname": "opportunity_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Opportunity Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_lvrn",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [
+  {
+   "link_doctype": "Quotation",
+   "link_fieldname": "custom_tender_opportunity"
+  },
+  {
+   "link_doctype": "EMD",
+   "link_fieldname": "tender_opportunity"
+  },
+  {
+   "link_doctype": "Material Request",
+   "link_fieldname": "custom_tender_reference"
+  },
+  {
+   "link_doctype": "Bank Guarantee",
+   "link_fieldname": "custom_tender_opportunity"
+  }
+ ],
+ "modified": "2025-10-02 16:47:49.357320",
+ "modified_by": "Administrator",
+ "module": "Envision CRM",
+ "name": "Tender Opportunity",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

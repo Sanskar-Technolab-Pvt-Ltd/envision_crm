@@ -103,6 +103,15 @@ frappe.ui.form.on("Quotation", {
   },
 
   refresh: function (frm) {
+
+     // ? SHOW TENDER PRICE BUTTON
+    showBiddingHistory(frm);
+
+
+    //? SHOW MATERIAL REQUEST BUTTON
+    materialRequestButton(frm);
+
+
     // Remove read-only restriction on the 'party_name' field  
     cur_frm.set_df_property("party_name", "read_only", 0);
     
@@ -238,4 +247,182 @@ function fetch_items_from_cost_estimation(frm) {
       console.error(err);
     },
   });
+}
+
+
+function showBiddingHistory(frm) {
+    //? IF QUOTATION TYPE IS NOT TENDER
+    if (frm.doc.custom_quotation_type != 'Tender'){
+        return;
+    }
+
+    // // ? IF NOT PARTY NAME
+    // if (!frm.doc.party_name) {
+    //     return;
+    // }
+
+    // ? ADD BIDDING HISTORY BUTTON
+    frm.add_custom_button('Show Bidding History', function () {
+
+        // // ? IF NO CUSTOMER SELECTED
+        // if (!frm.doc.party_name || !frm.doc.quotation_to || frm.doc.party_name === "") {
+        //     frappe.show_alert(__('Please Select a Customer First.'));
+        //     return;
+        // }
+
+        // ? IF NO ITEMS
+        if (frm.doc.items.length === 0) {
+            frappe.show_alert(__('Please Add Items First.'));
+            return;
+        }
+
+        frappe.call({
+            method: "envision_crm.envision_crm.api.create_quotation.get_previous_bids",
+            args: {
+                items: frm.doc.items.map(item => item.item_code)
+            },
+            callback: function (response) {
+                // ? IF SUCCESS
+                if (response.message.data.length > 0) {
+
+                    // ? SHOW THE TENDER PRICES
+                    showPreviousBidsDialog(response.message.data, frm);
+                } else {
+                    frappe.msgprint(__('No previous bids found for this Quotation.'));
+                }
+            }
+        });
+    },__('History'));
+}
+
+
+
+//? FUNCTION TO SHOW THE PREVIOUS BIDS DIALOG
+function showPreviousBidsDialog(data, frm) {
+    // ? GET ALL ITEM CODES FROM THE FORM
+    let requestedItems = frm.doc.items.map(item => item.item_code);
+
+    // ? GET ALL ITEM CODES FROM THE DATA
+    let returnedItems = data.map(row => row.products);
+
+    // ? IDENTIFY MISSING ITEMS
+    let missingItems = requestedItems.filter(item => !returnedItems.includes(item));
+
+    // ? CREATE THE HTML FOR THE DIALOG
+    let html = `
+        <div style="max-height: 600px; overflow-y: auto;">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                    <th>Item Name</th>
+                    <th>Bidder Name</th>
+                    <th>Tender Amount</th>
+                    <th>Tender Opportunity</th>
+                    <th>Opportunity Name</th>
+                    <th>Submission Date</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+    // ? LOOP THROUGH THE DATA AND CREATE THE HTML
+    requestedItems.forEach(item_code => {
+        // ? FILTER ROWS MATCHING THIS ITEM CODE
+        let itemRows = data.filter(row => row.products === item_code);
+
+        if (itemRows.length > 0) {
+            itemRows.forEach(row => {
+                let formattedAmount = new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR'
+                }).format(row.quoted_amount);
+
+                html += `<tr style="padding:6px !important;">
+                    <td style="padding:6px !important;">${row.products}</td>
+                    <td style="padding:6px !important;">${row.bidder_name}</td>
+                    <td style="padding:6px !important;">${formattedAmount}</td>
+                    <td style="padding:6px !important;"><a href="/app/tender-opportunity/${row.parent}" target="_blank">${row.parent}</a></td>
+                    <td style="padding:6px !important;">${row.opportunity_name}</td>
+                    <td style="padding:6px !important;">${row.submission_due_date}</td>
+                </tr>`;
+            });
+        }
+    });
+
+    // ? ADD A ROW FOR ITEMS WITH NO PREVIOUS TENDER PRICES
+    if (missingItems.length > 0) {
+        missingItems.forEach(item => {
+            html += `<tr style="background-color:rgb(247, 220, 222); color:rgb(0, 0, 0); padding:5px !important;">
+                <td style="padding:6px !important;">${item}</td>
+                <td style="padding:6px !important; color:rgb(167, 82, 82);" colspan="5"><strong><center>No previous bids found for this item</center></strong></td>
+            </tr>`;
+        });
+    }
+
+    // ? CLOSE THE TABLE
+    html += `</tbody></table></div>`;
+
+    // ? CREATE THE DIALOG
+    let dialog = new frappe.ui.Dialog({
+        title: "Previous Bids",
+        size: "extra-large",
+        fields: [{ fieldname: "table_html", fieldtype: "HTML" }]
+    });
+
+    // ? SHOW THE DIALOG
+    dialog.fields_dict.table_html.$wrapper.html(html);
+    dialog.show();
+}
+
+
+//? FUNCTION TO ADD MAKE MATERIAL REQUEST BUTTON
+function materialRequestButton(frm){
+    //? ADD BUTTON ONLY IF QUOTATION_TYPE IS "TENDER" AND DOC IS NOT NEW
+    if (frm.doc.custom_quotation_type === 'Tender' && (!frm.is_new())) {
+        //? CHECH IF MATERAIL REQUEST IS EXIST FOR QUOTATION OR NOT
+        frappe.call({
+            method: 'envision_crm.envision_crm.api.controller.get_list_of_available_records',
+            args: {
+                doctype: 'Material Request',
+                filters: { custom_tender_reference: frm.doc.custom_tender_opportunity},
+                fields: ['name'],
+                limit_page_length: 1
+            },
+            callback: function (r) {
+                if (r.message.length === 0) {
+                    frm.add_custom_button('Material Request', function() {
+                        //? REDIRECT TO MATERIAL REQUEST PAGE
+                        frappe.model.with_doctype('Material Request', function() {
+                            var mr = frappe.model.get_new_doc('Material Request');
+
+                            mr.custom_tender_reference = frm.doc.custom_tender_opportunity;
+
+                            //? ADD ITEMS WHICH IS ALLOW FOR PURCHASE
+                            frappe.call({
+                                method: "envision_crm.envision_crm.api.create_quotation.get_purchase_items",
+                                args: {
+                                    item_data: JSON.stringify((frm.doc.items || []).map(item => ({
+                                        item_code: item.item_code,
+                                        qty: item.qty
+                                    }))),
+                                    doc_name : frm.doc.name
+                                },
+                                callback: function(r) {
+                                    if (r.message) {
+                                        r.message.forEach(function(data) {
+                                            let mr_item = frappe.model.add_child(mr, 'items');
+                                            frappe.model.set_value(mr_item.doctype, mr_item.name, 'item_code', data.item_code);
+                                            frappe.model.set_value(mr_item.doctype, mr_item.name, 'qty', data.qty);
+                                        });
+                                    }
+                                }
+                            });
+
+                            //? SET VALUES IN MATERIAL REQUEST FORM
+                            frappe.set_route('Form', 'Material Request', mr.name);
+                        });
+                    },__('Create'));
+                }
+            }
+        });
+    }
 }

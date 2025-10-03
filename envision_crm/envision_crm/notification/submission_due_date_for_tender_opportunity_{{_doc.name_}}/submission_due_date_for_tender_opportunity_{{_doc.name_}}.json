@@ -1,0 +1,32 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "creation": "2025-10-02 16:09:32.099314",
+ "date_changed": "submission_due_date",
+ "days_in_advance": 2,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Tender Opportunity",
+ "enabled": 0,
+ "event": "Days Before",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<p>\n  This is a reminder that the submission deadline for the tender opportunity \n  <strong><a href=\"{{ frappe.utils.get_url() }}/app/tender-opportunity/{{ doc.name }}\" target=\"_blank\">{{ doc.name }}</a></strong> is approaching.\n</p>\n\n<p>\n  Please ensure that all necessary documents and requirements are completed and submitted before the deadline to avoid disqualification.\n</p>\n\n<ul>\n  {% if doc.opportunity_name %}\n    <li><strong>Opportunity Name:</strong> {{ doc.opportunity_name }}</li>\n  {% endif %}\n  {% if doc.party %}\n  <li><strong>Customer:</strong> {{ doc.party }}</li>\n  {% endif %}\n  {% if doc.submission_due_date %}\n  <li><strong>Submission Due Date:</strong> {{ doc.submission_due_date }}</li>\n  {% endif %}\n</ul>\n\n<p>\n  You can view the tender details and submit your documents by clicking the link above.\n</p>\n",
+ "message_type": "Markdown",
+ "modified": "2025-10-02 16:09:32.099314",
+ "modified_by": "Administrator",
+ "module": "Envision CRM",
+ "name": "Submission Due Date for Tender Opportunity {{ doc.name }}",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "opportunity_owner"
+  },
+  {
+   "receiver_by_document_field": "opportunity_coowner"
+  }
+ ],
+ "send_system_notification": 1,
+ "send_to_all_assignees": 0,
+ "subject": "Submission Due Date for Tender Opportunity {{ doc.name }}"
+}
