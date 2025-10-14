@@ -94,7 +94,7 @@ def get_data(filters=None):
 		sales_order_total = sum(so.total for so in sales_orders)
 
 		sales_order_months = ", ".join(
-			[frappe.utils.formatdate(so.transaction_date, "MMMM") for so in sales_orders if so.transaction_date]
+		[frappe.utils.formatdate(so.transaction_date, "MMM-yy") for so in sales_orders if so.transaction_date]
 		)
 
 		data.append({
