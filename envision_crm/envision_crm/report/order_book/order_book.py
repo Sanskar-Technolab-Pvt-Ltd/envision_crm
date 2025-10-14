@@ -36,9 +36,9 @@ def get_conditions(filters):
 
     if filters.get("company"):
         conditions["company"] = filters.get("company")
-    if filters.get("department"):
+    if filters.get("custom_department"):
         # Only add if the field exists in Opportunity
-        conditions["custom_department"] = filters.get("department")
+        conditions["custom_department"] = filters.get("custom_department")
     if filters.get("status"):
         conditions["status"] = filters.get("status")
     if filters.get("opportunity_owner"):
